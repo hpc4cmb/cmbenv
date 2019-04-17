@@ -30,29 +30,12 @@ ENV LC_ALL en_US.UTF-8
 
 WORKDIR /usr/src
 
-# Install conda root environment
+# Remove conflicting python stuff
 
 ENV PYTHONPATH ""
 ENV PYTHONSTARTUP ""
 ENV PYTHONNOUSERSITE "1"
 ENV PYTHONUSERBASE "/tmp"
-
-@conda_root@
-
-# Install conda packages.
-
-@conda_pkgs@
-
-# Install pip packages.
-
-@pip_pkgs@
-
-# The conda TCL packages overwrite the system-installed regex.h.  So
-# now we force reinstall of the package that provides that
-
-RUN apt-get update \
-    && apt-get install -y --reinstall libc6-dev \
-    && rm -fr /var/lib/apt/lists/*
 
 # Install Intel tools to /opt/intel.  We assume that the build context already
 # contains a copy of the Intel tools, and we just copy it into the image.
@@ -68,110 +51,23 @@ RUN cp -a /opt/intel/compilers_and_libraries/linux/lib/intel64/* /usr/lib/
 
 RUN cp -a /opt/intel/mkl/lib/intel64/* /usr/lib/
 
-# Copy all patch files to current working directory
 
-RUN mkdir ./rules
-ADD rules/patch_* ./rules/
+# Install packages
 
-#RUN mkdir -p /usr/lib/python3.6/site-packages
-#ENV PYTHONPATH /usr/lib/python3.6/site-packages
-
-# Install MPICH 3.2 which is compatible with the external
-# Cray MPICH which is prepended to LD_LIBRARY_PATH as part
-# of shifter.
-
-@mpich@
-
-# Install mpi4py.
-
-@mpi4py@
-
-# Install CFITSIO.
-
-@cfitsio@
-
-# Install wcslib
-
-@wcslib@
-
-# Install FFTW.
-
-@fftw@
-
-# Install libbz2
-
-@bzip2@
-
-# Install Boost
-
-@boost@
-
-# Install SuiteSparse
-
-@suitesparse@
-
-# Install HDF5
-
-@hdf5@
-
-# Install h5py
-
-@h5py@
-
-# Install aatm
-
-@aatm@
-
-# Install conviqt
-
-@conviqt@
-
-# Install libsharp
-
-@libsharp@
-
-# Install libmadam
-
-@madam@
-
-# Install SPT3G
-
-@spt3g@
-
-# Install TIDAS
-
-@tidas@
-
-# Install PySM
-
-@pysm@
-
-# Install TOAST
-
-@toast@
-
-# Remove the temporary patches
-
-RUN rm -rf ./rules
+@PACKAGES@
 
 # Precompile all python modules
 
-RUN python -m compileall -q "/usr/lib/python@PYVERSION@/site-packages/mpi4py"
-RUN python -m compileall -q "/usr/lib/python@PYVERSION@/site-packages/healpy"
-RUN python -m compileall -q "/usr/lib/python@PYVERSION@/site-packages/h5py"
-RUN python -m compileall -q "/usr/lib/python@PYVERSION@/site-packages/libsharp"
-RUN python -m compileall -q "/usr/lib/python@PYVERSION@/site-packages/tidas"
-RUN python -m compileall -q "/usr/lib/python@PYVERSION@/site-packages/pysm"
-RUN python -m compileall -q "/usr/lib/python@PYVERSION@/site-packages/toast"
+RUN python -m compileall -q "/usr/lib/python@PYVERSION@/site-packages"
 
 # Create a fake home directory so that packages can create
 # config files if needed
 
-RUN mkdir /home/toast
-RUN mkdir /home/toast/.astropy
+RUN mkdir /home/cmbenv
+RUN mkdir /home/cmbenv/.astropy
 
-WORKDIR /home/toast
-ENV HOME /home/toast
+WORKDIR /home/cmbenv
+ENV HOME /home/cmbenv
 
 RUN python -c "import astropy"
 RUN python -c "import matplotlib.font_manager as fm; f = fm.FontManager"
@@ -188,12 +84,12 @@ COPY --from=builder /usr /usr/
 
 # Copy our fake home directory
 
-COPY --from=builder /home/toast /home/toast/
+COPY --from=builder /home/cmbenv /home/cmbenv/
 
 # Set the entrypoint and default command
 
-WORKDIR /home/toast
-ENV HOME /home/toast
+WORKDIR /home/cmbenv
+ENV HOME /home/cmbenv
 
 ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["/bin/bash"]

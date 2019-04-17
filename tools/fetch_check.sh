@@ -3,7 +3,8 @@
 url=$1
 local=$2
 
-# Script directory
+# Top level cmbenv git checkout
+pushd $(dirname $0) > /dev/null
 pushd $(dirname $0) > /dev/null
 topdir=$(dirname $(pwd))
 popd > /dev/null
