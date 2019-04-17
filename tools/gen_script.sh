@@ -28,9 +28,6 @@ pushd $(dirname $0) > /dev/null
 topdir=$(dirname $(pwd))
 popd > /dev/null
 
-# Sigh...
-nl=$'\n'
-
 # The outputs
 if [ "x${docker}" = "xyes" ]; then
     outfile="${outroot}"
@@ -123,11 +120,11 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
         fi
 
         if [ "x${docker}" = "xyes" ]; then
-            pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}) && for cl in \${cln}; do if [ -e \${cl} ]; rm \"\${cl}\"; fi; done${nl}${nl}"
-            pkgcom="${pkgcom}${pcom}"
+            pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}) && for cl in \${cln}; do if [ -e \${cl} ]; rm \"\${cl}\"; fi; done"
+            pkgcom+="${pcom}"$'\n'$'\n'
         else
-            pcom="cln=\$(${topdir}/${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi${nl}${nl}"
-            pkgcom="${pkgcom}${pcom}"
+            pcom="cln=\$(${topdir}/${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi"
+            pkgcom+="${pcom}"$'\n'$'\n'
         fi
     fi
 done < "${pkgfile}"
@@ -138,7 +135,7 @@ done < "${pkgfile}"
 
 while IFS='' read -r line || [[ -n "${line}" ]]; do
     if [[ "${line}" =~ @PACKAGES@ ]]; then
-        echo ${pkgcom} >> "${outfile}"
+        echo "${pkgcom}" >> "${outfile}"
     else
         echo "${line}" | eval sed ${confsub} >> "${outfile}"
     fi

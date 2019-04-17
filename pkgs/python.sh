@@ -4,9 +4,11 @@
 pkgopts=$@
 cleanup=""
 
+pkg="python"
+
 export pytype=$(echo "$pkgopts" | awk -e '{print $1}')
 if [ "${pytype}" = "conda" ]; then
-    echo "python using conda" >&2
+    echo "Python using conda" >&2
     if [ "@OSTYPE@" = "linux" ]; then
         inst=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh miniconda.sh)
     else
@@ -54,7 +56,7 @@ if [ "${pytype}" = "conda" ]; then
     fi
 else
     if [ "${pytype}" = "virtualenv" ]; then
-        echo "python using virtualenv" >&2
+        echo "Python using virtualenv" >&2
         mkdir -p "@PYTHON_PREFIX@"
         echo "# Set up virtualenv for cmbenv" > "@PYTHON_PREFIX@/cmbinit.sh"
         echo "export VIRTUAL_ENV_DISABLE_PROMPT=1" >> "@PYTHON_PREFIX@/cmbinit.sh"
@@ -63,7 +65,7 @@ else
         virtualenv -p python@PYVERSION@ "@PYTHON_PREFIX@" \
         && source "@PYTHON_PREFIX@/cmbinit.sh"
     else
-        echo "python using default" >&2
+        echo "Python using default" >&2
         mkdir -p "@PYTHON_PREFIX@"
         echo "# Using default python for cmbenv" > "@PYTHON_PREFIX@/cmbinit.sh"
         echo "" >> "@PYTHON_PREFIX@/cmbinit.sh"
@@ -89,9 +91,10 @@ else
 fi
 python -c "import matplotlib.font_manager"
 if [ $? -ne 0 ]; then
-    echo "python package imports failed" >&2
+    echo "Python package imports failed" >&2
     exit 1
 fi
 
+echo "Finished installing ${pkg}" >&2
 echo "${cleanup}"
 exit 0

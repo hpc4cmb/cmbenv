@@ -9,5 +9,9 @@
 # a virtualenv or a conda environment.  This will also install a set of
 # common base packages.
 #python:virtualenv
-python:conda
+#python:conda
 #python:default
+#
+# Autotools.  If you already have recent versions installed with your OS
+# package manager, then comment these out.
+m4

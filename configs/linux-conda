@@ -8,6 +8,10 @@ CC = gcc
 CXX = g++
 FC = gfortran
 
+# Compiler to use for packages needed on the build machine
+
+BUILD_CC = gcc
+
 # MPI compilers
 
 MPICC = mpicc
