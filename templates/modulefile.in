@@ -33,12 +33,14 @@ if [ is-loaded darshan ] {
 # This is set by OS python and gives us problems.
 unsetenv PYTHONSTARTUP
 
+# Disable prompt change
+setenv VIRTUAL_ENV_DISABLE_PROMPT 1
+
 # This is the python environment location
-if [ module-info mode load ] {
-    system source "@PYTHON_PREFIX@/bin/activate"
-}
-if [ module-info mode unload ] {
-    system source "@PYTHON_PREFIX@/bin/deactivate"
+if { [module-info mode load] || [module-info mode switch2] } {
+    puts stdout "source @PYTHON_PREFIX@/cmbinit.sh;"
+} elseif { [module-info mode remove] && ![module-info mode switch3] } {
+    puts stdout "deactivate;"
 }
 
 # This is the location of the extra compiled software

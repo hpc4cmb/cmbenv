@@ -27,14 +27,8 @@ endif
 # Config related files
 
 CONFIG_FILE := configs/$(CMBCONFIG)
-CONFIG_PKGS := configs/$(CONFIG_FILE).pkgs
-CONFIG_MODINIT := configs/$(CONFIG_FILE).mod
-
-# The files with the build rules for each dependency
-
-rules_full := $(wildcard pkgs/*)
-rules_sh := $(foreach rl,$(rules_full),$(subst pkgs/,,$(rl)))
-rules := $(foreach rl,$(rules_sh),$(subst .sh,,$(rl)))
+CONFIG_PKGS := $(CONFIG_FILE).pkgs
+CONFIG_MODINIT := $(CONFIG_FILE).mod
 
 # For depending on the helper scripts and templates
 

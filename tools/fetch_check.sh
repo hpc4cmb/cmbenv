@@ -5,7 +5,6 @@ local=$2
 
 # Top level cmbenv git checkout
 pushd $(dirname $0) > /dev/null
-pushd $(dirname $0) > /dev/null
 topdir=$(dirname $(pwd))
 popd > /dev/null
 
@@ -16,7 +15,10 @@ mkdir -p "${pooldir}"
 plocal="${pooldir}/${local}"
 
 if [ ! -e "${plocal}" ]; then
+    echo "Fetching ${local} to download pool..." >&2
     curl -SL "${url}" -o "${plocal}"
+else
+    echo "Found existing ${local} in download pool." >&2
 fi
 
 # Did we get the file?

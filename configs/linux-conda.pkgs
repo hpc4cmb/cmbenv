@@ -1,0 +1,13 @@
+# This is the full set of packages that can be installed.  This can be
+# used as a starting point for the package list for a particular config.
+# Some packages accept additional options which can be added after a colon ":".
+# These extra options are documented in the shell snippet for each package
+# in the top-level pkgs directory.
+#
+# Python 3.  Uncomment one of the following lines.  You should only use the
+# "default" option for Docker images.  All other configs should use either
+# a virtualenv or a conda environment.  This will also install a set of
+# common base packages.
+#python:virtualenv
+python:conda
+#python:default

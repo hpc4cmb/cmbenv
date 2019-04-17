@@ -28,14 +28,17 @@ pushd $(dirname $0) > /dev/null
 topdir=$(dirname $(pwd))
 popd > /dev/null
 
+# Sigh...
+nl=$'\n'
+
 # The outputs
 if [ "x${docker}" = "xyes" ]; then
     outfile="${outroot}"
 else
     outfile="${outroot}.sh"
 fi
-outmod="${outroot}.mod"
-outmodver="${outroot}.modver"
+outmod="${outfile}.mod"
+outmodver="${outfile}.modver"
 outpkg="${outroot}_pkgs"
 rm -f "${outfile}"
 rm -f "${outmod}"
@@ -69,8 +72,8 @@ done < "${conffile}"
 # We add these predefined matches at the end- so that the config
 # file can actually use these as well.
 
-compiled_prefix="${prefix}/cmbenv/${version}_aux"
-python_prefix="${prefix}/cmbenv/${version}_python"
+compiled_prefix="${prefix}/cmbenv_${version}_aux"
+python_prefix="${prefix}/cmbenv_${version}_python"
 module_dir="${moddir}/cmbenv"
 
 if [ "x${docker}" = "xyes" ]; then
@@ -94,6 +97,7 @@ pkgcom=""
 while IFS='' read -r line || [[ -n "${line}" ]]; do
     if [[ "${line}" =~ ^#.* ]]; then
         # This is a comment line
+        echo "" >/dev/null
     else
         # This is a package line
         pkgname=""
@@ -111,6 +115,7 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
         while IFS='' read -r pkgline || [[ -n "${pkgline}" ]]; do
             echo "${pkgline}" | eval sed ${confsub} >> "${topdir}/${outpkg}/${pkgname}.sh"
         done < "${topdir}/pkgs/${pkgname}.sh"
+        chmod +x "${topdir}/${outpkg}/${pkgname}.sh"
 
         # Copy any patch file
         if [ -e "${topdir}/pkgs/patch_${pkgname}" ]; then
@@ -118,9 +123,11 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
         fi
 
         if [ "x${docker}" = "xyes" ]; then
-            pkgcom="${pkgcom}RUN cln=\$(./${outpkg}/${pkgname}.sh) && for cl in \${cln}; do if [ -e \${cl} ]; rm \"\${cl}\"; fi; done\n"
+            pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}) && for cl in \${cln}; do if [ -e \${cl} ]; rm \"\${cl}\"; fi; done${nl}${nl}"
+            pkgcom="${pkgcom}${pcom}"
         else
-            pkgcom="${pkgcom}cln=\$(./${outpkg}/${pkgname}.sh); if [ $? -ne 0 ]; then echo \"FAILED\"; exit 1; fi\n"
+            pcom="cln=\$(${topdir}/${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi${nl}${nl}"
+            pkgcom="${pkgcom}${pcom}"
         fi
     fi
 done < "${pkgfile}"
@@ -131,11 +138,12 @@ done < "${pkgfile}"
 
 while IFS='' read -r line || [[ -n "${line}" ]]; do
     if [[ "${line}" =~ @PACKAGES@ ]]; then
-        echo "${pkgcom}" >> "${outfile}"
+        echo ${pkgcom} >> "${outfile}"
     else
-        echo "${line}" >> "${outfile}"
+        echo "${line}" | eval sed ${confsub} >> "${outfile}"
     fi
 done < "${topdir}/templates/${template}"
+chmod +x "${outfile}"
 
 
 # Finally, create the module file and module version file for this config.
@@ -147,7 +155,7 @@ if [ "x${docker}" != "xyes" ]; then
                 cat "${confmodinit}" >> "${outmod}"
             fi
         else
-            echo "${line}" >> "${outmod}"
+            echo "${line}" | eval sed ${confsub} >> "${outmod}"
         fi
     done < "${topdir}/templates/modulefile.in"
 

@@ -11,7 +11,7 @@ fi
 mkdir -p @PYTHON_PREFIX@/bin
 mkdir -p @PYTHON_PREFIX@/lib
 mkdir -p @AUX_PREFIX@/lib/python@PYVERSION@/site-packages
-pushd @AUX_PREFIX@
+pushd @AUX_PREFIX@ > /dev/null
 if [ ! -e lib64 ]; then
     ln -s lib lib64
 fi
@@ -31,7 +31,6 @@ export PYTHONPATH=@AUX_PREFIX@/lib/python@PYVERSION@/site-packages:${PYTHONPATH}
 
 # Compile python modules
 
-python3 -m compileall -f "@PYTHON_PREFIX@/lib/python@PYVERSION@/site-packages"
 python3 -m compileall -f "@AUX_PREFIX@"
 
 # Set permissions
@@ -50,8 +49,8 @@ fi
 
 if [ "x@MODULE_DIR@" != "x" ]; then
     mkdir -p "@MODULE_DIR@"
-    cp "$0.module" "@MODULE_DIR@/@VERSION@"
-    cp "$0.modversion" "@MODULE_DIR@/.version_@VERSION@"
+    cp "$0.mod" "@MODULE_DIR@/@VERSION@"
+    cp "$0.modver" "@MODULE_DIR@/.version_@VERSION@"
 
     if [ "x@CHGRP@" != "x" ]; then
         chgrp -R @CHGRP@ "@MODULE_DIR@"
