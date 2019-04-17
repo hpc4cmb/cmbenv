@@ -1,21 +1,15 @@
 #!/bin/bash
 
-# Script directory
-
-pushd $(dirname $0) > /dev/null
-topdir=$(pwd)
-popd > /dev/null
-
 # Initialize environment
 
-if [ -e "${topdir}/@CONFFILE@.sh" ]; then
-    source "${topdir}/@CONFFILE@.sh"
+if [ -e "@TOP_DIR@/@CONFFILE@.sh" ]; then
+    source "@TOP_DIR@/@CONFFILE@.sh"
 fi
 
 # Install TOAST dependencies from source.
 
-mkdir -p @CONDA_PREFIX@/bin
-mkdir -p @CONDA_PREFIX@/lib
+mkdir -p @PYTHON_PREFIX@/bin
+mkdir -p @PYTHON_PREFIX@/lib
 mkdir -p @AUX_PREFIX@/lib/python@PYVERSION@/site-packages
 pushd @AUX_PREFIX@
 if [ ! -e lib64 ]; then
@@ -25,13 +19,12 @@ popd > /dev/null
 
 export TOAST_AUX_ROOT=@AUX_PREFIX@
 export CMAKE_PREFIX_PATH=@AUX_PREFIX@:${CMAKE_PREFIX_PATH}
-export PATH=@AUX_PREFIX@/bin:@CONDA_PREFIX@/bin:${PATH}
+export PATH=@AUX_PREFIX@/bin:@PYTHON_PREFIX@/bin:${PATH}
 export CPATH=@AUX_PREFIX@/include:${CPATH}
 export LIBRARY_PATH=@AUX_PREFIX@/lib:${LIBRARY_PATH}
 export LD_LIBRARY_PATH=@AUX_PREFIX@/lib:${LD_LIBRARY_PATH}
 export PYTHONPATH=@AUX_PREFIX@/lib/python@PYVERSION@/site-packages:${PYTHONPATH}
 
-export ACCEPT_INTEL_PYTHON_EULA=yes
 
 # Install conda root environment
 
@@ -45,7 +38,7 @@ fi
 
 @conda_pkgs@
 
-conda list --export | grep -v conda > "@CONDA_PREFIX@/pkg_list.txt"
+conda list --export | grep -v conda > "@PYTHON_PREFIX@/pkg_list.txt"
 
 # Install pip packages.
 
@@ -161,19 +154,19 @@ fi
 
 # Compile python modules
 
-python3 -m compileall -f "@CONDA_PREFIX@/lib/python@PYVERSION@/site-packages"
+python3 -m compileall -f "@PYTHON_PREFIX@/lib/python@PYVERSION@/site-packages"
 python3 -m compileall -f "@AUX_PREFIX@"
 
 # Set permissions
 
 if [ "x@CHGRP@" != "x" ]; then
     chgrp -R @CHGRP@ "@AUX_PREFIX@"
-    chgrp -R @CHGRP@ "@CONDA_PREFIX@"
+    chgrp -R @CHGRP@ "@PYTHON_PREFIX@"
 fi
 
 if [ "x@CHMOD@" != "x" ]; then
     chmod -R @CHMOD@ "@AUX_PREFIX@"
-    chmod -R @CHMOD@ "@CONDA_PREFIX@"
+    chmod -R @CHMOD@ "@PYTHON_PREFIX@"
 fi
 
 # Install modulefile

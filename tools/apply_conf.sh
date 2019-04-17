@@ -8,13 +8,18 @@ version=$5
 moddir=$6
 docker=$7
 
-compiled_prefix="${prefix}/toast-deps/${version}_aux"
-conda_prefix="${prefix}/toast-deps/${version}_conda"
-module_dir="${moddir}/toast-deps"
+# Script directory
+pushd $(dirname $0) > /dev/null
+topdir=$(dirname $(pwd))
+popd > /dev/null
+
+compiled_prefix="${prefix}/cmbenv/${version}_aux"
+python_prefix="${prefix}/cmbenv/${version}_python"
+module_dir="${moddir}/cmbenv"
 
 if [ "x${docker}" = "xyes" ]; then
     compiled_prefix="/usr"
-    conda_prefix="/usr"
+    python_prefix="/usr"
 fi
 
 # Create list of substitutions
@@ -43,9 +48,10 @@ done < "${conffile}"
 # file can actually use these.
 
 confsub="${confsub} -e 's#@AUX_PREFIX@#${compiled_prefix}#g'"
-confsub="${confsub} -e 's#@CONDA_PREFIX@#${conda_prefix}#g'"
+confsub="${confsub} -e 's#@PYTHON_PREFIX@#${python_prefix}#g'"
 confsub="${confsub} -e 's#@VERSION@#${version}#g'"
 confsub="${confsub} -e 's#@MODULE_DIR@#${module_dir}#g'"
+confsub="${confsub} -e 's#@TOP_DIR@#${topdir}#g'"
 
 rm -f "${outfile}"
 

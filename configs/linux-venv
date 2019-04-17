@@ -1,4 +1,7 @@
 
+# OS type (linux OR osx)
+OSTYPE = linux
+
 # Serial compilers
 
 CC = gcc
