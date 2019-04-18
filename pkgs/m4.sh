@@ -15,6 +15,8 @@ cleanup="${src}"
 
 log="../log_${pkg}"
 
+echo "Building ${pkg}..." >&2
+
 rm -rf m4-1.4.18
 tar xjf ${src} \
     && cd m4-1.4.18 \

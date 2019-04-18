@@ -15,6 +15,8 @@ cleanup="${src}"
 
 log="../log_${pkg}"
 
+echo "Building ${pkg}..." >&2
+
 rm -rf autoconf-2.69
 tar xzf ${src} \
     && cd autoconf-2.69 \

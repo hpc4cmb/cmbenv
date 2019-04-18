@@ -8,16 +8,16 @@
 # "default" option for Docker images.  All other configs should use either
 # a virtualenv or a conda environment.  This will also install a set of
 # common base packages.
-python:virtualenv
+#python:virtualenv
 #python:conda
 #python:default
 #
 # Autotools.  If you already have recent versions installed with your OS
 # package manager, then comment these out.
-m4
-libtool
-autoconf
-automake
+#m4
+#libtool
+#autoconf
+#automake
 #
 # Install zlib.  This is needed on some systems where the OS-provided zlib is
 # very ancient.
@@ -40,15 +40,12 @@ automake
 # or some other vendor BLAS / LAPACK solution.
 #openblas
 #
-# Install wcslib.
-#wcslib
-#
 # Install FFTW3.
 #fftw
 #
 # Install libbz2.  This is required to enable some features in the boost
 # build which are in turn needed by spt3g.
-#bzip2
+bzip2
 #
 # Install Boost.
 #boost

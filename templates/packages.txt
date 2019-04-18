@@ -40,9 +40,6 @@ cfitsio
 # or some other vendor BLAS / LAPACK solution.
 openblas
 #
-# Install wcslib.
-wcslib
-#
 # Install FFTW3.
 fftw
 #

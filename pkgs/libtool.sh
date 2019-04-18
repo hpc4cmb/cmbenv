@@ -15,6 +15,8 @@ cleanup="${src}"
 
 log="../log_${pkg}"
 
+echo "Building ${pkg}..." >&2
+
 rm -rf libtool-2.4.6
 tar xzf ${src} \
     && cd libtool-2.4.6 \

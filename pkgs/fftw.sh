@@ -1,11 +1,11 @@
 #!/bin/bash
 
-pkg="automake"
+pkg="fftw"
 pkgopts=$@
 cleanup=""
 
-pfile=automake-1.16.1.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftp.gnu.org/gnu/automake/${pfile} ${pfile})
+pfile=fftw-3.3.8.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://www.fftw.org/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,10 +17,12 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf automake-1.16.1
+rm -rf fftw-3.3.8
 tar xzf ${src} \
-    && cd automake-1.16.1 \
-    && CC="@BUILD_CC@" ./configure --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
+    && cd fftw-3.3.8 \
+    && CC="@CC@" CFLAGS="@CFLAGS@" \
+    ./configure --enable-threads @CROSS@ \
+    --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1
 
