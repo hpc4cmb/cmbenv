@@ -85,6 +85,7 @@ if [ "x${docker}" = "xyes" ]; then
     python_prefix="/usr"
 fi
 
+confsub="${confsub} -e 's#@PREFIX@#${verprefix}#g'"
 confsub="${confsub} -e 's#@AUX_PREFIX@#${compiled_prefix}#g'"
 confsub="${confsub} -e 's#@PYTHON_PREFIX@#${python_prefix}#g'"
 confsub="${confsub} -e 's#@VERSION@#${version}#g'"

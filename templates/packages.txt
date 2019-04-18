@@ -8,8 +8,8 @@
 # "default" option for Docker images.  All other configs should use either
 # a virtualenv or a conda environment.  This will also install a set of
 # common base packages.
-#python:virtualenv
-python:conda
+python:virtualenv
+#python:conda
 #python:default
 #
 # Autotools.  If you already have recent versions installed with your OS
@@ -55,6 +55,12 @@ hdf5
 #
 # Install h5py (using our HDF5).
 h5py
+#
+# Install healpy
+healpy
+#
+# Install fitsio
+fitsio
 #
 # Install aatm.  Needed for some features of atmosphere simulations.
 aatm

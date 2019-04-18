@@ -17,11 +17,25 @@ OS package manager, conda, pip, etc.
 
 ## Configuration
 
-Create or edit a file in the "configs" subdirectory that is named whatever you like.  This file will define compilers, flags, etc.
-Optionally create files with the same name and the ".module" and ".sh"
-suffixes.  These optional files should contain any modulefile and shell
-commands needed to set up the environment prior to building the tools or loading them later.  See existing files for
-examples.
+If you are installing on a Linux or OS X workstation you may be able to use one of the existing build configurations.  Here is a decision tree to help guide the selection:
+
+    Linux:  Is your system python3 fairly recent (>= 3.6.0)?
+        - YES.  Do you want to use Anaconda python for some reason?
+            - YES.  Use the linux-conda config.
+            - NO.  Use the linux-venv config.
+        - NO.  You should use the linux-conda config.
+    OS X:  Are you currently using macports or homebrew to get python3?
+        - YES.  
+        - NO.  Use the osx-conda config.
+
+### Custom Configurations
+
+Create or edit a file in the "configs" subdirectory that is named whatever you
+like.  This file will define compilers, flags, etc. Optionally create files
+with the same name and the ".module" and ".sh" suffixes.  These optional files
+should contain any modulefile and shell commands needed to set up the
+environment prior to building the tools or loading them later.  See existing
+files for examples.
 
 To create a config for a docker image, the config file must be prefixed
 with "docker-".  You should not have any "*.module" or "*.sh" files for
@@ -30,14 +44,16 @@ a docker config.
 
 ## Generate the Script
 
-Set the CMBCONFIG, CMBPREFIX, and (optionally) the CMBVERSION and CMBMODULEDIR environment
-variables.  Then create the script with::
+Set the CMBCONFIG, CMBPREFIX, and (optionally) the CMBVERSION and CMBMODULEDIR
+environment variables.  You can either export those variables or simply put them on the commandline.  Then create the script with::
 
-    %> make script
+    %> CMBCONFIG=linux-venv CMBPREFIX=${HOME}/cmbenv CMBVERSION=test \
+       make script
 
 To clean up all generated scripts, do::
 
-    %> make clean
+    %> CMBCONFIG=linux-venv CMBPREFIX=${HOME}/cmbenv CMBVERSION=test \
+       make clean
 
 For normal installs, this creates an install script and corresponding
 module files.  For docker builds, a Dockerfile is created.  As an example,

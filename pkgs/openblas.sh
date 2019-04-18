@@ -4,8 +4,8 @@ pkg="openblas"
 pkgopts=$@
 cleanup=""
 
-pfile=v0.3.5.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/xianyi/OpenBLAS/archive/${pfile} ${pfile})
+pfile=OpenBLAS-0.3.5.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/xianyi/OpenBLAS/archive/v0.3.5.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2

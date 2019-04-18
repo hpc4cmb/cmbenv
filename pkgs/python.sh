@@ -42,6 +42,7 @@ if [ "${pytype}" = "conda" ]; then
         matplotlib \
         pyyaml \
         astropy \
+        six \
         psutil \
         ephem \
         virtualenv \
@@ -50,6 +51,9 @@ if [ "${pytype}" = "conda" ]; then
         ipython \
         cython \
         pkgconfig \
+        cycler \
+        kiwisolver \
+        python-dateutil \
         cmake \
     && rm -rf "@PYTHON_PREFIX@/pkgs/*"
     if [ $? -ne 0 ]; then
@@ -80,6 +84,7 @@ else
         matplotlib \
         pyyaml \
         astropy \
+        six \
         psutil \
         ephem \
         pandas \
@@ -87,6 +92,9 @@ else
         ipython \
         cython \
         pkgconfig \
+        cycler \
+        kiwisolver \
+        python-dateutil \
         cmake
     if [ $? -ne 0 ]; then
         echo "pip install failed" >&2

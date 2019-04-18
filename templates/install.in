@@ -32,11 +32,12 @@ export PKG_CONFIG_PATH="@AUX_PREFIX@/lib/pkgconfig":${PKG_CONFIG_PATH}
 
 # Compile python modules
 
-python3 -m compileall -f "@AUX_PREFIX@"
+echo "Compiling python packages..."
+python3 -m compileall -f "@AUX_PREFIX@" > log_pycompile
 
 # Install environment init file
 
-cp "$0.init" "@AUX_PREFIX@/cmbenv.sh"
+cp "$0.init" "@PREFIX@/cmbenv.sh"
 
 # Set permissions
 
