@@ -50,10 +50,6 @@ bzip2
 # Install Boost.
 boost
 #
-# Install elemental.  This is no longer used / required.  Left here in
-# case it is useful in the future.
-#elemental
-#
 # Install HDF5 (serial version).
 hdf5
 #

@@ -8,22 +8,23 @@ fi
 
 # Add install prefix to our environment.
 
-mkdir -p @PYTHON_PREFIX@/bin
-mkdir -p @PYTHON_PREFIX@/lib
-mkdir -p @AUX_PREFIX@/lib/python@PYVERSION@/site-packages
-pushd @AUX_PREFIX@ > /dev/null
+mkdir -p "@PYTHON_PREFIX@/bin"
+mkdir -p "@PYTHON_PREFIX@/lib"
+mkdir -p "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
+pushd "@AUX_PREFIX@" > /dev/null
 if [ ! -e lib64 ]; then
     ln -s lib lib64
 fi
 popd > /dev/null
 
-export CMBENV_AUX_ROOT=@AUX_PREFIX@
-export CMAKE_PREFIX_PATH=@AUX_PREFIX@:${CMAKE_PREFIX_PATH}
-export PATH=@AUX_PREFIX@/bin:@PYTHON_PREFIX@/bin:${PATH}
-export CPATH=@AUX_PREFIX@/include:${CPATH}
-export LIBRARY_PATH=@AUX_PREFIX@/lib:${LIBRARY_PATH}
-export LD_LIBRARY_PATH=@AUX_PREFIX@/lib:${LD_LIBRARY_PATH}
-export PYTHONPATH=@AUX_PREFIX@/lib/python@PYVERSION@/site-packages:${PYTHONPATH}
+export CMBENV_AUX_ROOT="@AUX_PREFIX@"
+export CMAKE_PREFIX_PATH="@AUX_PREFIX@":${CMAKE_PREFIX_PATH}
+export PATH="@AUX_PREFIX@/bin":"@PYTHON_PREFIX@/bin":${PATH}
+export CPATH="@AUX_PREFIX@/include":${CPATH}
+export LIBRARY_PATH="@AUX_PREFIX@/lib":${LIBRARY_PATH}
+export LD_LIBRARY_PATH="@AUX_PREFIX@/lib":${LD_LIBRARY_PATH}
+export PYTHONPATH="@AUX_PREFIX@/lib/python@PYVERSION@/site-packages":${PYTHONPATH}
+export PKG_CONFIG_PATH="@AUX_PREFIX@/lib/pkgconfig":${PKG_CONFIG_PATH}
 
 # Install packages
 
@@ -32,6 +33,10 @@ export PYTHONPATH=@AUX_PREFIX@/lib/python@PYVERSION@/site-packages:${PYTHONPATH}
 # Compile python modules
 
 python3 -m compileall -f "@AUX_PREFIX@"
+
+# Install environment init file
+
+cp "$0.init" "@AUX_PREFIX@/cmbenv.sh"
 
 # Set permissions
 

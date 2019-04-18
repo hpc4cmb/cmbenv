@@ -36,6 +36,7 @@ else
 fi
 outmod="${outfile}.mod"
 outmodver="${outfile}.modver"
+outinit="${outfile}.init"
 outpkg="${outroot}_pkgs"
 rm -f "${outfile}"
 rm -f "${outmod}"
@@ -46,6 +47,8 @@ mkdir -p "${outpkg}"
 
 
 # Create list of variable substitutions from the input config file
+
+pyversion=""
 
 confsub="-e 's#@CONFFILE@#${conffile}#g'"
 
@@ -60,6 +63,9 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
             # get the variable and its value
             var=$(echo ${line} | sed -e "s#\([^=]*\)=.*#\1#" | awk '{print $1}')
             val=$(echo ${line} | sed -e "s#[^=]*= *\(.*\)#\1#")
+            if [ "${var}" = "PYVERSION" ]; then
+                pyversion="${val}"
+            fi
             # add to list of substitutions
             confsub="${confsub} -e 's#@${var}@#${val}#g'"
         fi
@@ -69,8 +75,9 @@ done < "${conffile}"
 # We add these predefined matches at the end- so that the config
 # file can actually use these as well.
 
-compiled_prefix="${prefix}/cmbenv_${version}_aux"
-python_prefix="${prefix}/cmbenv_${version}_python"
+verprefix="${prefix}_${version}"
+compiled_prefix="${verprefix}/cmbenv_aux"
+python_prefix="${verprefix}/cmbenv_python"
 module_dir="${moddir}/cmbenv"
 
 if [ "x${docker}" = "xyes" ]; then
@@ -144,6 +151,7 @@ chmod +x "${outfile}"
 
 
 # Finally, create the module file and module version file for this config.
+# Also create a shell snippet that can be sourced.
 
 if [ "x${docker}" != "xyes" ]; then
     while IFS='' read -r line || [[ -n "${line}" ]]; do
@@ -159,4 +167,21 @@ if [ "x${docker}" != "xyes" ]; then
     while IFS='' read -r line || [[ -n "${line}" ]]; do
         echo "${line}" | eval sed ${confsub} >> "${outmodver}"
     done < "${topdir}/templates/version.in"
+
+    echo "# Source this file from a Bourne-compatible shell to load" > "${outinit}"
+    echo "# this cmbenv installation into your environment:" >> "${outinit}"
+    echo "#" >> "${outinit}"
+    echo "#   %>  . path/to/cmbenv.sh" >> "${outinit}"
+    echo "#" >> "${outinit}"
+    echo "export VIRTUAL_ENV_DISABLE_PROMPT=1" >> "${outinit}"
+    echo "export CMBENV_AUX_PREFIX=\"${compiled_prefix}\"" >> "${outinit}"
+    echo "source \"${python_prefix}/cmbinit.sh\"" >> "${outinit}"
+    echo "export CMAKE_PREFIX_PATH=\"${compiled_prefix}\":\${CMAKE_PREFIX_PATH}" >> "${outinit}"
+    echo "export PATH=\"${compiled_prefix}/bin\":\${PATH}" >> "${outinit}"
+    echo "export CPATH=\"${compiled_prefix}/include\":\${CPATH}" >> "${outinit}"
+    echo "export LIBRARY_PATH=\"${compiled_prefix}/lib\":\${LIBRARY_PATH}" >> "${outinit}"
+    echo "export LD_LIBRARY_PATH=\"${compiled_prefix}/lib\":\${LD_LIBRARY_PATH}" >> "${outinit}"
+    echo "export PYTHONPATH=\"${compiled_prefix}/lib/python${pyversion}/site-packages\":\${PYTHONPATH}" >> "${outinit}"
+    echo "export PKG_CONFIG_PATH=\"@AUX_PREFIX@/lib/pkgconfig\":\${PKG_CONFIG_PATH}" >> "${outinit}"
+    echo "" >> "${outinit}"
 fi

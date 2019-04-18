@@ -48,6 +48,8 @@ if [ "${pytype}" = "conda" ]; then
         pandas \
         memory_profiler \
         ipython \
+        cython \
+        pkgconfig \
         cmake \
     && rm -rf "@PYTHON_PREFIX@/pkgs/*"
     if [ $? -ne 0 ]; then
@@ -83,6 +85,8 @@ else
         pandas \
         memory_profiler \
         ipython \
+        cython \
+        pkgconfig \
         cmake
     if [ $? -ne 0 ]; then
         echo "pip install failed" >&2
