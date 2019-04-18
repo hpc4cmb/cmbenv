@@ -45,10 +45,10 @@
 #
 # Install libbz2.  This is required to enable some features in the boost
 # build which are in turn needed by spt3g.
-bzip2
+#bzip2
 #
 # Install Boost.
-#boost
+boost
 #
 # Install elemental.  This is no longer used / required.  Left here in
 # case it is useful in the future.
