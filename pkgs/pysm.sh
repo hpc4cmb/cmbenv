@@ -20,7 +20,7 @@ echo "Building ${pkg}..." >&2
 rm -rf PySM_public-2.1.0
 tar xzf ${src} \
     && cd PySM_public-2.1.0 \
-    && python setup.py install --no-deps --prefix "@AUX_PREFIX@" > ${log} 2>&1
+    && python setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2

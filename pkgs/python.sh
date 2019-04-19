@@ -33,7 +33,7 @@ if [ "${pytype}" = "conda" ]; then
     bash "${inst}" -b -f -p "@PYTHON_PREFIX@" \
     && source "@PYTHON_PREFIX@/cmbinit.sh" \
     && conda install --copy --yes python=@PYVERSION@ \
-    && ln -s "@PYTHON_PREFIX@/lib/libpython*" "@AUX_PREFIX@/lib/" \
+    && ln -s "@PYTHON_PREFIX@"/lib/libpython* "@AUX_PREFIX@/lib/" \
     && conda install --copy --yes \
         nose \
         cython \

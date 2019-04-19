@@ -75,9 +75,8 @@ done < "${conffile}"
 # We add these predefined matches at the end- so that the config
 # file can actually use these as well.
 
-verprefix="${prefix}_${version}"
-compiled_prefix="${verprefix}/cmbenv_aux"
-python_prefix="${verprefix}/cmbenv_python"
+compiled_prefix="${prefix}/cmbenv_aux"
+python_prefix="${prefix}/cmbenv_python"
 module_dir="${moddir}/cmbenv"
 
 if [ "x${docker}" = "xyes" ]; then
@@ -85,7 +84,7 @@ if [ "x${docker}" = "xyes" ]; then
     python_prefix="/usr"
 fi
 
-confsub="${confsub} -e 's#@PREFIX@#${verprefix}#g'"
+confsub="${confsub} -e 's#@PREFIX@#${prefix}#g'"
 confsub="${confsub} -e 's#@AUX_PREFIX@#${compiled_prefix}#g'"
 confsub="${confsub} -e 's#@PYTHON_PREFIX@#${python_prefix}#g'"
 confsub="${confsub} -e 's#@VERSION@#${version}#g'"

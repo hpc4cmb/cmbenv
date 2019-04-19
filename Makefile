@@ -56,7 +56,7 @@ endif
 # Otherwise install to PREFIX/modulefiles
 
 ifndef CMBMODULEDIR
-  CMBMODULEDIR := "$(CMBPREFIX)_$(CMBVERSION)/modulefiles"
+  CMBMODULEDIR := "$(CMBPREFIX)/modulefiles"
 endif
 
 
