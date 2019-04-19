@@ -38,9 +38,9 @@ setenv VIRTUAL_ENV_DISABLE_PROMPT 1
 
 # This is the python environment location
 if { [module-info mode load] || [module-info mode switch2] } {
-    puts stdout "source @PYTHON_PREFIX@/cmbinit.sh;"
+    puts stdout "source @PYTHON_PREFIX@/cmbload.sh;"
 } elseif { [module-info mode remove] && ![module-info mode switch3] } {
-    puts stdout "deactivate;"
+    puts stdout "source @PYTHON_PREFIX@/cmbunload.sh;"
 }
 
 # This is the location of the extra compiled software

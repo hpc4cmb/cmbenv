@@ -7,6 +7,11 @@ cleanup=""
 pkg="python"
 
 export pytype=$(echo "$pkgopts" | awk -e '{print $1}')
+
+mkdir -p "@PYTHON_PREFIX@"
+cload="@PYTHON_PREFIX@/cmbload.sh"
+cunload="@PYTHON_PREFIX@/cmbunload.sh"
+
 if [ "${pytype}" = "conda" ]; then
     echo "Python using conda" >&2
     if [ "@OSTYPE@" = "linux" ]; then
@@ -24,14 +29,17 @@ if [ "${pytype}" = "conda" ]; then
         exit 1
     fi
     cleanup="${inst}"
-    mkdir -p "@PYTHON_PREFIX@"
-    echo "# Set up conda for cmbenv" > "@PYTHON_PREFIX@/cmbinit.sh"
-    echo "source @PYTHON_PREFIX@/etc/profile.d/conda.sh" >> "@PYTHON_PREFIX@/cmbinit.sh"
-    echo "conda config --set changeps1 False" >> "@PYTHON_PREFIX@/cmbinit.sh"
-    echo "conda activate" >> "@PYTHON_PREFIX@/cmbinit.sh"
-    echo "" >> "@PYTHON_PREFIX@/cmbinit.sh"
+    # Load / unload scripts
+    echo "# Set up conda for cmbenv" > "${cload}"
+    echo "source @PYTHON_PREFIX@/etc/profile.d/conda.sh" >> "${cload}"
+    echo "conda config --set changeps1 False" >> "${cload}"
+    echo "conda activate" >> "${cload}"
+    echo "" >> "${cload}"
+    echo "# Unload conda for cmbenv" > "${cunload}"
+    echo "conda deactivate" >> "${cunload}"
+    echo "" >> "${cunload}"
     bash "${inst}" -b -f -p "@PYTHON_PREFIX@" \
-    && source "@PYTHON_PREFIX@/cmbinit.sh" \
+    && source "${cload}" \
     && conda install --copy --yes python=@PYVERSION@ \
     && ln -s "@PYTHON_PREFIX@"/lib/libpython* "@AUX_PREFIX@/lib/" \
     && conda install --copy --yes \
@@ -63,18 +71,21 @@ if [ "${pytype}" = "conda" ]; then
 else
     if [ "${pytype}" = "virtualenv" ]; then
         echo "Python using virtualenv" >&2
-        mkdir -p "@PYTHON_PREFIX@"
-        echo "# Set up virtualenv for cmbenv" > "@PYTHON_PREFIX@/cmbinit.sh"
-        echo "export VIRTUAL_ENV_DISABLE_PROMPT=1" >> "@PYTHON_PREFIX@/cmbinit.sh"
-        echo "source @PYTHON_PREFIX@/bin/activate" >> "@PYTHON_PREFIX@/cmbinit.sh"
-        echo "" >> "@PYTHON_PREFIX@/cmbinit.sh"
+        echo "# Set up virtualenv for cmbenv" > "${cload}"
+        echo "export VIRTUAL_ENV_DISABLE_PROMPT=1" >> "${cload}"
+        echo "source @PYTHON_PREFIX@/bin/activate" >> "${cload}"
+        echo "" >> "${cload}"
+        echo "# Unload conda for cmbenv" > "${cunload}"
+        echo "conda deactivate" >> "${cunload}"
+        echo "" >> "${cunload}"
         virtualenv -p python@PYVERSION@ "@PYTHON_PREFIX@" \
-        && source "@PYTHON_PREFIX@/cmbinit.sh"
+        && source "${cload}"
     else
         echo "Python using default" >&2
-        mkdir -p "@PYTHON_PREFIX@"
-        echo "# Using default python for cmbenv" > "@PYTHON_PREFIX@/cmbinit.sh"
-        echo "" >> "@PYTHON_PREFIX@/cmbinit.sh"
+        echo "# Using default python for cmbenv" > "${cload}"
+        echo "" >> "${cload}"
+        echo "# Using default python for cmbenv" > "${cunload}"
+        echo "" >> "${cunload}"
     fi
     pip install \
         nose \

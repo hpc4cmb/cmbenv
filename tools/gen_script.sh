@@ -175,7 +175,7 @@ if [ "x${docker}" != "xyes" ]; then
     echo "#" >> "${outinit}"
     echo "export VIRTUAL_ENV_DISABLE_PROMPT=1" >> "${outinit}"
     echo "export CMBENV_AUX_PREFIX=\"${compiled_prefix}\"" >> "${outinit}"
-    echo "source \"${python_prefix}/cmbinit.sh\"" >> "${outinit}"
+    echo "source \"${python_prefix}/cmbload.sh\"" >> "${outinit}"
     echo "export CMAKE_PREFIX_PATH=\"${compiled_prefix}\":\${CMAKE_PREFIX_PATH}" >> "${outinit}"
     echo "export PATH=\"${compiled_prefix}/bin\":\${PATH}" >> "${outinit}"
     echo "export CPATH=\"${compiled_prefix}/include\":\${CPATH}" >> "${outinit}"

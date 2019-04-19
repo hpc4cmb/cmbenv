@@ -1,0 +1,108 @@
+#!/bin/bash
+
+show_help () {
+    echo "" >&2
+    echo "Usage:  $0" >&2
+    echo "    -c <config>" >&2
+    echo "    -p <prefix>" >&2
+    echo "    [-v <version>]" >&2
+    echo "    [-m <module dir>]" >&2
+    echo "" >&2
+    echo "    Generate an install script or a Dockerfile (depending on the" >&2
+    echo "    config)." >&2
+    echo "" >&2
+    echo "    The name of the config and the install prefix are required." >&2
+    echo "    If a version string is not specified, the current git version" >&2
+    echo "    of the cmbenv repository is used.  If the module file" >&2
+    echo "    directory is not specified, then the path " >&2
+    echo "    <prefix>/modulefiles is used." >&2
+    echo "" >&2
+    echo "" >&2
+}
+
+prefix=""
+config=""
+version=""
+moduledir=""
+
+while getopts ":c:p:v:m:" opt; do
+    case $opt in
+        c)
+            config=$OPTARG
+            ;;
+        p)
+            prefix=$OPTARG
+            ;;
+        v)
+            version=$OPTARG
+            ;;
+        m)
+            moduledir=$OPTARG
+            ;;
+        \?)
+            show_help
+            exit 1
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument." >&2
+            show_help
+            exit 1
+            ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+if [ "x${config}" = "x" ]; then
+    show_help
+    exit 1
+fi
+
+if [ "x${prefix}" = "x" ]; then
+    show_help
+    exit 1
+fi
+
+if [ "x${version}" == "x" ]; then
+    gitdesc=$(shell git describe --tags --dirty --always | cut -d "-" -f 1)
+    gitcnt=$(shell git rev-list --count HEAD)
+    version="${gitdesc}.dev${gitcnt}"
+fi
+
+if [ "x${moduledir}" == "x" ]; then
+    moduledir="${prefix}/modulefiles"
+fi
+
+# get the absolute path to the directory with this script
+pushd $(dirname $0) > /dev/null
+topdir=$(pwd -P)
+popd > /dev/null
+
+conf_file="configs/${config}"
+conf_pkgs="configs/${config}.pkgs"
+conf_mod="configs/${config}.mod"
+
+is_docker="no"
+if [[ ${config} =~ .*docker.* ]]; then
+    is_docker="yes"
+fi
+
+is_intel="no"
+if [[ ${config} =~ .*intel.* ]]; then
+    is_intel="yes"
+fi
+
+script=""
+if [ "${is_docker}" = "yes" ]; then
+    script="Dockerfile_${config}"
+    eval "${topdir}/tools/gen_script.sh" Dockerfile.in "${conf_file}" \
+        "${conf_pkgs}" "${conf_mod}" "${script}" "${prefix}" "${version}" \
+        "${moduledir}" yes
+else
+    script="install_${config}"
+    eval "${topdir}/tools/gen_script.sh" install.in "${conf_file}" \
+        "${conf_pkgs}" "${conf_mod}" "${script}" "${prefix}" "${version}" \
+        "${moduledir}" no
+fi
+
+exit 0
