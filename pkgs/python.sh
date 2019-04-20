@@ -6,7 +6,7 @@ cleanup=""
 
 pkg="python"
 
-export pytype=$(echo "$pkgopts" | awk -e '{print $1}')
+export pytype=$(echo "$pkgopts" | awk '{print $1}')
 
 mkdir -p "@PYTHON_PREFIX@"
 cload="@PYTHON_PREFIX@/cmbload.sh"
@@ -87,7 +87,7 @@ else
         echo "# Using default python for cmbenv" > "${cunload}"
         echo "" >> "${cunload}"
     fi
-    pip install \
+    pip3 install \
         nose \
         cython \
         numpy \

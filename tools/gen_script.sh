@@ -112,7 +112,7 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
             pkgopts=$(echo "${line}" | sed -e 's/.*:\(.*\)/\1/')
         else
             # We have just a package
-            pkgname=$(echo "${line}" | awk -e '{print $1}')
+            pkgname=$(echo "${line}" | awk '{print $1}')
         fi
 
         # Copy the package file into place while applying the config.

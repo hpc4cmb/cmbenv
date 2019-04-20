@@ -1,7 +1,7 @@
-diff -urN bzip2-1.0.6.orig/Makefile-toast bzip2-1.0.6/Makefile-toast
---- bzip2-1.0.6.orig/Makefile-toast	1969-12-31 16:00:00.000000000 -0800
-+++ bzip2-1.0.6/Makefile-toast	2018-05-25 09:17:50.357697978 -0700
-@@ -0,0 +1,52 @@
+diff -urN bzip2-1.0.6_orig/Makefile-toast bzip2-1.0.6/Makefile-toast
+--- bzip2-1.0.6_orig/Makefile-toast	1969-12-31 16:00:00.000000000 -0800
++++ bzip2-1.0.6/Makefile-toast	2019-04-19 09:09:46.000000000 -0700
+@@ -0,0 +1,58 @@
 +
 +# This Makefile builds a shared version of the library,
 +# for use as a TOAST dependency.
@@ -30,8 +30,14 @@ diff -urN bzip2-1.0.6.orig/Makefile-toast bzip2-1.0.6/Makefile-toast
 +      decompress.o \
 +      bzlib.o
 +
++UNAME := $(shell uname)
++dycom := -soname
++ifeq ($(UNAME), Darwin)
++dycom := -install_name
++endif
++
 +all: $(OBJS)
-+	$(CC) -shared -Wl,-soname -Wl,libbz2.so.1.0 -o libbz2.so.1.0.6 $(OBJS)
++	$(CC) -shared -Wl,$(dycom) -Wl,libbz2.so.1.0 -o libbz2.so.1.0.6 $(OBJS)
 +	$(CC) $(CFLAGS) -o bzip2-shared bzip2.c libbz2.so.1.0.6
 +	rm -f libbz2.so.1.0
 +	ln -s libbz2.so.1.0.6 libbz2.so.1.0
