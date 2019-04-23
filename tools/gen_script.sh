@@ -7,20 +7,21 @@ template=$1
 conffile=$2
 pkgfile=$3
 confmodinit=$4
+confshinit=$5
 
 # The output root of the install script
-outroot=$5
+outroot=$6
 
 # Runtime options
-prefix=$6
-version=$7
-moddir=$8
+prefix=$7
+version=$8
+moddir=$9
 
 # Is this template a dockerfile?  If this is "yes", then when calling
 # package scripts we will insert the "RUN " prefix and also capture the
 # downloaded files so that we can clean them up on the same line without
 # polluting the image.
-docker=$9
+docker=${10}
 
 
 # Top level cmbenv git checkout
@@ -173,6 +174,9 @@ if [ "x${docker}" != "xyes" ]; then
     echo "#" >> "${outinit}"
     echo "#   %>  . path/to/cmbenv.sh" >> "${outinit}"
     echo "#" >> "${outinit}"
+    if [ -e "${confshinit}" ]; then
+        cat "${confshinit}" >> "${outinit}"
+    fi
     echo "export VIRTUAL_ENV_DISABLE_PROMPT=1" >> "${outinit}"
     echo "export CMBENV_AUX_PREFIX=\"${compiled_prefix}\"" >> "${outinit}"
     echo "source \"${python_prefix}/cmbload.sh\"" >> "${outinit}"

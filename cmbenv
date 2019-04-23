@@ -81,6 +81,7 @@ popd > /dev/null
 conf_file="configs/${config}"
 conf_pkgs="configs/${config}.pkgs"
 conf_mod="configs/${config}.mod"
+conf_sh="configs/${config}.sh"
 
 is_docker="no"
 if [[ ${config} =~ .*docker.* ]]; then
@@ -96,13 +97,13 @@ script=""
 if [ "${is_docker}" = "yes" ]; then
     script="Dockerfile_${config}"
     eval "${topdir}/tools/gen_script.sh" Dockerfile.in "${conf_file}" \
-        "${conf_pkgs}" "${conf_mod}" "${script}" "${prefix}" "${version}" \
-        "${moduledir}" yes
+        "${conf_pkgs}" "${conf_mod}" "${conf_sh}" "${script}" "${prefix}" \
+        "${version}" "${moduledir}" yes
 else
     script="install_${config}"
     eval "${topdir}/tools/gen_script.sh" install.in "${conf_file}" \
-        "${conf_pkgs}" "${conf_mod}" "${script}" "${prefix}" "${version}" \
-        "${moduledir}" no
+        "${conf_pkgs}" "${conf_mod}" "${conf_sh}" "${script}" "${prefix}" \
+        "${version}" "${moduledir}" no
 fi
 
 exit 0
