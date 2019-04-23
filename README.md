@@ -25,8 +25,14 @@ If you are installing on a Linux or OS X workstation you may be able to use one 
             - NO.  Use the linux-venv config.
         - NO.  You should use the linux-conda config.
     OS X:  Are you currently using macports or homebrew to get python3?
-        - YES.  
-        - NO.  Use the osx-conda config.
+        - YES.  Do you want to use Fortran packages (libmadam)?
+            - YES.  Install GNU compilers with macports or homebrew.
+                    Use the osx-venv-gcc config.
+            - NO.  Use the osx-venv-clang config.
+        - NO.  Do you want to use Fortran packages (libmadam)?
+            - YES.  Install GNU compilers with macports or homebrew.
+                    Use the osx-conda-gcc config.
+            - NO.  Use the osx-conda-clang config.
 
 ### Custom Configurations
 
@@ -44,41 +50,44 @@ a docker config.
 
 ## Generate the Script
 
-Set the CMBCONFIG, CMBPREFIX, and (optionally) the CMBVERSION and CMBMODULEDIR
-environment variables.  You can either export those variables or simply put them on the commandline.  Then create the script with::
+Use the top-level "cmbenv" script to generate an install script or docker file::
 
-    %> CMBCONFIG=linux-venv CMBPREFIX=${HOME}/cmbenv CMBVERSION=test \
-       make script
+    %> ./cmbenv -c <config> -p <prefix> [-v <version] [-m <moduledir>]
 
-To clean up all generated scripts, do::
+For example::
 
-    %> CMBCONFIG=linux-venv CMBPREFIX=${HOME}/cmbenv CMBVERSION=test \
-       make clean
-
-For normal installs, this creates an install script and corresponding
-module files.  For docker builds, a Dockerfile is created.  As an example,
-suppose we are installing the software stack into our scratch directory
-on cori.nersc.gov using the intel config::
-
-    %> CMBPREFIX=${SCRATCH}/software/cmbenv_cori-intel CMBCONFIG=cori-intel \
-       make clean
-    %> CMBPREFIX=${SCRATCH}/software/cmbenv_cori-intel CMBCONFIG=cori-intel \
-       make script
-
-If you don't have the $CMBVERSION environment variable set, then a version
-string based on the git revision history is used.  If you don't have the
-$CMBMODULEDIR environment variable set, then the modulefiles will be installed
-to $CMBPREFIX/modulefiles.
+    %> ./cmbenv -c linux-venv -p ${HOME}/cmbenv -v test
 
 
 ## Installation
 
-For normal installs, simply run the install script.  This installs the
-software and modulefile, as well as a module version file named
-`.version_$CMBVERSION` in the module install directory.  You can manually
-move this into place if and when you want to make that the default
-version.  You can run the install script from an alternate build
-directory.  
+For normal installs, simply run the install script.  I recommend doing this in a
+"build" directory to avoid cluttering the source.  Continuing the previous
+example::
+
+    %> mkdir build; cd build
+    %> ../install_linux-venv.sh | tee log
+
+This installs the software and modulefile, as well as a module version file
+named `.version_$CMBVERSION` in the module install directory.  You can manually
+move this into place if and when you want to make that the default version.  It
+also creates a simple shell snippet that you can source instead of using
+modules.  
+
+### Loading the Software
+
+Continuing the example some more, load the above products into your environment
+with::
+
+    %> module use ${HOME}/cmbenv/modulefiles
+    %> module load cmbenv
+
+OR::
+
+    %> source ${HOME}/cmbenv/cmbenv.sh
+
+
+## Docker
 
 For docker installs, run docker build from the same directory as the
 generated Dockerfile, so that the path to data files can be found.  Making
@@ -86,48 +95,22 @@ docker images requires a working docker installation.  You
 should familiarize yourself with the docker tool before attempting to use
 it here.
 
-As an example, suppose we want to install the script we made in the
-previous section for cori.  We'll make a temporary directory on
-scratch to do the building, since it is going to download and compile
-several big packages.  We'll also dump all output to a log file so that
-we can look at it afterwards if there are any problems::
-
-    %> cd $SCRATCH
-    %> mkdir build
-    %> cd build
-    %> /path/to/git/cmbenv/install_cori-intel.sh >log 2>&1 &
-    %> tail -f log
-
-After installation, the $CMBPREFIX directory will contain directories
-and files::
-
-    $CMBPREFIX/$CMBVERSION_conda
-    $CMBPREFIX/$CMBVERSION_aux
-    $CMBPREFIX/modulefiles/cmbenv/$CMBVERSION
-    $CMBPREFIX/modulefiles/cmbenv/.version_$CMBVERSION
-
-If you want to make this version of cmbenv the default, then just
-do::
-
-    %> cd $CMBPREFIX/modulefiles/cmbenv
-    %> rm -f .version && ln -s .version_$CMBVERSION .version
-
-## Push the Docker container to Docker Hub
-
-It is recommended to tag the container with the hash of the cmbenv git repository.
-In the following snippets, I assume that username is the same on
-local machine, Github, DockerHub and NERSC.
-Build it with:
+It is recommended to tag the container with the hash of the cmbenv git
+repository. In the following snippets, I assume that username is the same on
+local machine, Github, DockerHub and NERSC. Build it with:
 
     %> docker build . -t $USER/cmbenv:$(git rev-parse --short HEAD)
 
-Then, login to <https://hub.docker.com> with your Github credentials and create a new
-repository named `cmbenv`, then push the image you just built to DockerHub:
+### Push the Docker container to Docker Hub
+
+Login to <https://hub.docker.com> with your Github credentials and create
+a new repository named `cmbenv`, then push the image you just built to
+DockerHub:
 
     %> docker login
     %> docker push $USER/cmbenv:$(git rev-parse --short HEAD)
 
-## Use the Docker container at NERSC with shifter
+### Use the Docker container at NERSC with shifter
 
 See the [NERSC documentation about shifter](http://www.nersc.gov/users/software/using-shifter-and-docker/using-shifter-at-nersc/).
 
@@ -137,7 +120,8 @@ First login to Cori and pull the image from Docker Hub:
 
 This is going to take a few minutes. Then you can test this interactively:
 
-    %> salloc -N 1 -p debug --image=docker:YOURUSERNAME/cmbenv:xxxxxx \
+    %> salloc -N 1 -C haswell -p debug \
+       --image=docker:YOURUSERNAME/cmbenv:xxxxxx \
        -t 00:30:00
     %> shifter /bin/bash
 
