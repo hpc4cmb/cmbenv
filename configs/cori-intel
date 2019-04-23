@@ -22,7 +22,7 @@ MPI_LDFLAGS = ${CRAY_MPICH2_DIR}/lib
 MPI_CXXLIB = mpichcxx_intel
 MPI_LIB = mpich_intel
 MPI_EXTRA_COMP =
-MPI_EXTRA_LINK =
+MPI_EXTRA_LINK = -shared
 
 # Compile flags
 

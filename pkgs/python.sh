@@ -58,7 +58,6 @@ if [ "${pytype}" = "conda" ]; then
         memory_profiler \
         ipython \
         cython \
-        pkgconfig \
         cycler \
         kiwisolver \
         python-dateutil \
@@ -102,7 +101,6 @@ else
         memory_profiler \
         ipython \
         cython \
-        pkgconfig \
         cycler \
         kiwisolver \
         python-dateutil \

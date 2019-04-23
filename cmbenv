@@ -64,8 +64,8 @@ if [ "x${prefix}" = "x" ]; then
 fi
 
 if [ "x${version}" == "x" ]; then
-    gitdesc=$(shell git describe --tags --dirty --always | cut -d "-" -f 1)
-    gitcnt=$(shell git rev-list --count HEAD)
+    gitdesc=$(git describe --tags --dirty --always | cut -d "-" -f 1)
+    gitcnt=$(git rev-list --count HEAD)
     version="${gitdesc}.dev${gitcnt}"
 fi
 
