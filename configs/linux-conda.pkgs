@@ -65,6 +65,9 @@ fitsio
 # Install aatm.  Needed for some features of atmosphere simulations.
 aatm
 #
+# Install suitesparse
+suitesparse
+#
 # Install libconviqt.  4-PI a_lm space beam convolution.
 conviqt
 #
