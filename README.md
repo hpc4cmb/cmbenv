@@ -34,6 +34,16 @@ If you are installing on a Linux or OS X workstation you may be able to use one 
                     Use the osx-conda-gcc config.
             - NO.  Use the osx-conda-clang config.
 
+### Special Notes for OS X
+
+Apple's operating system can be challenging to work with when building larger compiled packages that do not use X Code.  The native compilers do not support some languages and features, and installing external compilers (gcc) require care to ensure that all dependencies are also built with the same compiler.  Here are some recommendations:
+
+  - Whenever you update your OS, also ensure that X Code and the commandline tools have been updated.
+
+  - If using macports or homebrew, wipe and reinstall these when you upgrade your OS to a new major version.
+
+If you have trouble with python or gcc on OS X, try testing the "osx-conda-clang" config.  This should be the most stand-alone solution since it uses only the system clang compiler.  Downsides of this are the lack of fortran support and perhaps other features like OpenMP threading.
+
 ### Custom Configurations
 
 Create or edit a file in the "configs" subdirectory that is named whatever you
