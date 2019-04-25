@@ -7,6 +7,7 @@ cleanup=""
 pkg="python"
 
 export pytype=$(echo "$pkgopts" | awk '{print $1}')
+export cdatype=$(echo "$pkgopts" | awk '{print $2}')
 
 mkdir -p "@PYTHON_PREFIX@"
 cload="@PYTHON_PREFIX@/cmbload.sh"
@@ -33,6 +34,9 @@ if [ "${pytype}" = "conda" ]; then
     echo "# Set up conda for cmbenv" > "${cload}"
     echo "source @PYTHON_PREFIX@/etc/profile.d/conda.sh" >> "${cload}"
     echo "conda config --set changeps1 False" >> "${cload}"
+    if [ "x${cdatype}" = "xnomkl" ]; then
+        echo "conda config --add channels conda-forge" >> "${cload}"
+    fi
     echo "conda activate" >> "${cload}"
     echo "" >> "${cload}"
     echo "# Unload conda for cmbenv" > "${cunload}"
@@ -40,9 +44,23 @@ if [ "${pytype}" = "conda" ]; then
     echo "" >> "${cunload}"
     bash "${inst}" -b -f -p "@PYTHON_PREFIX@" \
     && source "${cload}" \
+    && conda update -n base -c defaults --yes conda \
     && conda install --copy --yes python=@PYVERSION@ \
-    && ln -s "@PYTHON_PREFIX@"/lib/libpython* "@AUX_PREFIX@/lib/" \
-    && conda install --copy --yes \
+    && ln -s "@PYTHON_PREFIX@"/lib/libpython* "@AUX_PREFIX@/lib/"
+    if [ $? -ne 0 ]; then
+        echo "conda python install failed" >&2
+        exit 1
+    fi
+    if [ "x${cdatype}" = "xnomkl" ]; then
+        conda install --copy --yes "blas=*=openblas"
+    else
+        conda install --copy --yes blas
+    fi
+    if [ $? -ne 0 ]; then
+        echo "conda blas install failed" >&2
+        exit 1
+    fi
+    conda install --copy --yes \
         nose \
         cython \
         numpy \
@@ -61,10 +79,11 @@ if [ "${pytype}" = "conda" ]; then
         cycler \
         kiwisolver \
         python-dateutil \
+        toml \
         cmake \
     && rm -rf "@PYTHON_PREFIX@/pkgs/*"
     if [ $? -ne 0 ]; then
-        echo "conda install failed" >&2
+        echo "conda install packages failed" >&2
         exit 1
     fi
 else
@@ -104,6 +123,7 @@ else
         cycler \
         kiwisolver \
         python-dateutil \
+        toml \
         cmake
     if [ $? -ne 0 ]; then
         echo "pip install failed" >&2

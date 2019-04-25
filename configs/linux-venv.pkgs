@@ -59,6 +59,9 @@ h5py
 # Install healpy
 healpy
 #
+# Install quaternionarray
+qarray
+#
 # Install fitsio
 fitsio
 #

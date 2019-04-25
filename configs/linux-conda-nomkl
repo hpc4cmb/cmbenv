@@ -1,0 +1,59 @@
+
+# OS type (linux OR osx)
+OSTYPE = linux
+
+# Serial compilers
+
+CC = gcc
+CXX = g++
+FC = gfortran
+
+# Compiler to use for packages needed on the build machine
+
+BUILD_CC = gcc
+
+# MPI compilers
+
+MPICC = mpicc
+MPICXX = mpicxx
+MPIFC = mpifort
+MPI_CPPFLAGS = @AUX_PREFIX@/include
+MPI_LDFLAGS = @AUX_PREFIX@/lib
+MPI_CXXLIB = mpichcxx
+MPI_LIB = mpich
+MPI_EXTRA_COMP =
+MPI_EXTRA_LINK =
+
+# Compile flags
+
+CFLAGS = -O3 -fPIC -pthread
+CXXFLAGS = -O3 -fPIC -pthread
+FCFLAGS = -O3 -fPIC -pthread
+
+OPENMP_CFLAGS = -fopenmp
+OPENMP_CXXFLAGS = -fopenmp
+LDFLAGS = -lpthread -fopenmp
+
+# Are we doing a cross-compile?
+
+CROSS =
+
+# Parallel builds
+MAKEJ = 4
+
+# Python version to use
+PYVERSION = 3.6
+
+# For BLAS/LAPACK, we use openblas
+
+BLAS = -lopenblas -fopenmp -lm
+LAPACK =
+
+# Boost toolchain name
+
+BOOSTCHAIN = gcc
+
+# Group and permissions to set
+
+CHGRP =
+CHMOD =
