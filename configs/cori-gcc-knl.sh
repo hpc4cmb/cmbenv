@@ -11,11 +11,11 @@ if [ "x${loadedgnu}" = x ]; then
       module swap PrgEnv-intel PrgEnv-gnu
     fi
 fi
-# altd is evil and causes random job hangs
+# altd may cause random job hangs
 if [ "x${loadedaltd}" != x ]; then
   module unload altd
 fi
-# darshan is useless at best and may cause overhead
+# darshan may cause overhead
 if [ "x${loadeddarshan}" != x ]; then
   module unload darshan
 fi

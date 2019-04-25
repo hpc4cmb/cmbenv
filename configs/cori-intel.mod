@@ -9,11 +9,11 @@ if [ module-info mode load ] {
       module swap PrgEnv-gnu PrgEnv-intel
     }
   }
-  # altd is evil and causes random job hangs
+  # altd may cause random job hangs
   if [ is-loaded altd ] {
     module unload altd
   }
-  # darshan is useless at best and may cause overhead
+  # darshan may cause overhead
   if [ is-loaded darshan ] {
     module unload darshan
   }

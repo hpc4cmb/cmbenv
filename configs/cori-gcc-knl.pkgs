@@ -9,7 +9,7 @@
 # a virtualenv or a conda environment.  This will also install a set of
 # common base packages.
 #python:virtualenv
-python:conda
+python:conda nomkl
 #python:default
 #
 # Autotools.  If you already have recent versions installed with your OS
@@ -58,6 +58,9 @@ h5py
 #
 # Install healpy
 healpy
+#
+# Install quaternionarray
+qarray
 #
 # Install fitsio
 fitsio
