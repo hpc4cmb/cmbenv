@@ -19,8 +19,8 @@ MPICXX = ${CRAYPE_DIR}/bin/CC
 MPIFC = ${CRAYPE_DIR}/bin/ftn
 MPI_CPPFLAGS = ${CRAY_MPICH2_DIR}/include
 MPI_LDFLAGS = ${CRAY_MPICH2_DIR}/lib
-MPI_CXXLIB = mpichcxx_gnu
-MPI_LIB = mpich_gnu
+MPI_CXXLIB = mpichcxx
+MPI_LIB = mpich
 MPI_EXTRA_COMP =
 MPI_EXTRA_LINK = -shared
 
@@ -34,9 +34,8 @@ OPENMP_CFLAGS = -fopenmp
 OPENMP_CXXFLAGS = -fopenmp
 LDFLAGS = -fopenmp -lpthread
 
-# Are we doing a cross-compile?
-
-CROSS =
+# We are cross-compiling for KNL on Haswell login nodes
+CROSS = --build x86_64-pc-linux-gnu --host x86_64-unknown-linux-gnu
 
 # Parallel builds
 MAKEJ = 4
