@@ -17,7 +17,7 @@ MPI_EXTRA_LINK =
 # Compile flags
 
 CFLAGS = -O3 -g -fPIC -xAVX -axMIC-AVX512 -pthread
-CXXFLAGS = -O3 -g -fPIC -xAVX -axMIC-AVX512 -pthread
+CXXFLAGS = -O3 -g -fPIC -xAVX -axMIC-AVX512 -pthread -std=c++11
 FCFLAGS = -O3 -g -fPIC -xAVX -axMIC-AVX512 -fexceptions -pthread -heap-arrays 16
 
 OPENMP_CFLAGS = -qopenmp
