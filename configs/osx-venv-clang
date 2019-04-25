@@ -6,7 +6,7 @@ OSTYPE = osx
 
 CC = clang
 CXX = clang++
-FC = 
+FC =
 
 # Compiler to use for packages needed on the build machine
 
@@ -16,7 +16,7 @@ BUILD_CC = clang
 
 MPICC = mpicc
 MPICXX = mpicxx
-MPIFC = 
+MPIFC =
 MPI_CPPFLAGS = @AUX_PREFIX@/include
 MPI_LDFLAGS = @AUX_PREFIX@/lib
 MPI_CXXLIB = mpichcxx
@@ -42,7 +42,7 @@ CROSS =
 MAKEJ = 2
 
 # Python version to use
-PYVERSION = 3.7
+PYVERSION = 3.6
 
 # For BLAS/LAPACK, we use accelerate framework
 
