@@ -21,9 +21,12 @@ rm -rf OpenBLAS-0.3.5
 tar xzf ${src} \
     && cd OpenBLAS-0.3.5 \
     && make USE_OPENMP=1 NO_SHARED=1 \
-    FC="@FC@" FFLAGS="@FCFLAGS@" \
+    FC="@FC@" \
     MAKE_NB_JOBS="@MAKEJ@" \
-    CC="@CC@" CFLAGS="@CFLAGS@" > ${log} 2>&1 \
+    CC="@CC@" \
+    CROSS=$(if [ "x@CROSS@" = x ]; then echo "0"; else echo "1"; fi) \
+    COMMON_OPT="@CFLAGS@" \
+    FCOMMON_OPT="@FCFLAGS@" > ${log} 2>&1 \
     && make NO_SHARED=1 PREFIX="@AUX_PREFIX@" install >> ${log} 2>&1
 
 if [ $? -ne 0 ]; then

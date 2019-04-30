@@ -39,29 +39,20 @@ python3 -m compileall -f "@AUX_PREFIX@" > log_pycompile
 
 cp "$0.init" "@PREFIX@/cmbenv.sh"
 
-# Set permissions
-
-if [ "x@CHGRP@" != "x" ]; then
-    chgrp -R @CHGRP@ "@AUX_PREFIX@"
-    chgrp -R @CHGRP@ "@PYTHON_PREFIX@"
-fi
-
-if [ "x@CHMOD@" != "x" ]; then
-    chmod -R @CHMOD@ "@AUX_PREFIX@"
-    chmod -R @CHMOD@ "@PYTHON_PREFIX@"
-fi
-
 # Install modulefile
 
 if [ "x@MODULE_DIR@" != "x" ]; then
     mkdir -p "@MODULE_DIR@"
     cp "$0.mod" "@MODULE_DIR@/@VERSION@"
     cp "$0.modver" "@MODULE_DIR@/.version_@VERSION@"
+fi
 
-    if [ "x@CHGRP@" != "x" ]; then
-        chgrp -R @CHGRP@ "@MODULE_DIR@"
-    fi
-    if [ "x@CHMOD@" != "x" ]; then
-        chmod -R @CHMOD@ "@MODULE_DIR@"
-    fi
+# Set permissions
+
+if [ "x@CHGRP@" != "x" ]; then
+    chgrp -R @CHGRP@ "@PREFIX@"
+fi
+
+if [ "x@CHMOD@" != "x" ]; then
+    chmod -R @CHMOD@ "@PREFIX@"
 fi

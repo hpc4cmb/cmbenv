@@ -38,7 +38,7 @@ cfitsio
 #
 # Install OpenBLAS.  Comment out if you are using MKL with the Intel compilers
 # or some other vendor BLAS / LAPACK solution.
-#openblas
+openblas
 #
 # Install FFTW3.
 fftw
