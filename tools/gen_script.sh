@@ -85,6 +85,7 @@ if [ "x${docker}" = "xyes" ]; then
     python_prefix="/usr"
 fi
 
+confsub="${confsub} -e 's#@SRCDIR@#${topdir}#g'"
 confsub="${confsub} -e 's#@PREFIX@#${prefix}#g'"
 confsub="${confsub} -e 's#@AUX_PREFIX@#${compiled_prefix}#g'"
 confsub="${confsub} -e 's#@PYTHON_PREFIX@#${python_prefix}#g'"
@@ -172,20 +173,15 @@ if [ "x${docker}" != "xyes" ]; then
     echo "# Source this file from a Bourne-compatible shell to load" > "${outinit}"
     echo "# this cmbenv installation into your environment:" >> "${outinit}"
     echo "#" >> "${outinit}"
-    echo "#   %>  . path/to/cmbenv.sh" >> "${outinit}"
+    echo "#   %>  . path/to/cmbenv_init.sh" >> "${outinit}"
+    echo "#" >> "${outinit}"
+    echo "# Then do \"source cmbenv\" as usual." >> "${outinit}"
     echo "#" >> "${outinit}"
     if [ -e "${confshinit}" ]; then
         cat "${confshinit}" >> "${outinit}"
     fi
-    echo "export VIRTUAL_ENV_DISABLE_PROMPT=1" >> "${outinit}"
-    echo "export CMBENV_AUX_PREFIX=\"${compiled_prefix}\"" >> "${outinit}"
-    echo "source \"${python_prefix}/cmbload.sh\"" >> "${outinit}"
-    echo "export CMAKE_PREFIX_PATH=\"${compiled_prefix}\":\${CMAKE_PREFIX_PATH}" >> "${outinit}"
-    echo "export PATH=\"${compiled_prefix}/bin\":\${PATH}" >> "${outinit}"
-    echo "export CPATH=\"${compiled_prefix}/include\":\${CPATH}" >> "${outinit}"
-    echo "export LIBRARY_PATH=\"${compiled_prefix}/lib\":\${LIBRARY_PATH}" >> "${outinit}"
-    echo "export LD_LIBRARY_PATH=\"${compiled_prefix}/lib\":\${LD_LIBRARY_PATH}" >> "${outinit}"
-    echo "export PYTHONPATH=\"${compiled_prefix}/lib/python${pyversion}/site-packages\":\${PYTHONPATH}" >> "${outinit}"
-    echo "export PKG_CONFIG_PATH=\"@AUX_PREFIX@/lib/pkgconfig\":\${PKG_CONFIG_PATH}" >> "${outinit}"
-    echo "" >> "${outinit}"
+    echo "unsetenv PYTHONSTARTUP" >> "${outinit}"
+    echo "export PYTHONUSERBASE=\$HOME/.local/cmbenv-${version}" >> "${outinit}"
+    echo "export PATH=\"${python_prefix}/bin\":\${PATH}" >> "${outinit}"
+
 fi

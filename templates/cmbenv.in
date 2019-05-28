@@ -1,0 +1,70 @@
+# This file must be used with "source cmbenv" *from bash*
+# You cannot run it directly.
+
+cmbenv-deactivate () {
+    unset CMBENV_ROOT
+    unset CMBENV_AUX_PREFIX
+    if ! [ -z "${CONDA_PREFIX+_}" ]; then
+        # We must be using conda
+        conda deactivate
+    else
+        # We must be using a virtualenv
+        deactivate
+    fi
+}
+
+cmbenv-jupyter () {
+    kerneldir=${HOME}/.local/share/jupyter/kernels/cmbenv-@VERSION@
+    if [ -d ${kerneldir} ]; then
+        echo "cmbenv @VERSION@ is already installed in ${kerneldir}, skipping." >&2
+        exit 1
+    fi
+    mkdir -p "${kerneldir}"
+    cat > "${kerneldir}/kernel.json" <<EOF
+    {
+     "language": "python",
+     "argv": [
+      "@PYTHON_PREFIX@/bin/cmbenv_run_kernel.sh",
+      "{connection_file}"
+     ],
+     "display_name": "CMB @VERSION@"
+    }
+EOF
+    cp "@PREFIX@/logo-*.png" "${kerneldir}/"
+}
+
+
+if [ "x@PYTYPE@" = "xconda" ]; then
+    source "@PYTHON_PREFIX@/etc/profile.d/conda.sh"
+    conda config --set changeps1 False
+    if [ "x@CONDATYPE@" = "xnomkl" ]; then
+        conda config --add channels conda-forge
+    else
+        conda config --add channels conda-forge
+        conda config --remove channels conda-forge
+    fi
+    conda activate
+elif [ "x@PYTYPE@" = "xvirtualenv" ]; then
+    export VIRTUAL_ENV_DISABLE_PROMPT=1
+    source "@PYTHON_PREFIX@/bin/activate"
+else
+    # Must be using python from somewhere else...
+    echo "" >/dev/null
+fi
+
+export CMBENV_ROOT="@PREFIX@"
+export CMBENV_AUX_ROOT="@AUX_PREFIX@"
+
+export PATH="@AUX_PREFIX@/bin":${PATH}
+export CPATH="@AUX_PREFIX@/include":${CPATH}
+export LD_LIBRARY_PATH="@AUX_PREFIX@/lib":${LD_LIBRARY_PATH}
+export LIBRARY_PATH="@AUX_PREFIX@/lib":${LIBRARY_PATH}
+export PYTHONPATH="@AUX_PREFIX@/lib/python@PYVERSION@/site-packages":${PYTHONPATH}
+export PKG_CONFIG_PATH="@AUX_PREFIX@/lib/pkgconfig":${PKG_CONFIG_PATH}
+
+# This should detect bash and zsh, which have a hash command that must
+# be called to get it to forget past commands.  Without forgetting
+# past commands the $PATH changes we made may not be respected
+if [ -n "${BASH-}" ] || [ -n "${ZSH_VERSION-}" ] ; then
+    hash -r 2>/dev/null
+fi

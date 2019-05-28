@@ -16,32 +16,18 @@ proc ModulesHelp { } {
   puts stderr ""
 }
 
-conflict cmbenv
+conflict cmbenv python
 
 @modload@
 
 # This might be set by OS python and gives us problems.
 unsetenv PYTHONSTARTUP
 
-# Disable prompt change
-setenv VIRTUAL_ENV_DISABLE_PROMPT 1
+# Create a versioned location for user-installed packages.
+setenv PYTHONUSERBASE \$HOME/.local/cmbenv-@VERSION@
 
-# This is the python environment location
-if { [module-info mode load] || [module-info mode switch2] } {
-    puts stdout "source @PYTHON_PREFIX@/cmbload.sh;"
-} elseif { [module-info mode remove] && ![module-info mode switch3] } {
-    puts stdout "source @PYTHON_PREFIX@/cmbunload.sh;"
-}
-
-# This is the location of the extra compiled software
-setenv CMBENV_AUX_ROOT "@AUX_PREFIX@"
-prepend-path CMAKE_PREFIX_PATH "@AUX_PREFIX@"
-prepend-path PATH "@AUX_PREFIX@/bin"
-prepend-path CPATH "@AUX_PREFIX@/include"
-prepend-path LD_LIBRARY_PATH "@AUX_PREFIX@/lib"
-prepend-path LIBRARY_PATH "@AUX_PREFIX@/lib"
-prepend-path PYTHONPATH "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
-prepend-path PKG_CONFIG_PATH "@AUX_PREFIX@/lib/pkgconfig"
+# Put the cmbenv shell init in our path
+prepend-path PATH "@PYTHON_PREFIX@/bin"
 
 # The NERSC "sqs" command is a python script with a hard-coded
 # interpreter that is incompatible.

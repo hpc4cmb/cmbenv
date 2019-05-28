@@ -9,9 +9,7 @@ pkg="python"
 export pytype=$(echo "$pkgopts" | awk '{print $1}')
 export cdatype=$(echo "$pkgopts" | awk '{print $2}')
 
-mkdir -p "@PYTHON_PREFIX@"
-cload="@PYTHON_PREFIX@/cmbload.sh"
-cunload="@PYTHON_PREFIX@/cmbunload.sh"
+mkdir -p "@PYTHON_PREFIX@/bin"
 
 if [ "${pytype}" = "conda" ]; then
     echo "Python using conda" >&2
@@ -30,23 +28,12 @@ if [ "${pytype}" = "conda" ]; then
         exit 1
     fi
     cleanup="${inst}"
-    # Load / unload scripts
-    echo "# Set up conda for cmbenv" > "${cload}"
-    echo "source @PYTHON_PREFIX@/etc/profile.d/conda.sh" >> "${cload}"
-    echo "conda config --set changeps1 False" >> "${cload}"
-    if [ "x${cdatype}" = "xnomkl" ]; then
-        echo "conda config --add channels conda-forge" >> "${cload}"
-    fi
-    echo "conda activate" >> "${cload}"
-    echo "" >> "${cload}"
-    echo "# Unload conda for cmbenv" > "${cunload}"
-    echo "conda deactivate" >> "${cunload}"
-    echo "" >> "${cunload}"
     bash "${inst}" -b -f -p "@PYTHON_PREFIX@" \
-    && source "${cload}" \
+    && eval "@SRCDIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${cdatype}" \
+    && source "@PYTHON_PREFIX@/bin/cmbenv" \
     && conda update -n base -c defaults --yes conda \
     && conda install --copy --yes python=@PYVERSION@ \
-    && ln -s "@PYTHON_PREFIX@"/lib/libpython* "@AUX_PREFIX@/lib/"
+    && ln -s "@PYTHON_PREFIX@/lib/libpython*" "@AUX_PREFIX@/lib/"
     if [ $? -ne 0 ]; then
         echo "conda python install failed" >&2
         exit 1
@@ -89,21 +76,13 @@ if [ "${pytype}" = "conda" ]; then
 else
     if [ "${pytype}" = "virtualenv" ]; then
         echo "Python using virtualenv" >&2
-        echo "# Set up virtualenv for cmbenv" > "${cload}"
-        echo "export VIRTUAL_ENV_DISABLE_PROMPT=1" >> "${cload}"
-        echo "source @PYTHON_PREFIX@/bin/activate" >> "${cload}"
-        echo "" >> "${cload}"
-        echo "# Unload conda for cmbenv" > "${cunload}"
-        echo "conda deactivate" >> "${cunload}"
-        echo "" >> "${cunload}"
         virtualenv -p python@PYVERSION@ "@PYTHON_PREFIX@" \
-        && source "${cload}"
+        && eval "@SRCDIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${cdatype}" \
+        && source "@PYTHON_PREFIX@/bin/cmbenv"
     else
         echo "Python using default" >&2
-        echo "# Using default python for cmbenv" > "${cload}"
-        echo "" >> "${cload}"
-        echo "# Using default python for cmbenv" > "${cunload}"
-        echo "" >> "${cunload}"
+        eval "@SRCDIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${cdatype}" \
+        && source "@PYTHON_PREFIX@/bin/cmbenv"
     fi
     pip3 install \
         nose \
@@ -135,6 +114,15 @@ if [ $? -ne 0 ]; then
     echo "Python package imports failed" >&2
     exit 1
 fi
+
+# Create a launcher script for jupyter
+kern="@PYTHON_PREFIX@/bin/cmbenv_run_kernel.sh"
+echo "#!/bin/bash" > "${kern}"
+echo "conn=$1" >> "${kern}"
+echo "cmbpy=@PYTHON_PREFIX@" >> "${kern}"
+echo "source \"\${cmbpy}/bin/cmbenv\"" >> "${kern}"
+echo "exec python -m ipykernel -f \${conn}" >> "${kern}"
+chmod +x "${kern}"
 
 echo "Finished installing ${pkg}" >&2
 echo "${cleanup}"
