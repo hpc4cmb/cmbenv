@@ -65,8 +65,12 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
             var=$(echo ${line} | sed -e "s#\([^=]*\)=.*#\1#" | awk '{print $1}')
             val=$(echo ${line} | sed -e "s#[^=]*= *\(.*\)#\1#")
             if [ "${var}" = "PYVERSION" ]; then
+                if [ "x${val}" = "xauto" ]; then
+                    val=$(python3 --version 2>&1 | awk '{print $2}' | sed -e "s#\(.*\)\.\(.*\)\..*#\1.\2#")
+                fi
                 pyversion="${val}"
             fi
+
             # add to list of substitutions
             confsub="${confsub} -e 's#@${var}@#${val}#g'"
         fi

@@ -42,7 +42,7 @@ CROSS =
 MAKEJ = 4
 
 # Python version to use
-PYVERSION = 3.6
+PYVERSION = auto
 
 # For BLAS/LAPACK, we use openblas
 
