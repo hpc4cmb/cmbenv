@@ -67,6 +67,7 @@ if [ "${pytype}" = "conda" ]; then
         kiwisolver \
         python-dateutil \
         toml \
+        ipykernel \
         cmake \
     && rm -rf "@PYTHON_PREFIX@/pkgs/*"
     if [ $? -ne 0 ]; then
@@ -103,6 +104,7 @@ else
         kiwisolver \
         python-dateutil \
         toml \
+        ipykernel \
         cmake
     if [ $? -ne 0 ]; then
         echo "pip install failed" >&2

@@ -17,10 +17,10 @@ cmbenv-jupyter () {
     kerneldir=${HOME}/.local/share/jupyter/kernels/cmbenv-@VERSION@
     if [ -d ${kerneldir} ]; then
         echo "cmbenv @VERSION@ is already installed in ${kerneldir}, skipping." >&2
-        exit 1
+        return 1
     fi
     mkdir -p "${kerneldir}"
-    cat > "${kerneldir}/kernel.json" <<EOF
+    echo '
     {
      "language": "python",
      "argv": [
@@ -29,8 +29,9 @@ cmbenv-jupyter () {
      ],
      "display_name": "CMB @VERSION@"
     }
-EOF
-    cp "@PREFIX@/logo-*.png" "${kerneldir}/"
+    ' > "${kerneldir}/kernel.json"
+    cp "@PREFIX@"/logo-*.png "${kerneldir}/"
+    return 0
 }
 
 

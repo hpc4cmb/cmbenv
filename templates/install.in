@@ -49,7 +49,7 @@ fi
 
 # Install logo
 
-cp "@TOP_DIR@/logo-*.png" "@PREFIX@/"
+cp "@TOP_DIR@"/logo-*.png "@PREFIX@/"
 
 # Set permissions
 

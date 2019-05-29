@@ -184,7 +184,7 @@ if [ "x${docker}" != "xyes" ]; then
     if [ -e "${confshinit}" ]; then
         cat "${confshinit}" >> "${outinit}"
     fi
-    echo "unsetenv PYTHONSTARTUP" >> "${outinit}"
+    echo "unset PYTHONSTARTUP" >> "${outinit}"
     echo "export PYTHONUSERBASE=\$HOME/.local/cmbenv-${version}" >> "${outinit}"
     echo "export PATH=\"${python_prefix}/bin\":\${PATH}" >> "${outinit}"
 
