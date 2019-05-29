@@ -44,6 +44,9 @@ MAKEJ = 4
 # Python version to use
 PYVERSION = auto
 
+# Define MKL location
+MKL =
+
 # For BLAS/LAPACK, we use openblas
 
 BLAS = -lopenblas -fopenmp -lm

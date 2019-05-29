@@ -30,6 +30,9 @@ CROSS =
 # Parallel builds
 MAKEJ = 4
 
+# Define MKL location
+MKL =
+
 BLAS = -llapack -lopenblas -lm -ldl
 LAPACK =
 

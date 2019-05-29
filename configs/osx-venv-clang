@@ -44,6 +44,9 @@ MAKEJ = 2
 # Python version to use
 PYVERSION = 3.6
 
+# Define MKL location
+MKL =
+
 # For BLAS/LAPACK, we use accelerate framework
 
 BLAS = -framework Accelerate

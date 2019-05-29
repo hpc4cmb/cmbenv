@@ -19,7 +19,7 @@ MPICXX = mpicxx
 MPIFC = mpifort
 MPI_CPPFLAGS = /usr/common/software/openmpi/3.1.0-ucx/gnu/include
 MPI_LDFLAGS = /usr/common/software/openmpi/3.1.0-ucx/gnu/lib
-MPI_CXXLIB = 
+MPI_CXXLIB =
 MPI_LIB = mpi
 MPI_EXTRA_COMP =
 MPI_EXTRA_LINK = -shared
@@ -42,6 +42,9 @@ MAKEJ = 4
 
 # Python version to use
 PYVERSION = 3.6
+
+# Define MKL location
+MKL =
 
 # For BLAS/LAPACK, we use openblas
 
