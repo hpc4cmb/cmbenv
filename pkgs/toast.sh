@@ -25,7 +25,7 @@ fi
 rm -rf toast-2.2.8
 tar xzf ${src} \
     && cd toast-2.2.8 \
-    && ./autogen.sh \
+    && ./autogen.sh > ${log} 2>&1 \
     && PYTHON=python3 \
     CC="@MPICC@" \
     CXX="@MPICXX@" \
@@ -33,9 +33,9 @@ tar xzf ${src} \
     MPICXX="@MPICXX@" \
     CFLAGS="@CFLAGS@" \
     CXXFLAGS="@CXXFLAGS@" \
-    ./configure ${mklopt} \
+    eval ./configure ${mklopt} \
     --prefix="@AUX_PREFIX@" \
-    > ${log} 2>&1 \
+    >> ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1
 

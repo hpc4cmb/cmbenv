@@ -120,7 +120,7 @@ fi
 # Create a launcher script for jupyter
 kern="@PYTHON_PREFIX@/bin/cmbenv_run_kernel.sh"
 echo "#!/bin/bash" > "${kern}"
-echo "conn=$1" >> "${kern}"
+echo "conn=\$1" >> "${kern}"
 echo "cmbpy=@PYTHON_PREFIX@" >> "${kern}"
 echo "source \"\${cmbpy}/bin/cmbenv\"" >> "${kern}"
 echo "exec python -m ipykernel -f \${conn}" >> "${kern}"
