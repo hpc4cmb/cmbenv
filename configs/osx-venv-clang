@@ -42,7 +42,7 @@ CROSS =
 MAKEJ = 2
 
 # Python version to use
-PYVERSION = 3.6
+PYVERSION = auto
 
 # Define MKL location
 MKL =
