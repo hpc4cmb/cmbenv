@@ -4,10 +4,13 @@ pkg="pysm"
 pkgopts=$@
 cleanup=""
 
-pfile=PySM_public-2.1.0.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/bthorne93/PySM_public/archive/2.1.0.tar.gz ${pfile})
+# Clone git master for now
+src="@TOP_DIR@/pool/pysm"
+if [ ! -d "${src}" ]; then
+    git clone --branch master --single-branch --depth 1 https://github.com/healpy/pysm.git "${src}"
+fi
 
-if [ "x${src}" = "x" ]; then
+if [ ! -d "${src}" ]; then
     echo "Failed to fetch ${pkg}" >&2
     exit 1
 fi
@@ -17,9 +20,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf PySM_public-2.1.0
-tar xzf ${src} \
-    && cd PySM_public-2.1.0 \
+rm -rf pysm
+cp -a "${src}" pysm \
+    && cd pysm \
     && python setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
 
 if [ $? -ne 0 ]; then

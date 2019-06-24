@@ -67,6 +67,7 @@ if [ "${pytype}" = "conda" ]; then
         kiwisolver \
         python-dateutil \
         toml \
+        numba \
         ipykernel \
         cmake \
     && rm -rf "@PYTHON_PREFIX@/pkgs/*"
@@ -104,6 +105,7 @@ else
         kiwisolver \
         python-dateutil \
         toml \
+        numba \
         ipykernel \
         cmake
     if [ $? -ne 0 ]; then
