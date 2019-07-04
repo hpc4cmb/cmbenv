@@ -20,7 +20,7 @@ echo "Building ${pkg}..." >&2
 rm -rf h5py-2.9.0
 tar xzf ${src} \
     && cd h5py-2.9.0 \
-    && CC="@CC@" LDSHARED="@CC@ -shared" \
+    && HDF5_DIR="@AUX_PREFIX@" CC="@CC@" LDSHARED="@CC@ -shared" \
     python setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
 
 if [ $? -ne 0 ]; then
