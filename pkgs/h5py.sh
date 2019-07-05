@@ -20,7 +20,7 @@ echo "Building ${pkg}..." >&2
 rm -rf h5py-2.9.0
 tar xzf ${src} \
     && cd h5py-2.9.0 \
-    && python3 setup.py --hdf5="@AUX_PREFIX@" > ${log} \
+    && python3 setup.py configure --hdf5="@AUX_PREFIX@" > ${log} \
     && CC="@CC@" python3 setup.py install --prefix "@AUX_PREFIX@" >> ${log} 2>&1
 
 if [ $? -ne 0 ]; then
