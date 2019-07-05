@@ -19,6 +19,9 @@ python:virtualenv
 #autoconf
 #automake
 #
+# CMake.
+#cmake
+#
 # Install zlib.  This is needed on some systems where the OS-provided zlib is
 # very ancient.
 #zlib

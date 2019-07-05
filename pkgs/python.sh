@@ -69,7 +69,6 @@ if [ "${pytype}" = "conda" ]; then
         toml \
         numba \
         ipykernel \
-        cmake \
     && rm -rf "@PYTHON_PREFIX@/pkgs/*"
     if [ $? -ne 0 ]; then
         echo "conda install packages failed" >&2
@@ -106,8 +105,7 @@ else
         python-dateutil \
         toml \
         numba \
-        ipykernel \
-        cmake
+        ipykernel
     if [ $? -ne 0 ]; then
         echo "pip install failed" >&2
         exit 1
