@@ -23,7 +23,7 @@ echo "Building ${pkg}..." >&2
 rm -rf pysm
 cp -a "${src}" pysm \
     && cd pysm \
-    && python setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
+    && python3 setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2

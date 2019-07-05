@@ -33,7 +33,7 @@ tar xjf ${src} \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1 \
     && cd python \
-    && python setup.py install --prefix "@AUX_PREFIX@" >> ${log} 2>&1
+    && python3 setup.py install --prefix "@AUX_PREFIX@" >> ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2

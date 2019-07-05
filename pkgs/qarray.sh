@@ -20,7 +20,7 @@ echo "Building ${pkg}..." >&2
 rm -rf quaternionarray-0.6.2
 tar xzf ${src} \
     && cd quaternionarray-0.6.2 \
-    && python setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
+    && python3 setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2

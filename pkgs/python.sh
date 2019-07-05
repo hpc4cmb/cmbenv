@@ -113,7 +113,7 @@ else
         exit 1
     fi
 fi
-python -c "import matplotlib.font_manager"
+python3 -c "import matplotlib.font_manager"
 if [ $? -ne 0 ]; then
     echo "Python package imports failed" >&2
     exit 1

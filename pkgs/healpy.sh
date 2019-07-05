@@ -22,7 +22,7 @@ tar xzf ${src} \
     && cd healpy-1.12.9 \
     && CC="@CC@" CXX="@CXX@" \
     CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" \
-    python setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
+    python3 setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2

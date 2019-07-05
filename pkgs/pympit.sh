@@ -20,8 +20,8 @@ echo "Building ${pkg}..." >&2
 rm -rf pympit-0.1.0
 tar xzf ${src} \
     && cd pympit-0.1.0 \
-    && python setup.py build > ${log} 2>&1 \
-    && python setup.py install --prefix="@AUX_PREFIX@" >> ${log} 2>&1 \
+    && python3 setup.py build > ${log} 2>&1 \
+    && python3 setup.py install --prefix="@AUX_PREFIX@" >> ${log} 2>&1 \
     && cd compiled \
     && CC="@MPICC@" make >> ${log} 2>&1 \
     && cp pympit_compiled "@AUX_PREFIX@/bin/"

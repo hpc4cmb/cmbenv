@@ -29,7 +29,7 @@ tar xzf ${src} \
     && cp -a auto/* "@AUX_PREFIX@/" \
     && cd python \
     && LIBSHARP="@AUX_PREFIX@" CC="@MPICC@ -g" LDSHARED="@MPICC@ -g -shared" \
-    python setup.py install --prefix="@AUX_PREFIX@" >> ${log} 2>&1
+    python3 setup.py install --prefix="@AUX_PREFIX@" >> ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2

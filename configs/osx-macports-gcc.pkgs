@@ -14,47 +14,47 @@ python:virtualenv
 #
 # Autotools.  If you already have recent versions installed with your OS
 # package manager, then comment these out.
-m4
-libtool
-autoconf
-automake
+#m4
+#libtool
+#autoconf
+#automake
 #
 # Install zlib.  This is needed on some systems where the OS-provided zlib is
 # very ancient.
-zlib
+#zlib
 #
 # Install MPICH.  This step is optional and only needed in 2 cases:
 #   1.  You don't have MPI available through system packages that is
 #       compatible with the serial compilers you are using.
 #   2.  You are building a docker container for use at NERSC with shifter
 #       and need an MPICH compatible with the Cray one.
-mpich
+#mpich
 #
 # Install mpi4py.  This will use the MPI compilers specified in your config.
 mpi4py
 #
 # Install CFITSIO.
-cfitsio
+#cfitsio
 #
 # Install OpenBLAS.  Comment out if you are using MKL with the Intel compilers
 # or some other vendor BLAS / LAPACK solution.
 #openblas
 #
 # Install FFTW3.
-fftw
+#fftw
 #
 # Install libbz2.  This is required to enable some features in the boost
 # build which are in turn needed by spt3g.
-bzip2
+#bzip2
 #
 # Install Boost.
-boost
+#boost
 #
 # Install HDF5 (serial version).
-hdf5
+#hdf5
 #
 # Install h5py (using our HDF5).
-h5py
+#h5py
 #
 # Install healpy
 healpy
@@ -69,7 +69,7 @@ fitsio
 aatm
 #
 # Install suitesparse
-suitesparse
+#suitesparse
 #
 # Install libconviqt.  4-PI a_lm space beam convolution.
 conviqt
@@ -78,7 +78,7 @@ conviqt
 libsharp
 #
 # Install libmadam.  Destriping map-maker.
-#madam
+madam
 #
 # Install SPT3G.  Frame based data format.
 spt3g
