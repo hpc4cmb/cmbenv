@@ -20,7 +20,7 @@ echo "Building ${pkg}..." >&2
 rm -rf OpenBLAS-0.3.5
 tar xzf ${src} \
     && cd OpenBLAS-0.3.5 \
-    && make USE_OPENMP=1 NO_SHARED=1 \
+    && make USE_OPENMP=1 NO_SHARED=0 \
     FC="@FC@" \
     MAKE_NB_JOBS="@MAKEJ@" \
     CC="@CC@" \

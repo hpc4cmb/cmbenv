@@ -10,6 +10,8 @@ fi
 
 mkdir -p "@PYTHON_PREFIX@/bin"
 mkdir -p "@PYTHON_PREFIX@/lib"
+mkdir -p "@AUX_PREFIX@/include"
+mkdir -p "@AUX_PREFIX@/bin"
 mkdir -p "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
 pushd "@AUX_PREFIX@" > /dev/null
 if [ ! -e lib64 ]; then

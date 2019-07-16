@@ -19,7 +19,6 @@ fi
 if [ "x${loadeddarshan}" != x ]; then
   module unload darshan
 fi
-module swap cray-mpich cray-mpich/7.7.6
-module swap gcc gcc/8.2.0
+module unload cray-libsci
 module load git
 export CRAYPE_LINK_TYPE=dynamic
