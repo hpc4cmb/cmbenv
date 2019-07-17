@@ -22,6 +22,8 @@ tar xjf ${src} \
     && cd libconviqt-1.1.0 \
     && CC="@MPICC@" CXX="@MPICXX@" MPICC="@MPICC@" MPICXX="@MPICXX@" \
     CFLAGS="@CFLAGS@ -std=gnu99" CXXFLAGS="@CXXFLAGS@" \
+    OPENMP_CFLAGS="@OPENMP_CFLAGS@" OPENMP_CXXFLAGS="@OPENMP_CXXFLAGS@" \
+    LDFLAGS="@LDFLAGS@" \
     ./configure @CROSS@ \
     --with-cfitsio="@AUX_PREFIX@" --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \

@@ -20,7 +20,7 @@ echo "Building ${pkg}..." >&2
 rm -rf cmake-3.14.5
 tar xzf ${src} \
     && cd cmake-3.14.5 \
-    && CC="@BUILD_CC@" ./configure --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
+    && CC="@BUILD_CC@" CXX="@BUILD_CXX@" ./configure --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1
 
