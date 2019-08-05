@@ -17,7 +17,7 @@ if [ module-info mode load ] {
   if [ is-loaded darshan ] {
     module unload darshan
   }
+  module unload craype-hugepages2M
   module load gcc
-  module load git
   setenv CRAYPE_LINK_TYPE dynamic
 }

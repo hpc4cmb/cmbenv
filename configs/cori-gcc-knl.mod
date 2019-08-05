@@ -17,8 +17,7 @@ if [ module-info mode load ] {
   if [ is-loaded darshan ] {
     module unload darshan
   }
-  module swap cray-mpich cray-mpich/7.7.6
-  module swap gcc gcc/8.2.0
-  module load git
+  module unload cray-libsci
+  module unload craype-hugepages2M
   setenv CRAYPE_LINK_TYPE dynamic
 }

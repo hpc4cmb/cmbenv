@@ -18,6 +18,6 @@ if [ module-info mode load ] {
     module unload darshan
   }
   module unload cray-libsci
-  module load git
+  module unload craype-hugepages2M
   setenv CRAYPE_LINK_TYPE dynamic
 }

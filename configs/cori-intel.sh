@@ -19,6 +19,6 @@ fi
 if [ "x${loadeddarshan}" != x ]; then
   module unload darshan
 fi
+module unload craype-hugepages2M
 module load gcc
-module load git
 export CRAYPE_LINK_TYPE=dynamic
