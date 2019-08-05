@@ -14,13 +14,13 @@ python:default
 #
 # Autotools.  If you already have recent versions installed with your OS
 # package manager, then comment these out.
-# m4
-# libtool
-# autoconf
-# automake
+m4
+libtool
+autoconf
+automake
 #
 # CMake.
-#cmake
+cmake
 #
 # Install zlib.  This is needed on some systems where the OS-provided zlib is
 # very ancient.

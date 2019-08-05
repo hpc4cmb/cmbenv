@@ -7,14 +7,13 @@ OSTYPE = linux
 # Serial compilers
 # NOTE:  these are already defined in the travis build environment.
 # The names will have versions in them from our build matrix.
-# CC = gcc
-# CXX = g++
-# FC = gfortran
+CC = $CC
+CXX = $CXX
+FC = $FC
 
 # Compiler to use for packages needed on the build machine
 
-BUILD_CC = gcc
-BUILD_CXX = g++
+BUILD_CC = $CC
 
 # MPI compilers
 
