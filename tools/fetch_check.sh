@@ -9,7 +9,12 @@ topdir=$(dirname $(pwd))
 popd > /dev/null
 
 # Pool directory
-pooldir="${topdir}/pool"
+pooldir=""
+if [ "x${CMBENV_POOL}" = "x" ]; then
+    pooldir="${topdir}/pool"
+else
+    pooldir="${CMBENV_POOL}"
+fi
 mkdir -p "${pooldir}"
 
 plocal="${pooldir}/${local}"
