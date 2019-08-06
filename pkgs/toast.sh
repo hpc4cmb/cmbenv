@@ -15,7 +15,7 @@ if [ "x${src}" = "x" ]; then
 fi
 cleanup="${src}"
 
-log="../log_${pkg}"
+log="log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
@@ -44,9 +44,9 @@ cp -a "${src}" toast \
     -DSUITESPARSE_INCLUDE_DIR_HINTS="@AUX_PREFIX@/include" \
     -DSUITESPARSE_LIBRARY_DIR_HINTS="@AUX_PREFIX@/lib" \
     -DCMAKE_INSTALL_PREFIX="@AUX_PREFIX@" \
-    .. > ${log} 2>&1 \
-    && make -j @MAKEJ@ >> ${log} 2>&1 \
-    && make install >> ${log} 2>&1
+    .. > "../../${log}" 2>&1 \
+    && make -j @MAKEJ@ >> "../${log}" 2>&1 \
+    && make install >> "../${log}" 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
