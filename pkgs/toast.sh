@@ -4,8 +4,10 @@ pkg="toast"
 pkgopts=$@
 cleanup=""
 
-pfile=toast-2.2.8.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/toast/archive/2.2.8.tar.gz ${pfile})
+src="@TOP_DIR@/pool/toast_refactor2.3"
+if [ ! -d "${src}" ]; then
+    git clone --branch refactor2.3 --single-branch --depth 1 https://github.com/hpc4cmb/toast.git "${src}"
+fi
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,25 +19,32 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-mklopt=""
+blasmkl=""
+lapackmkl=""
 if [ "x@MKL@" != "x" ]; then
-    mklopt="--with-math=\"-limf -lsvml\" --with-mkl=\"@MKL@/lib/intel64\""
+    blasmkl="-DBLAS_LIBRARIES=@MKL@/lib/intel64/libmkl_rt.so"
+    lapackmkl="-DBLAS_LIBRARIES=@MKL@/lib/intel64/libmkl_rt.so"
 fi
 
-rm -rf toast-2.2.8
-tar xzf ${src} \
-    && cd toast-2.2.8 \
-    && ./autogen.sh > ${log} 2>&1 \
-    && PYTHON=python3 \
-    CC="@MPICC@" \
-    CXX="@MPICXX@" \
-    MPICC="@MPICC@" \
-    MPICXX="@MPICXX@" \
-    CFLAGS="@CFLAGS@" \
-    CXXFLAGS="@CXXFLAGS@" \
-    eval ./configure ${mklopt} \
-    --prefix="@AUX_PREFIX@" \
-    >> ${log} 2>&1 \
+rm -rf toast
+cp -a "${src}" toast \
+    && cd toast \
+    && mkdir -p build \
+    && cd build \
+    && cmake \
+    -DCMAKE_C_COMPILER="@MPICC@" \
+    -DCMAKE_CXX_COMPILER="@MPICXX@" \
+    -DMPI_C_COMPILER="@MPICC@" \
+    -DMPI_CXX_COMPILER="@MPICXX@" \
+    -DCMAKE_C_FLAGS="@CFLAGS@" \
+    -DCMAKE_CXX_FLAGS="@CXXFLAGS@" \
+    -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
+    -DFFTW_ROOT="@AUX_PREFIX@" ${blasmkl} ${lapackmkl} \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+    -DSUITESPARSE_INCLUDE_DIR_HINTS="@AUX_PREFIX@/include" \
+    -DSUITESPARSE_LIBRARY_DIR_HINTS="@AUX_PREFIX@/lib" \
+    -DCMAKE_INSTALL_PREFIX="@AUX_PREFIX@" \
+    .. > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1
 
