@@ -4,9 +4,9 @@ pkg="toast"
 pkgopts=$@
 cleanup=""
 
-src="@TOP_DIR@/pool/toast_refactor2.3"
+src="@TOP_DIR@/pool/toast"
 if [ ! -d "${src}" ]; then
-    git clone --branch refactor2.3 --single-branch --depth 1 https://github.com/hpc4cmb/toast.git "${src}"
+    git clone --branch master --single-branch --depth 1 https://github.com/hpc4cmb/toast.git "${src}"
 fi
 
 if [ "x${src}" = "x" ]; then
