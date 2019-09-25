@@ -9,8 +9,9 @@ if [ "x@MPIFC@" = "x" ]; then
     exit 0
 fi
 
-pfile=libmadam-1.0.1.tar.bz2
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/libmadam/releases/download/v1.0.1/${pfile} ${pfile})
+version=1.0.2
+pfile=libmadam-${version}.tar.bz2
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/libmadam/releases/download/v${version}/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -22,9 +23,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf libmadam-1.0.1
+rm -rf libmadam-${version}
 tar xjf ${src} \
-    && cd libmadam-1.0.1 \
+    && cd libmadam-${version} \
     && FC="@MPIFC@" MPIFC="@MPIFC@" FCFLAGS="@FCFLAGS@" \
     CC="@MPICC@" MPICC="@MPICC@" CFLAGS="@CFLAGS@" \
     ./configure @CROSS@ --with-cfitsio="@AUX_PREFIX@" \
