@@ -13,7 +13,8 @@ FC = $FC
 
 # Compiler to use for packages needed on the build machine
 
-BUILD_CC = $CC
+BUILD_CC = gcc
+BUILD_CXX = g++
 
 # MPI compilers
 
