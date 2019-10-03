@@ -83,6 +83,9 @@ libsharp
 # Install libmadam.  Destriping map-maker.
 madam
 #
+# Install FLAC, needed by spt3g
+libflac
+#
 # Install SPT3G.  Frame based data format.
 spt3g
 #

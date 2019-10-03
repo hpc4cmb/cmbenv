@@ -21,6 +21,8 @@ echo "Building ${pkg}..." >&2
 export spt3g_start=$(pwd)
 log="${spt3g_start}/log_${pkg}"
 
+
+
 rm -rf spt3g_software
 cp -a "${src}" spt3g_software \
     && cd spt3g_software \
@@ -32,6 +34,21 @@ cp -a "${src}" spt3g_software \
     && mkdir build \
     && cd build \
     && LDFLAGS="-Wl,-z,muldefs" \
+    cmake \
+    -DCMAKE_C_COMPILER="${CC}" \
+    -DCMAKE_CXX_COMPILER="${CXX}" \
+    -DCMAKE_C_FLAGS="-g -O2 -fPIC -pthread" \
+    -DCMAKE_CXX_FLAGS="-g -O2 -fPIC -pthread -std=c++11" \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+    -DBOOST_ROOT="/usr" \
+    -DFLAC_LIBRARIES="${PYPREFIX}/lib/libFLAC.so" \
+    -DFLAC_INCLUDE_DIR="${PYPREFIX}/include" \
+    -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
+    -DPYTHON_INCLUDE_DIR="${PYINC}" \
+    -DPYTHON_LIBRARY="${PYLIB}" \
+    .. \
+
+    LDFLAGS="-Wl,-z,muldefs" \
     BOOST_ROOT="@AUX_PREFIX@" \
     cmake \
     -DCMAKE_C_COMPILER="@CC@" \

@@ -22,7 +22,7 @@ tar xzf ${src} \
     && cd libsharp-1.0.0 \
     && patch -p1 < "@TOP_DIR@/pkgs/patch_libsharp" > ${log} 2>&1 \
     && autoreconf >> ${log} 2>&1 \
-    && CC="@MPICC@" CFLAGS="@CFLAGS@" \
+    && CC="@MPICC@" CFLAGS="@CFLAGS@ -std=c99" \
     ./configure @CROSS@ --enable-mpi --enable-pic \
     --prefix="@AUX_PREFIX@" >> ${log} 2>&1 \
     && make >> ${log} 2>&1 \
