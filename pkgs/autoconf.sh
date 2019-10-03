@@ -4,7 +4,8 @@ pkg="autoconf"
 pkgopts=$@
 cleanup=""
 
-pfile=autoconf-2.69.tar.gz
+version=2.69
+pfile=autoconf-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftp.gnu.org/gnu/autoconf/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf autoconf-2.69
+rm -rf autoconf-${version}
 tar xzf ${src} \
-    && cd autoconf-2.69 \
+    && cd autoconf-${version} \
     && CC="@BUILD_CC@" ./configure --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1

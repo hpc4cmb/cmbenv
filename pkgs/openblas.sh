@@ -4,8 +4,9 @@ pkg="openblas"
 pkgopts=$@
 cleanup=""
 
-pfile=OpenBLAS-0.3.5.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/xianyi/OpenBLAS/archive/v0.3.5.tar.gz ${pfile})
+version=0.3.7
+pfile=OpenBLAS-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/xianyi/OpenBLAS/archive/v${version}.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf OpenBLAS-0.3.5
+rm -rf OpenBLAS-${version}
 tar xzf ${src} \
-    && cd OpenBLAS-0.3.5 \
+    && cd OpenBLAS-${version} \
     && make USE_OPENMP=1 NO_SHARED=0 \
     FC="@FC@" \
     MAKE_NB_JOBS="@MAKEJ@" \

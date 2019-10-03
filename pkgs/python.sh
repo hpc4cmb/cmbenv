@@ -131,7 +131,7 @@ echo "#!/bin/bash" > "${kern}"
 echo "conn=\$1" >> "${kern}"
 echo "cmbpy=@PYTHON_PREFIX@" >> "${kern}"
 echo "source \"\${cmbpy}/bin/cmbenv\"" >> "${kern}"
-echo "exec python -m ipykernel -f \${conn}" >> "${kern}"
+echo "exec python3 -m ipykernel -f \${conn}" >> "${kern}"
 chmod +x "${kern}"
 
 echo "Finished installing ${pkg}" >&2

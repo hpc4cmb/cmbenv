@@ -4,10 +4,9 @@ pkg="toast"
 pkgopts=$@
 cleanup=""
 
-src="@TOP_DIR@/pool/toast"
-if [ ! -d "${src}" ]; then
-    git clone --branch master --single-branch --depth 1 https://github.com/hpc4cmb/toast.git "${src}"
-fi
+version=master
+pfile=toast-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/toast/archive/${version}.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -26,9 +25,9 @@ if [ "x@MKL@" != "x" ]; then
     lapackmkl="-DBLAS_LIBRARIES=@MKL@/lib/intel64/libmkl_rt.so"
 fi
 
-rm -rf toast
-cp -a "${src}" toast \
-    && cd toast \
+rm -rf toast-${version}
+tar xzf ${src} \
+    && cd toast-${version} \
     && mkdir -p build \
     && cd build \
     && cmake \

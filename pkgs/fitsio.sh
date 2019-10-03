@@ -4,8 +4,9 @@ pkg="fitsio"
 pkgopts=$@
 cleanup=""
 
-pfile=fitsio-1.0.1.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/esheldon/fitsio/archive/v1.0.1.tar.gz ${pfile})
+version=1.0.1
+pfile=fitsio-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/esheldon/fitsio/archive/v${version}.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf fitsio-1.0.1
+rm -rf fitsio-${version}
 tar xzf ${src} \
-    && cd fitsio-1.0.1 \
+    && cd fitsio-${version} \
     && python3 setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
 
 if [ $? -ne 0 ]; then

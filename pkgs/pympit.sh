@@ -4,8 +4,9 @@ pkg="pympit"
 pkgopts=$@
 cleanup=""
 
-pfile=pympit-0.1.0.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/tskisner/pympit/archive/0.1.0.tar.gz ${pfile})
+version=0.1.0
+pfile=pympit-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/tskisner/pympit/archive/${version}.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf pympit-0.1.0
+rm -rf pympit-${version}
 tar xzf ${src} \
-    && cd pympit-0.1.0 \
+    && cd pympit-${version} \
     && python3 setup.py build > ${log} 2>&1 \
     && python3 setup.py install --prefix="@AUX_PREFIX@" >> ${log} 2>&1 \
     && cd compiled \

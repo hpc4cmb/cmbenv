@@ -4,7 +4,8 @@ pkg="suitesparse"
 pkgopts=$@
 cleanup=""
 
-pfile=SuiteSparse-5.4.0.tar.gz
+version=5.4.0
+pfile=SuiteSparse-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://faculty.cse.tamu.edu/davis/SuiteSparse/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then

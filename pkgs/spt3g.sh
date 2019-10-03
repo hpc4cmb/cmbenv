@@ -4,11 +4,9 @@ pkg="spt3g"
 pkgopts=$@
 cleanup=""
 
-# Manually git clone master
-src="@TOP_DIR@/pool/spt3g_software"
-if [ ! -d "${src}" ]; then
-    git clone --branch master --single-branch --depth 1 https://github.com/CMB-S4/spt3g_software.git "${src}"
-fi
+version=master
+pfile=spt3g_software-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/CMB-S4/spt3g_software/archive/${version}.tar.gz ${pfile})
 
 if [ ! -d "${src}" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -31,13 +29,13 @@ export BOOST_ROOT="${PYPREFIX}"
 export BOOST_INCLUDEDIR="${PYPREFIX}/include"
 export BOOST_LIBRARYDIR="${PYPREFIX}/lib"
 
-rm -rf spt3g_software
-cp -a "${src}" spt3g_software \
-    && cd spt3g_software \
+rm -rf spt3g_software-${version}
+tar xzf ${src} \
+    && cd spt3g_software-${version} \
     && patch -p1 < "@TOP_DIR@/pkgs/patch_spt3g" > ${log} 2>&1 \
     && cd .. \
     && rm -rf "@AUX_PREFIX@/spt3g" \
-    && cp -a spt3g_software "@AUX_PREFIX@/spt3g" \
+    && cp -a spt3g_software-${version} "@AUX_PREFIX@/spt3g" \
     && cd "@AUX_PREFIX@/spt3g" \
     && mkdir build \
     && cd build \
@@ -50,7 +48,7 @@ cp -a "${src}" spt3g_software \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DFLAC_LIBRARIES="@AUX_PREFIX@/lib/libFLAC.so" \
     -DFLAC_INCLUDE_DIR="@AUX_PREFIX@/include" \
-    -DPYTHON_EXECUTABLE:FILEPATH="@PYTHON_PREFIX@/bin/python" \
+    -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
     -DPYTHON_INCLUDE_DIR="${PYINC}" \
     -DPYTHON_LIBRARY="${PYLIB}" \
     .. >> ${log} 2>&1 \

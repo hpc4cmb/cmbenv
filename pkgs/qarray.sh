@@ -4,7 +4,10 @@ pkg="qarray"
 pkgopts=$@
 cleanup=""
 
-pfile=quaternionarray-0.6.2.tar.gz
+# NOTE:  update the URL when you change the version
+version=0.6.2
+
+pfile=quaternionarray-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/27/1b/4f2bcfd1bf3d78173cf2c05d79b3c129ed789e99e072c220bf5041b31076/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
@@ -17,9 +20,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf quaternionarray-0.6.2
+rm -rf quaternionarray-${version}
 tar xzf ${src} \
-    && cd quaternionarray-0.6.2 \
+    && cd quaternionarray-${version} \
     && python3 setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
 
 if [ $? -ne 0 ]; then

@@ -4,7 +4,8 @@ pkg="fftw"
 pkgopts=$@
 cleanup=""
 
-pfile=fftw-3.3.8.tar.gz
+version=3.3.8
+pfile=fftw-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://www.fftw.org/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf fftw-3.3.8
+rm -rf fftw-${version}
 tar xzf ${src} \
-    && cd fftw-3.3.8 \
+    && cd fftw-${version} \
     && CC="@CC@" CFLAGS="@CFLAGS@" \
     ./configure --enable-threads @CROSS@ \
     --prefix="@AUX_PREFIX@" > ${log} 2>&1 \

@@ -4,8 +4,9 @@ pkg="cmake"
 pkgopts=$@
 cleanup=""
 
-pfile=cmake-3.14.5.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/Kitware/CMake/releases/download/v3.14.5/${pfile} ${pfile})
+version=3.14.5
+pfile=cmake-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/Kitware/CMake/releases/download/v${version}/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf cmake-3.14.5
+rm -rf cmake-${version}
 tar xzf ${src} \
-    && cd cmake-3.14.5 \
+    && cd cmake-${version} \
     && CC="@BUILD_CC@" CXX="@BUILD_CXX@" ./configure --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1

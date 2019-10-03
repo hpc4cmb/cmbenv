@@ -4,7 +4,8 @@ pkg="automake"
 pkgopts=$@
 cleanup=""
 
-pfile=automake-1.16.1.tar.gz
+version=1.16.1
+pfile=automake-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftp.gnu.org/gnu/automake/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf automake-1.16.1
+rm -rf automake-${version}
 tar xzf ${src} \
-    && cd automake-1.16.1 \
+    && cd automake-${version} \
     && CC="@BUILD_CC@" ./configure --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1

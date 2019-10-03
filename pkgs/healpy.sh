@@ -4,8 +4,9 @@ pkg="healpy"
 pkgopts=$@
 cleanup=""
 
-pfile=healpy-1.12.9.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/healpy/healpy/releases/download/1.12.9/${pfile} ${pfile})
+version=1.12.9
+pfile=healpy-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/healpy/healpy/releases/download/${version}/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf healpy-1.12.9
+rm -rf healpy-${version}
 tar xzf ${src} \
-    && cd healpy-1.12.9 \
+    && cd healpy-${version} \
     && CC="@CC@" CXX="@CXX@" \
     CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" \
     python3 setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1

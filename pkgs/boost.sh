@@ -4,7 +4,10 @@ pkg="boost"
 pkgopts=$@
 cleanup=""
 
-pfile=boost_1_68_0.tar.bz2
+# NOTE:  change URL when changing version.
+version=1_68_0
+
+pfile=boost_${version}.tar.bz2
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://dl.bintray.com/boostorg/release/1.68.0/source/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
@@ -17,9 +20,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf boost_1_68_0
+rm -rf boost_${version}
 tar xjf ${src} \
-    && cd boost_1_68_0 \
+    && cd boost_${version} \
     && echo "" > tools/build/user-config.jam \
     && echo "using mpi : @MPICXX@ : <include>\"@MPI_CPPFLAGS@\" <library-path>\"@MPI_LDFLAGS@\" <find-shared-library>\"@MPI_CXXLIB@\" <find-shared-library>\"@MPI_LIB@\" ;" >> tools/build/user-config.jam \
     && echo "option jobs : @MAKEJ@ ;" >> tools/build/user-config.jam \

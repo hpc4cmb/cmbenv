@@ -4,8 +4,10 @@ pkg="hdf5"
 pkgopts=$@
 cleanup=""
 
-pfile=hdf5-1.10.5.tar.bz2
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/${pfile} ${pfile})
+version=1.10.5
+
+pfile=hdf5-${version}.tar.bz2
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-${version}/src/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,9 +19,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf hdf5-1.10.5
+rm -rf hdf5-${version}
 tar xjf ${src} \
-    && cd hdf5-1.10.5 \
+    && cd hdf5-${version} \
     && CC="@CC@" CFLAGS=$(if [ "x@CROSS@" = x ]; then echo "@CFLAGS@"; \
        else echo "-O3"; fi) \
     CXX="@CXX@" CXXFLAGS=$(if [ "x@CROSS@" = x ]; then echo "@CXXFLAGS@"; \

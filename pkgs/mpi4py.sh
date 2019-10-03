@@ -4,7 +4,10 @@ pkg="mpi4py"
 pkgopts=$@
 cleanup=""
 
-pfile=mpi4py-3.0.1.tar.gz
+# Note:  update the URL when you change the version.
+version=3.0.1
+
+pfile=mpi4py-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/55/a2/c827b196070e161357b49287fa46d69f25641930fd5f854722319d431843/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
@@ -17,9 +20,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf mpi4py-3.0.1
+rm -rf mpi4py-${version}
 tar xzf ${src} \
-    && cd mpi4py-3.0.1 \
+    && cd mpi4py-${version} \
     && echo "[toast]" > mpi.cfg \
     && echo "mpicc = @MPICC@" >> mpi.cfg \
     && echo "mpicxx = @MPICXX@" >> mpi.cfg \

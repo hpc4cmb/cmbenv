@@ -4,7 +4,8 @@ pkg="zlib"
 pkgopts=$@
 cleanup=""
 
-pfile=zlib-1.2.11.tar.gz
+version=1.2.11
+pfile=zlib-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://zlib.net/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf zlib-1.2.11
+rm -rf zlib-${version}
 tar xzf ${src} \
-    && cd zlib-1.2.11 \
+    && cd zlib-${version} \
     && CC="@BUILD_CC@" ./configure \
     --shared --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \

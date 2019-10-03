@@ -4,8 +4,9 @@ pkg="mpich"
 pkgopts=$@
 cleanup=""
 
-pfile=mpich-3.2.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://www.mpich.org/static/downloads/3.2/${pfile} ${pfile})
+version=3.2
+pfile=mpich-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://www.mpich.org/static/downloads/${version}/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,14 +18,14 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf mpich-3.2
+rm -rf mpich-${version}
 
 fcopt=""
 if [ "x@FC@" = "x" ]; then
     fcopt="--disable-fortran"
 fi
 tar xzf ${src} \
-    && cd mpich-3.2 \
+    && cd mpich-${version} \
     && CC="@CC@" CXX="@CXX@" FC="@FC@" \
     CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" FCFLAGS="@FCFLAGS@" \
     ./configure @CROSS@ ${fcopt} --prefix="@AUX_PREFIX@" > ${log} 2>&1 \

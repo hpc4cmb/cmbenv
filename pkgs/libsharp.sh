@@ -4,8 +4,9 @@ pkg="libsharp"
 pkgopts=$@
 cleanup=""
 
-pfile=libsharp-1.0.0.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/Libsharp/libsharp/archive/v1.0.0.tar.gz ${pfile})
+version=1.0.0
+pfile=libsharp-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/Libsharp/libsharp/archive/v${version}.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf libsharp-1.0.0
+rm -rf libsharp-${version}
 tar xzf ${src} \
-    && cd libsharp-1.0.0 \
+    && cd libsharp-${version} \
     && patch -p1 < "@TOP_DIR@/pkgs/patch_libsharp" > ${log} 2>&1 \
     && autoreconf >> ${log} 2>&1 \
     && CC="@MPICC@" CFLAGS="@CFLAGS@ -std=c99" \

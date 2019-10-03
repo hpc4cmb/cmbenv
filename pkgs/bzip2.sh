@@ -4,8 +4,11 @@ pkg="bzip2"
 pkgopts=$@
 cleanup=""
 
-pfile=bzip2_1.0.6.orig.tar.bz2
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/bzip2/1.0.6-8/${pfile} ${pfile})
+# NOTE:  change URL when changing version
+version=1.0.6
+
+pfile=bzip2_${version}.orig.tar.bz2
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/bzip2/${version}-8/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,9 +20,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf bzip2-1.0.6
+rm -rf bzip2-${version}
 tar xjf ${src} \
-    && cd bzip2-1.0.6 \
+    && cd bzip2-${version} \
     && patch -p1 < "@TOP_DIR@/pkgs/patch_bzip2" > ${log} 2>&1 \
     && CC="@CC@" CFLAGS="@CFLAGS@" \
     make -f Makefile-toast >> ${log} 2>&1 \

@@ -31,7 +31,7 @@ tar xzf ${src} \
     -DCMAKE_C_FLAGS="@CFLAGS@ -pthread -DSQLITE_DISABLE_INTRINSIC" \
     -DCMAKE_CXX_FLAGS="@CXXFLAGS@ -pthread -DSQLITE_DISABLE_INTRINSIC" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-    -DPYTHON_EXECUTABLE:FILEPATH="@PYTHON_PREFIX@/bin/python3" \
+    -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
     -DCMAKE_INSTALL_PREFIX="@AUX_PREFIX@" \
     .. > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \

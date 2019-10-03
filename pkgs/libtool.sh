@@ -4,7 +4,8 @@ pkg="libtool"
 pkgopts=$@
 cleanup=""
 
-pfile=libtool-2.4.6.tar.gz
+version=2.4.6
+pfile=libtool-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://ftp.gnu.org/gnu/libtool/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf libtool-2.4.6
+rm -rf libtool-${version}
 tar xzf ${src} \
-    && cd libtool-2.4.6 \
+    && cd libtool-${version} \
     && CC="@BUILD_CC@" ./configure --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1

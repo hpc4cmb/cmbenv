@@ -4,8 +4,9 @@ pkg="aatm"
 pkgopts=$@
 cleanup=""
 
-pfile=aatm-0.5.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://launchpad.net/aatm/trunk/0.5/+download/${pfile} ${pfile})
+version=0.5
+pfile=aatm-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://launchpad.net/aatm/trunk/${version}/+download/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf aatm-0.5
+rm -rf aatm-${version}
 tar xzf ${src} \
-    && cd aatm-0.5 \
+    && cd aatm-${version} \
     && chmod -R u+w . \
     && patch -p1 < "@TOP_DIR@/pkgs/patch_aatm" > ${log} 2>&1 \
     && autoreconf >> ${log} 2>&1 \
