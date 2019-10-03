@@ -22,9 +22,8 @@ rm -rf flac-${version}
 tar xJf ${src} \
     && cd flac-${version} \
     && CC="@CC@" CFLAGS="@CFLAGS@" \
-    CC="@CXX@" CFLAGS="@CXXFLAGS@" \
-    ./configure @CROSS@ \
-    --disable-ogg \
+    ./configure @CROSS@ --disable-cpplibs \
+    --disable-ogg --disable-xmms-plugin \
     --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1
