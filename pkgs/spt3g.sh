@@ -8,7 +8,7 @@ version=master
 pfile=spt3g_software-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/CMB-S4/spt3g_software/archive/${version}.tar.gz ${pfile})
 
-if [ ! -d "${src}" ]; then
+if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
     exit 1
 fi
