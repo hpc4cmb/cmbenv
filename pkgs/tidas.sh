@@ -4,8 +4,9 @@ pkg="tidas"
 pkgopts=$@
 cleanup=""
 
-pfile=tidas-0.3.3.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/tidas/archive/0.3.3.tar.gz ${pfile})
+version=master
+pfile=tidas-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/tidas/archive/${version}.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -17,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf tidas-0.3.3
+rm -rf tidas-${version}
 tar xzf ${src} \
-    && cd tidas-0.3.3 \
+    && cd tidas-${version} \
     && mkdir build \
     && cd build \
     && cmake \
