@@ -14,7 +14,7 @@ if [ "x${src}" = "x" ]; then
 fi
 cleanup="${src}"
 
-log="../log_${pkg}"
+log="../../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
