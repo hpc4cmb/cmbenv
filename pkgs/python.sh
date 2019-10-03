@@ -118,6 +118,13 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Ensure that python-config always points to this install
+if [ ! -e "@PYTHON_PREFIX@/bin/python-config" ]; then
+    if [ -e "@PYTHON_PREFIX@/bin/python3-config" ]; then
+        ln -s "@PYTHON_PREFIX@/bin/python3-config" "@PYTHON_PREFIX@/bin/python-config"
+    fi
+fi
+
 # Create a launcher script for jupyter
 kern="@PYTHON_PREFIX@/bin/cmbenv_run_kernel.sh"
 echo "#!/bin/bash" > "${kern}"

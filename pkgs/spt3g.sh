@@ -21,7 +21,15 @@ echo "Building ${pkg}..." >&2
 export spt3g_start=$(pwd)
 log="${spt3g_start}/log_${pkg}"
 
+# Find the path to the python headers and libs, since cmake can't
+export PYROOT=$(python-config --prefix)
+export PYINC=$(python-config --includes | awk '{print $1}' | sed -e "s#-I##")
+export PYLIB=${PYROOT}/lib/$(python-config --libs | awk '{print $1}' | sed -e "s#-l#lib#").so
 
+# These environment variables are needed for cmake macros.
+export BOOST_ROOT="${PYPREFIX}"
+export BOOST_INCLUDEDIR="${PYPREFIX}/include"
+export BOOST_LIBRARYDIR="${PYPREFIX}/lib"
 
 rm -rf spt3g_software
 cp -a "${src}" spt3g_software \
@@ -35,29 +43,16 @@ cp -a "${src}" spt3g_software \
     && cd build \
     && LDFLAGS="-Wl,-z,muldefs" \
     cmake \
-    -DCMAKE_C_COMPILER="${CC}" \
-    -DCMAKE_CXX_COMPILER="${CXX}" \
-    -DCMAKE_C_FLAGS="-g -O2 -fPIC -pthread" \
-    -DCMAKE_CXX_FLAGS="-g -O2 -fPIC -pthread -std=c++11" \
-    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-    -DBOOST_ROOT="/usr" \
-    -DFLAC_LIBRARIES="${PYPREFIX}/lib/libFLAC.so" \
-    -DFLAC_INCLUDE_DIR="${PYPREFIX}/include" \
-    -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
-    -DPYTHON_INCLUDE_DIR="${PYINC}" \
-    -DPYTHON_LIBRARY="${PYLIB}" \
-    .. \
-
-    LDFLAGS="-Wl,-z,muldefs" \
-    BOOST_ROOT="@AUX_PREFIX@" \
-    cmake \
     -DCMAKE_C_COMPILER="@CC@" \
     -DCMAKE_CXX_COMPILER="@CXX@" \
     -DCMAKE_C_FLAGS="@CFLAGS@" \
     -DCMAKE_CXX_FLAGS="@CXXFLAGS@" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-    -DBOOST_ROOT="@AUX_PREFIX@" \
+    -DFLAC_LIBRARIES="@AUX_PREFIX@/lib/libFLAC.so" \
+    -DFLAC_INCLUDE_DIR="@AUX_PREFIX@/include" \
     -DPYTHON_EXECUTABLE:FILEPATH="@PYTHON_PREFIX@/bin/python" \
+    -DPYTHON_INCLUDE_DIR="${PYINC}" \
+    -DPYTHON_LIBRARY="${PYLIB}" \
     .. >> ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && ln -s @AUX_PREFIX@/spt3g/build/bin/* @AUX_PREFIX@/bin/ \
