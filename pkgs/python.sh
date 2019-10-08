@@ -69,6 +69,7 @@ if [ "${pytype}" = "conda" ]; then
         python-dateutil \
         toml \
         numba \
+        nbstripout \
         ipykernel \
     && rm -rf "@PYTHON_PREFIX@/pkgs/*"
     if [ $? -ne 0 ]; then
