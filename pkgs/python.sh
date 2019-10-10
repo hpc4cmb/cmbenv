@@ -29,6 +29,13 @@ if [ "${pytype}" = "conda" ]; then
     fi
     cleanup="${inst}"
     bash "${inst}" -b -f -p "@PYTHON_PREFIX@" \
+    && echo "# condarc to force channel order" > "@PYTHON_PREFIX@/.condarc" \
+    && echo "channels:" >> "@PYTHON_PREFIX@/.condarc" \
+    && if [ "x${cdatype}" = "xnomkl" ]; then
+        echo "  - conda-forge" >> "@PYTHON_PREFIX@/.condarc"
+    fi \
+    && echo "  - defaults" >> "@PYTHON_PREFIX@/.condarc" \
+    && echo "changeps1: false" >> "@PYTHON_PREFIX@/.condarc" \
     && eval "@SRCDIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${cdatype}" \
     && source "@PYTHON_PREFIX@/bin/cmbenv" \
     && conda update -n base -c defaults --yes conda \

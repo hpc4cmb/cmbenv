@@ -36,13 +36,6 @@ cmbenv-jupyter () {
 
 
 if [ "x@PYTYPE@" = "xconda" ]; then
-    echo "# condarc to force channel order" > "@PYTHON_PREFIX@/.condarc"
-    echo "channels:" >> "@PYTHON_PREFIX@/.condarc"
-    if [ "x@CONDATYPE@" = "xnomkl" ]; then
-        echo "  - conda-forge" >> "@PYTHON_PREFIX@/.condarc"
-    fi
-    echo "  - defaults" >> "@PYTHON_PREFIX@/.condarc"
-    echo "changeps1: false" >> "@PYTHON_PREFIX@/.condarc"
     source "@PYTHON_PREFIX@/etc/profile.d/conda.sh"
     conda activate
 elif [ "x@PYTYPE@" = "xvirtualenv" ]; then
