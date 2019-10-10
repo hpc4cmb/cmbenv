@@ -1,0 +1,63 @@
+
+# OS type (linux OR osx)
+OSTYPE = linux
+
+# Serial compilers
+
+CC = icc
+CXX = icpc
+FC = ifort
+
+# Compiler to use for packages needed on the build machine
+
+BUILD_CC = gcc
+BUILD_CXX = g++
+
+# MPI compilers
+
+MPICC = mpicc
+MPICXX = mpicxx
+MPIFC = mpifort
+MPI_CPPFLAGS =
+MPI_LDFLAGS =
+MPI_CXXLIB = mpichcxx
+MPI_LIB = mpich
+MPI_EXTRA_COMP =
+MPI_EXTRA_LINK =
+
+# Compile flags
+
+CFLAGS = -O3 -g -fPIC -xcore-avx2 -pthread
+CXXFLAGS = -O3 -g -fPIC -xcore-avx2 -pthread -std=c++11
+FCFLAGS = -O3 -g -fPIC -xcore-avx2 -fexceptions -pthread -heap-arrays 16
+
+OPENMP_CFLAGS = -qopenmp
+OPENMP_CXXFLAGS = -qopenmp
+LDFLAGS = -lpthread -liomp5
+
+# Are we doing a cross-compile?
+
+CROSS =
+
+# Parallel builds
+MAKEJ = 4
+
+# Python version to use
+PYVERSION = 3.6
+
+# Define MKL location
+MKL = ${MKLROOT}
+
+# For BLAS/LAPACK, use MKL
+
+BLAS = -L${MKLROOT}/lib/intel64 -lmkl_rt -liomp5 -lpthread -limf -lsvml -ldl
+LAPACK =
+
+# Boost toolchain name
+
+BOOSTCHAIN = intel-linux
+
+# Group and permissions to set
+
+CHGRP =
+CHMOD = a+rX
