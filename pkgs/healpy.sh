@@ -4,7 +4,7 @@ pkg="healpy"
 pkgopts=$@
 cleanup=""
 
-version=1.12.9
+version=1.12.10
 pfile=healpy-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/healpy/healpy/releases/download/${version}/${pfile} ${pfile})
 

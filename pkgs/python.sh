@@ -77,6 +77,7 @@ if [ "${pytype}" = "conda" ]; then
         toml \
         numba \
         nbstripout \
+        black \
         ipykernel \
     && rm -rf "@PYTHON_PREFIX@/pkgs/*"
     if [ $? -ne 0 ]; then
@@ -114,6 +115,8 @@ else
         python-dateutil \
         toml \
         numba \
+        nbstripout \
+        black \
         ipykernel
     if [ $? -ne 0 ]; then
         echo "pip install failed" >&2

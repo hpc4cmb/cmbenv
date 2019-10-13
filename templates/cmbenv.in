@@ -18,6 +18,8 @@ cmbenv-jupyter () {
     if [ -d ${kerneldir} ]; then
         echo "cmbenv @VERSION@ is already installed in ${kerneldir}, skipping." >&2
         return 1
+    else
+        echo "cmbenv installing kernel version @VERSION@ to ${kerneldir}"
     fi
     mkdir -p "${kerneldir}"
     echo '
