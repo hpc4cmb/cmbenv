@@ -6,7 +6,7 @@ cleanup=""
 
 version=1.12.10
 pfile=healpy-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/healpy/healpy/releases/download/${version}/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/e6/34/da61364cd7826ae6da0dd5cdc0ac1abaa933bf6bee4381986f326bc87a23/healpy-1.12.10.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
