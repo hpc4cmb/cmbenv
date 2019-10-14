@@ -78,6 +78,7 @@ if [ "${pytype}" = "conda" ]; then
         numba \
         nbstripout \
         black \
+        wurlitzer \
         ipykernel \
     && rm -rf "@PYTHON_PREFIX@/pkgs/*"
     if [ $? -ne 0 ]; then
@@ -117,6 +118,7 @@ else
         numba \
         nbstripout \
         black \
+        wurlitzer \
         ipykernel
     if [ $? -ne 0 ]; then
         echo "pip install failed" >&2
