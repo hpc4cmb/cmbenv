@@ -38,7 +38,6 @@ if [ "${pytype}" = "conda" ]; then
     && echo "changeps1: false" >> "@PYTHON_PREFIX@/.condarc" \
     && eval "@SRCDIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${cdatype}" \
     && source "@PYTHON_PREFIX@/bin/cmbenv" \
-    && conda update -n base -c defaults --yes conda \
     && conda install --copy --yes python=@PYVERSION@ \
     && ln -s "@PYTHON_PREFIX@"/include/python* "@AUX_PREFIX@/include/" \
     && ln -s "@PYTHON_PREFIX@"/lib/libpython* "@AUX_PREFIX@/lib/"

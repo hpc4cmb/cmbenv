@@ -18,11 +18,11 @@ log="log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-blasmkl=""
-lapackmkl=""
+blas="-DBLAS_LIBRARIES=@AUX_PREFIX@/lib/libopenblas.a"
+lapack="-DLAPACK_LIBRARIES=@AUX_PREFIX@/lib/libopenblas.a"
 if [ "x@MKL@" != "x" ]; then
-    blasmkl="-DBLAS_LIBRARIES=@MKL@/lib/intel64/libmkl_rt.so"
-    lapackmkl="-DBLAS_LIBRARIES=@MKL@/lib/intel64/libmkl_rt.so"
+    blas="-DBLAS_LIBRARIES=@MKL@/lib/intel64/libmkl_rt.so"
+    lapack="-DLAPACK_LIBRARIES=@MKL@/lib/intel64/libmkl_rt.so"
 fi
 
 rm -rf toast-${version}
@@ -38,7 +38,7 @@ tar xzf ${src} \
     -DCMAKE_C_FLAGS="@CFLAGS@" \
     -DCMAKE_CXX_FLAGS="@CXXFLAGS@" \
     -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
-    -DFFTW_ROOT="@AUX_PREFIX@" ${blasmkl} ${lapackmkl} \
+    -DFFTW_ROOT="@AUX_PREFIX@" ${blas} ${lapack} \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DSUITESPARSE_INCLUDE_DIR_HINTS="@AUX_PREFIX@/include" \
     -DSUITESPARSE_LIBRARY_DIR_HINTS="@AUX_PREFIX@/lib" \
