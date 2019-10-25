@@ -7,6 +7,7 @@ show_help () {
     echo "    -p <prefix>" >&2
     echo "    [-v <version>]" >&2
     echo "    [-m <module dir>]" >&2
+    echo "    [-t <docker tag name>]" >&2
     echo "" >&2
     echo "    Generate an install script or a Dockerfile (depending on the" >&2
     echo "    config)." >&2
@@ -24,6 +25,7 @@ prefix=""
 config=""
 version=""
 moduledir=""
+dockertag=""
 
 while getopts ":c:p:v:m:" opt; do
     case $opt in
@@ -38,6 +40,9 @@ while getopts ":c:p:v:m:" opt; do
             ;;
         m)
             moduledir=$OPTARG
+            ;;
+        t)
+            dockertag=$OPTARG
             ;;
         \?)
             show_help
@@ -58,15 +63,37 @@ if [ "x${config}" = "x" ]; then
     exit 1
 fi
 
+is_docker="no"
+if [[ ${config} =~ .*docker.* ]]; then
+    is_docker="yes"
+fi
+
+is_intel="no"
+if [[ ${config} =~ .*intel.* ]]; then
+    is_intel="yes"
+fi
+
 if [ "x${prefix}" = "x" ]; then
-    show_help
-    exit 1
+    if [ "${is_docker}" = "no" ]; then
+        show_help
+        exit 1
+    else
+        prefix="none"
+    fi
 fi
 
 if [ "x${version}" == "x" ]; then
-    gitdesc=$(git describe --tags --dirty --always | cut -d "-" -f 1)
-    gitcnt=$(git rev-list --count HEAD)
-    version="${gitdesc}.dev${gitcnt}"
+    if [ "${is_docker}" = "no" ]; then
+        if [ "x$(which git)" = "x" ]; then
+            echo "No version specified and git not available"
+            exit 1
+        fi
+        gitdesc=$(git describe --tags --dirty --always | cut -d "-" -f 1)
+        gitcnt=$(git rev-list --count HEAD)
+        version="${gitdesc}.dev${gitcnt}"
+    else
+        version="none"
+    fi
 fi
 
 if [ "x${moduledir}" == "x" ]; then
@@ -83,27 +110,17 @@ conf_pkgs="configs/${config}.pkgs"
 conf_mod="configs/${config}.mod"
 conf_sh="configs/${config}.sh"
 
-is_docker="no"
-if [[ ${config} =~ .*docker.* ]]; then
-    is_docker="yes"
-fi
-
-is_intel="no"
-if [[ ${config} =~ .*intel.* ]]; then
-    is_intel="yes"
-fi
-
 script=""
 if [ "${is_docker}" = "yes" ]; then
     script="Dockerfile_${config}"
-    eval "${topdir}/tools/gen_script.sh" Dockerfile.in "${conf_file}" \
-        "${conf_pkgs}" "${conf_mod}" "${conf_sh}" "${script}" "${prefix}" \
-        "${version}" "${moduledir}" yes
+    eval "${topdir}/tools/gen_script.sh" Dockerfile.in "${config}" \
+        "${conf_file}" "${conf_pkgs}" "${conf_mod}" "${conf_sh}" \
+        "${script}" "${prefix}" "${version}" "${moduledir}" yes
 else
     script="install_${config}"
-    eval "${topdir}/tools/gen_script.sh" install.in "${conf_file}" \
-        "${conf_pkgs}" "${conf_mod}" "${conf_sh}" "${script}" "${prefix}" \
-        "${version}" "${moduledir}" no
+    eval "${topdir}/tools/gen_script.sh" install.in "${config}" \
+        "${conf_file}" "${conf_pkgs}" "${conf_mod}" "${conf_sh}" \
+        "${script}" "${prefix}" "${version}" "${moduledir}" no
 fi
 
 exit 0

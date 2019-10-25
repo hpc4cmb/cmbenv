@@ -23,6 +23,7 @@ echo "Building ${pkg}..." >&2
 rm -rf boost_${version}
 tar xjf ${src} \
     && cd boost_${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && echo "" > tools/build/user-config.jam \
     && echo "using mpi : @MPICXX@ : <include>\"@MPI_CPPFLAGS@\" <library-path>\"@MPI_LDFLAGS@\" <find-shared-library>\"@MPI_CXXLIB@\" <find-shared-library>\"@MPI_LIB@\" ;" >> tools/build/user-config.jam \
     && echo "option jobs : @MAKEJ@ ;" >> tools/build/user-config.jam \

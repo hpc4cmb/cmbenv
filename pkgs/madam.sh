@@ -26,6 +26,7 @@ echo "Building ${pkg}..." >&2
 rm -rf libmadam-${version}
 tar xjf ${src} \
     && cd libmadam-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && FC="@MPIFC@" MPIFC="@MPIFC@" FCFLAGS="@FCFLAGS@" \
     CC="@MPICC@" MPICC="@MPICC@" CFLAGS="@CFLAGS@" \
     ./configure @CROSS@ --with-cfitsio="@AUX_PREFIX@" \

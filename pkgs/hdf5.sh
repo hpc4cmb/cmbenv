@@ -22,6 +22,7 @@ echo "Building ${pkg}..." >&2
 rm -rf hdf5-${version}
 tar xjf ${src} \
     && cd hdf5-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CFLAGS=$(if [ "x@CROSS@" = x ]; then echo "@CFLAGS@"; \
        else echo "-O3"; fi) \
     CXX="@CXX@" CXXFLAGS=$(if [ "x@CROSS@" = x ]; then echo "@CXXFLAGS@"; \

@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf fftw-${version}
 tar xzf ${src} \
     && cd fftw-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CFLAGS="@CFLAGS@" \
     ./configure --enable-threads @CROSS@ \
     --prefix="@AUX_PREFIX@" > ${log} 2>&1 \

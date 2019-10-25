@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf aatm-${version}
 tar xzf ${src} \
     && cd aatm-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && chmod -R u+w . \
     && patch -p1 < "@TOP_DIR@/pkgs/patch_aatm" > ${log} 2>&1 \
     && autoreconf >> ${log} 2>&1 \

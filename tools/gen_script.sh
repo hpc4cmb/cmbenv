@@ -4,24 +4,25 @@
 template=$1
 
 # The config file definitions and package list
-conffile=$2
-pkgfile=$3
-confmodinit=$4
-confshinit=$5
+config=$2
+conffile=$3
+pkgfile=$4
+confmodinit=$5
+confshinit=$6
 
 # The output root of the install script
-outroot=$6
+outroot=$7
 
 # Runtime options
-prefix=$7
-version=$8
-moddir=$9
+prefix=$8
+version=$9
+moddir=${10}
 
 # Is this template a dockerfile?  If this is "yes", then when calling
 # package scripts we will insert the "RUN " prefix and also capture the
 # downloaded files so that we can clean them up on the same line without
 # polluting the image.
-docker=${10}
+docker=${11}
 
 
 # Top level cmbenv git checkout
@@ -52,6 +53,7 @@ mkdir -p "${outpkg}"
 pyversion=""
 
 confsub="-e 's#@CONFFILE@#${conffile}#g'"
+confsub="${confsub} -e 's#@CONFIG@#${config}#g'"
 
 while IFS='' read -r line || [[ -n "${line}" ]]; do
     # is this line commented?
@@ -133,7 +135,7 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
         fi
 
         if [ "x${docker}" = "xyes" ]; then
-            pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}) && for cl in \${cln}; do if [ -e \${cl} ]; rm \"\${cl}\"; fi; done"
+            pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}) && if [ \"x\${cln}\" != \"x\" ]; then for cl in \${cln}; do if [ -e \"\${cl}\" ]; then rm -rf \"\${cl}\"; fi; done; fi"
             pkgcom+="${pcom}"$'\n'$'\n'
         else
             pcom="cln=\$(${topdir}/${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi"

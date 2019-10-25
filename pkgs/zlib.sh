@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf zlib-${version}
 tar xzf ${src} \
     && cd zlib-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && CC="@BUILD_CC@" ./configure \
     --shared --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \

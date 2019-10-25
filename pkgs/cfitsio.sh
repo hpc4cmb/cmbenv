@@ -20,6 +20,7 @@ echo "Building ${pkg}..." >&2
 rm -rf cfitsio
 tar xzf ${src} \
     && cd cfitsio \
+    && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CFLAGS="@CFLAGS@" ./configure @CROSS@ \
     --prefix="@AUX_PREFIX@" --enable-reentrant > ${log} 2>&1 \
     && make stand_alone >> ${log} 2>&1 \

@@ -23,6 +23,7 @@ echo "Building ${pkg}..." >&2
 rm -rf mpi4py-${version}
 tar xzf ${src} \
     && cd mpi4py-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && echo "[toast]" > mpi.cfg \
     && echo "mpicc = @MPICC@" >> mpi.cfg \
     && echo "mpicxx = @MPICXX@" >> mpi.cfg \

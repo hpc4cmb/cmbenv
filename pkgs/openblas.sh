@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf OpenBLAS-${version}
 tar xzf ${src} \
     && cd OpenBLAS-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && make USE_OPENMP=1 NO_SHARED=0 \
     FC="@FC@" \
     MAKE_NB_JOBS="@MAKEJ@" \

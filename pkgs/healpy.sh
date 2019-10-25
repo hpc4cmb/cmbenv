@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf healpy-${version}
 tar xzf ${src} \
     && cd healpy-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CXX="@CXX@" \
     CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" \
     python3 setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1

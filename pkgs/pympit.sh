@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf pympit-${version}
 tar xzf ${src} \
     && cd pympit-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && python3 setup.py build > ${log} 2>&1 \
     && python3 setup.py install --prefix="@AUX_PREFIX@" >> ${log} 2>&1 \
     && cd compiled \

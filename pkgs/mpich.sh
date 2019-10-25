@@ -26,6 +26,7 @@ if [ "x@FC@" = "x" ]; then
 fi
 tar xzf ${src} \
     && cd mpich-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CXX="@CXX@" FC="@FC@" \
     CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" FCFLAGS="@FCFLAGS@" \
     ./configure @CROSS@ ${fcopt} --prefix="@AUX_PREFIX@" > ${log} 2>&1 \

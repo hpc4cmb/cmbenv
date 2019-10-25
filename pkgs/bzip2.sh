@@ -23,6 +23,7 @@ echo "Building ${pkg}..." >&2
 rm -rf bzip2-${version}
 tar xjf ${src} \
     && cd bzip2-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && patch -p1 < "@TOP_DIR@/pkgs/patch_bzip2" > ${log} 2>&1 \
     && CC="@CC@" CFLAGS="@CFLAGS@" \
     make -f Makefile-toast >> ${log} 2>&1 \

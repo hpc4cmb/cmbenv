@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf libconviqt-${version}
 tar xjf ${src} \
     && cd libconviqt-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && CC="@MPICC@" CXX="@MPICXX@" MPICC="@MPICC@" MPICXX="@MPICXX@" \
     CFLAGS="@CFLAGS@ -std=gnu99" CXXFLAGS="@CXXFLAGS@" \
     OPENMP_CFLAGS="@OPENMP_CFLAGS@" OPENMP_CXXFLAGS="@OPENMP_CXXFLAGS@" \

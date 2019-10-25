@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf m4-${version}
 tar xjf ${src} \
     && cd m4-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && patch -p1 < "@TOP_DIR@/pkgs/patch_m4" > ${log} 2>&1 \
     && CC="@BUILD_CC@" ./configure --prefix="@AUX_PREFIX@" >> ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \

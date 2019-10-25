@@ -23,6 +23,7 @@ echo "Building ${pkg}..." >&2
 rm -rf quaternionarray-${version}
 tar xzf ${src} \
     && cd quaternionarray-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && python3 setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
 
 if [ $? -ne 0 ]; then

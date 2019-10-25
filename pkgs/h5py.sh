@@ -24,6 +24,7 @@ echo "Building ${pkg}..." >&2
 rm -rf h5py-${version}
 tar xzf ${src} \
     && cd h5py-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && python3 setup.py configure --hdf5="@AUX_PREFIX@" > ${log} \
     && CC="@CC@" python3 setup.py install --prefix "@AUX_PREFIX@" >> ${log} 2>&1
 

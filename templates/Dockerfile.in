@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:19.04
 
 MAINTAINER Theodore Kisner <tskisner@lbl.gov>
 
@@ -9,9 +9,22 @@ SHELL ["/bin/bash", "-c"]
 # Install system dependencies.
 
 RUN apt-get update \
-    && apt-get install -y curl procps build-essential gfortran git subversion \
-    autoconf automake libtool m4 cmake locales libfftw3-dev libopenblas-dev \
-    libgl1-mesa-glx xvfb \
+    && apt-get install -y \
+    curl \
+    procps \
+    build-essential \
+    gfortran \
+    git \
+    autoconf \
+    automake \
+    libtool \
+    m4 \
+    locales \
+    libgl1-mesa-glx \
+    xvfb \
+    python3 \
+    libpython3-dev \
+    python3-pip \
     && rm -fr /var/lib/apt/lists/*
 
 # Set up locales, to workaround a pip bug
@@ -26,9 +39,23 @@ ENV LC_ALL en_US.UTF-8
 # search paths.  Shifter will manipulate LD_LIBRARY_PATH,
 # so it is important not to use that variable.
 
-# Working directory for builds
+# Create a home directory for builds
 
-WORKDIR /usr/src
+RUN mkdir /home/cmbenv
+RUN mkdir /home/cmbenv/.astropy
+WORKDIR /home/cmbenv
+ENV HOME /home/cmbenv
+
+# Copy files into place
+
+RUN mkdir -p /home/cmbenv/Dockerfile_@CONFIG@_pkgs
+COPY Dockerfile_@CONFIG@_pkgs /home/cmbenv/Dockerfile_@CONFIG@_pkgs/
+
+RUN ls -al
+
+# Make site-packages directory
+
+RUN mkdir -p /usr/lib/python@PYVERSION@/site-packages
 
 # Remove conflicting python stuff
 
@@ -43,19 +70,12 @@ ENV PYTHONUSERBASE "/tmp"
 
 # Precompile all python modules
 
-RUN python -m compileall -q "/usr/lib/python@PYVERSION@/site-packages"
+RUN python3 -m compileall -q "/usr/lib/python@PYVERSION@/site-packages"
 
-# Create a fake home directory so that packages can create
-# config files if needed
+# Imports to create config files
 
-RUN mkdir /home/cmbenv
-RUN mkdir /home/cmbenv/.astropy
-
-WORKDIR /home/cmbenv
-ENV HOME /home/cmbenv
-
-RUN python -c "import astropy"
-RUN python -c "import matplotlib.font_manager as fm; f = fm.FontManager"
+RUN python3 -c "import astropy"
+RUN python3 -c "import matplotlib.font_manager as fm; f = fm.FontManager"
 
 # Set the entrypoint and default command
 

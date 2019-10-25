@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf cmake-${version}
 tar xzf ${src} \
     && cd cmake-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && CC="@BUILD_CC@" CXX="@BUILD_CXX@" ./configure --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1

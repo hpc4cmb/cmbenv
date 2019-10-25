@@ -28,6 +28,7 @@ fi
 rm -rf toast-${version}
 tar xzf ${src} \
     && cd toast-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && mkdir -p build \
     && cd build \
     && cmake \

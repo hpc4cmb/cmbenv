@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf SuiteSparse
 tar xzf ${src} \
     && cd SuiteSparse \
+    && cleanup="${cleanup} $(pwd)" \
     && make library JOBS=@MAKEJ@ \
     CC="@CC@" CXX="@CXX@" CFLAGS="@CFLAGS@" AUTOCC=no \
     GPU_CONFIG="" \

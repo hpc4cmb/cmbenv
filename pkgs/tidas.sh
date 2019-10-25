@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf tidas-${version}
 tar xzf ${src} \
     && cd tidas-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && mkdir build \
     && cd build \
     && cmake \

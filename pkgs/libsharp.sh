@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf libsharp-${version}
 tar xzf ${src} \
     && cd libsharp-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && patch -p1 < "@TOP_DIR@/pkgs/patch_libsharp" > ${log} 2>&1 \
     && autoreconf >> ${log} 2>&1 \
     && CC="@MPICC@" CFLAGS="@CFLAGS@ -std=c99" \

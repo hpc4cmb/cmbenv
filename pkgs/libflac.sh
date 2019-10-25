@@ -21,6 +21,7 @@ echo "Building ${pkg}..." >&2
 rm -rf flac-${version}
 tar xJf ${src} \
     && cd flac-${version} \
+    && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CFLAGS="@CFLAGS@" \
     ./configure @CROSS@ --disable-cpplibs \
     --disable-ogg --disable-xmms-plugin \
