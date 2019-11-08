@@ -94,9 +94,6 @@ madam
 # Install PySM.  Python Sky Model.
 pysm
 #
-# Install slurm magic package for job submission
-slurmmagic
-#
 # Install PyMPIT for environment testing.  Useful for testing working
 # mpi4py stack.
 #pympit
