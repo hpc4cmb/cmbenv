@@ -81,6 +81,7 @@ if [ "${pytype}" = "conda" ]; then
         wurlitzer \
         ipympl \
         ipykernel \
+        jupyterlab \
     && rm -rf "@PYTHON_PREFIX@/pkgs/*"
     if [ $? -ne 0 ]; then
         echo "conda install packages failed" >&2
@@ -122,7 +123,8 @@ else
         black \
         wurlitzer \
         ipympl \
-        ipykernel
+        ipykernel \
+        jupyterlab
     if [ $? -ne 0 ]; then
         echo "pip install failed" >&2
         exit 1
