@@ -75,6 +75,7 @@ if [ "${pytype}" = "conda" ]; then
         python-dateutil \
         toml \
         numba \
+        tbb \
         nbstripout \
         black \
         wurlitzer \
@@ -116,6 +117,7 @@ else
         python-dateutil \
         toml \
         numba \
+        tbb \
         nbstripout \
         black \
         wurlitzer \
