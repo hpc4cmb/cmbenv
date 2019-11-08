@@ -4,9 +4,9 @@ pkg="aatm"
 pkgopts=$@
 cleanup=""
 
-version=0.5
+version=1.0.7
 pfile=aatm-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://launchpad.net/aatm/trunk/${version}/+download/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/libaatm/archive/${version}.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -14,7 +14,7 @@ if [ "x${src}" = "x" ]; then
 fi
 cleanup="${src}"
 
-log="../log_${pkg}"
+log="../../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
@@ -22,16 +22,18 @@ rm -rf aatm-${version}
 tar xzf ${src} \
     && cd aatm-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && chmod -R u+w . \
-    && patch -p1 < "@TOP_DIR@/pkgs/patch_aatm" > ${log} 2>&1 \
-    && autoreconf >> ${log} 2>&1 \
-    && CC="@CC@" CFLAGS="@CFLAGS@" \
-    CPPFLAGS="-I@AUX_PREFIX@/include" \
-    LDFLAGS="-L@AUX_PREFIX@/lib" \
-    ./configure @CROSS@ \
-    --prefix="@AUX_PREFIX@" >> ${log} 2>&1 \
-    && make -j @MAKEJ@ >> ${log} 2>&1 \
-    && make install >> ${log} 2>&1
+    && mkdir -p build \
+    && cd build \
+    && cmake \
+    -DCMAKE_C_COMPILER="@CC@" \
+    -DCMAKE_CXX_COMPILER="@CXX@" \
+    -DCMAKE_C_FLAGS="@CFLAGS@" \
+    -DCMAKE_CXX_FLAGS="@CXXFLAGS@" \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+    -DCMAKE_INSTALL_PREFIX="@AUX_PREFIX@" \
+    .. > "${log}" 2>&1 \
+    && make -j @MAKEJ@ >> "${log}" 2>&1 \
+    && make install >> "${log}" 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
