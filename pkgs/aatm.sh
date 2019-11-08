@@ -5,7 +5,7 @@ pkgopts=$@
 cleanup=""
 
 version=1.0.7
-pfile=aatm-${version}.tar.gz
+pfile=libaatm-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/libaatm/archive/${version}.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
@@ -18,9 +18,9 @@ log="../../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf aatm-${version}
+rm -rf libaatm-${version}
 tar xzf ${src} \
-    && cd aatm-${version} \
+    && cd libaatm-${version} \
     && cleanup="${cleanup} $(pwd)" \
     && mkdir -p build \
     && cd build \
