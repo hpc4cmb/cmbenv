@@ -4,7 +4,7 @@ pkg="aatm"
 pkgopts=$@
 cleanup=""
 
-version=1.0.7
+version=1.0.8
 pfile=libaatm-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/libaatm/archive/${version}.tar.gz ${pfile})
 
