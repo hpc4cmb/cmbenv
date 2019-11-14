@@ -9,6 +9,11 @@ if [ "x@MPIFC@" = "x" ]; then
     exit 0
 fi
 
+configopts='--with-cfitsio="@AUX_PREFIX@" --with-fftw="@AUX_PREFIX@"'
+if [ "x$pkgopts" != "x" ]; then
+    configopts="$pkgopts"
+fi
+
 version=1.0.2
 pfile=libmadam-${version}.tar.bz2
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/libmadam/releases/download/v${version}/${pfile} ${pfile})
@@ -29,9 +34,9 @@ tar xjf ${src} \
     && cleanup="${cleanup} $(pwd)" \
     && FC="@MPIFC@" MPIFC="@MPIFC@" FCFLAGS="@FCFLAGS@" \
     CC="@MPICC@" MPICC="@MPICC@" CFLAGS="@CFLAGS@" \
-    ./configure @CROSS@ --with-cfitsio="@AUX_PREFIX@" \
+    ./configure @CROSS@ ${configopts} \
     --with-blas="@BLAS@" --with-lapack="@LAPACK@" \
-    --with-fftw="@AUX_PREFIX@" --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
+    --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1 \
     && cd python \

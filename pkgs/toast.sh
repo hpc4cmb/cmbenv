@@ -18,12 +18,45 @@ log="../../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-blas="-DBLAS_LIBRARIES=@AUX_PREFIX@/lib/libopenblas.a"
-lapack="-DLAPACK_LIBRARIES=@AUX_PREFIX@/lib/libopenblas.a"
+# Parse options for dependency install prefix
+fftw="@AUX_PREFIX@"
+ssparse="@AUX_PREFIX@"
+blas="@AUX_PREFIX@/lib/libopenblas.a"
+lapack="@AUX_PREFIX@/lib/libopenblas.a"
 if [ "x@MKL@" != "x" ]; then
-    blas="-DBLAS_LIBRARIES=@MKL@/lib/intel64/libmkl_rt.so"
-    lapack="-DLAPACK_LIBRARIES=@MKL@/lib/intel64/libmkl_rt.so"
+    blas="@MKL@/lib/intel64/libmkl_rt.so"
+    lapack="@MKL@/lib/intel64/libmkl_rt.so"
 fi
+for opt in $pkgopts; do
+    chkfftw=$(echo $opt | sed -e "s/fftw=\(.*\)/\1/")
+    if [ "x$chkfftw" != "x$opt" ]; then
+        fftw="${chkfftw}"
+    fi
+    chksparse=$(echo $opt | sed -e "s/suitesparse=\(.*\)/\1/")
+    if [ "x$chksparse" != "x$opt" ]; then
+        ssparse="${chksparse}"
+    fi
+    chkblas=$(echo $opt | sed -e "s/blas=\(.*\)/\1/")
+    if [ "x$chkblas" != "x$opt" ]; then
+        blas="${chkblas}"
+    fi
+    chklapack=$(echo $opt | sed -e "s/lapack=\(.*\)/\1/")
+    if [ "x$chklapack" != "x$opt" ]; then
+        lapack="${chklapack}"
+    fi
+done
+
+fftw_root=""
+if [ "x$fftw" != "x" ]; then
+    fftw_root="-DFFTW_ROOT=\"$fftw\""
+fi
+suitesparse=""
+if [ "x$ssparse" != "x" ]; then
+    suitesparse="-DSUITESPARSE_INCLUDE_DIR_HINTS=\"$ssparse/include\" -DSUITESPARSE_LIBRARY_DIR_HINTS=\"$ssparse/lib\""
+fi
+
+blaslib="-DBLAS_LIBRARIES=\"${blas}\""
+lapacklib="-DLAPACK_LIBRARIES=\"${lapack}\""
 
 rm -rf toast-${version}
 tar xzf ${src} \
@@ -39,12 +72,9 @@ tar xzf ${src} \
     -DCMAKE_C_FLAGS="@CFLAGS@" \
     -DCMAKE_CXX_FLAGS="@CXXFLAGS@" \
     -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
-    -DFFTW_ROOT="@AUX_PREFIX@" ${blas} ${lapack} \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-    -DSUITESPARSE_INCLUDE_DIR_HINTS="@AUX_PREFIX@/include" \
-    -DSUITESPARSE_LIBRARY_DIR_HINTS="@AUX_PREFIX@/lib" \
     -DCMAKE_INSTALL_PREFIX="@AUX_PREFIX@" \
-    .. > "${log}" 2>&1 \
+    ${fftw_root} ${suitesparse} ${blas} ${lapack} .. > "${log}" 2>&1 \
     && make -j @MAKEJ@ >> "${log}" 2>&1 \
     && make install >> "${log}" 2>&1
 

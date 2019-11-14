@@ -4,9 +4,9 @@ pkg="conviqt"
 pkgopts=$@
 cleanup=""
 
-version=1.2.1
-pfile=libconviqt-${version}.tar.bz2
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/libconviqt/releases/download/v${version}/libconviqt-${version}.tar.bz2 ${pfile})
+version=1.2.3
+pfile=libconviqt-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/libconviqt/archive/v${version}.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -19,9 +19,10 @@ log="../log_${pkg}"
 echo "Building ${pkg}..." >&2
 
 rm -rf libconviqt-${version}
-tar xjf ${src} \
+tar xzf ${src} \
     && cd libconviqt-${version} \
     && cleanup="${cleanup} $(pwd)" \
+    && ./autogen.sh \
     && CC="@MPICC@" CXX="@MPICXX@" MPICC="@MPICC@" MPICXX="@MPICXX@" \
     CFLAGS="@CFLAGS@ -std=gnu99" CXXFLAGS="@CXXFLAGS@" \
     OPENMP_CFLAGS="@OPENMP_CFLAGS@" OPENMP_CXXFLAGS="@OPENMP_CXXFLAGS@" \

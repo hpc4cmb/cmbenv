@@ -4,6 +4,15 @@ pkg="h5py"
 pkgopts=$@
 cleanup=""
 
+hdf5pref='--hdf5="@AUX_PREFIX@"'
+if [ "x$pkgopts" != "x" ]; then
+    if [ "x$pkgopts" = "xpkg-config" ]; then
+        hdf5pref=""
+    else
+        hdf5pref="$pkgopts"
+    fi
+fi
+
 # Note- the download URL includes a checksum and will need to
 # be updated when you change this version string.
 version=2.9.0
@@ -25,7 +34,7 @@ rm -rf h5py-${version}
 tar xzf ${src} \
     && cd h5py-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && python3 setup.py configure --hdf5="@AUX_PREFIX@" > ${log} \
+    && python3 setup.py configure ${hdf5pref} > ${log} \
     && CC="@CC@" python3 setup.py install --prefix "@AUX_PREFIX@" >> ${log} 2>&1
 
 if [ $? -ne 0 ]; then
