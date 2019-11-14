@@ -9,7 +9,7 @@ if [ "x@MPIFC@" = "x" ]; then
     exit 0
 fi
 
-configopts='--with-cfitsio="@AUX_PREFIX@" --with-fftw="@AUX_PREFIX@"'
+configopts='--with-cfitsio=@AUX_PREFIX@ --with-fftw=@AUX_PREFIX@'
 if [ "x$pkgopts" != "x" ]; then
     configopts="$pkgopts"
 fi
