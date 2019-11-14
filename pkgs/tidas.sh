@@ -4,7 +4,7 @@ pkg="tidas"
 pkgopts=$@
 cleanup=""
 
-version=0.3.4
+version=0.3.5
 pfile=tidas-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/tidas/archive/${version}.tar.gz ${pfile})
 
