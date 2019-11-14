@@ -20,15 +20,17 @@ export spt3g_start=$(pwd)
 log="${spt3g_start}/log_${pkg}"
 
 boost="@AUX_PREFIX@"
-flac="@AUX_PREFIX@"
+flaclib="@AUX_PREFIX@/lib/libFLAC.so"
+flacinc="@AUX_PREFIX@/include"
 for opt in $pkgopts; do
     chkboost=$(echo $opt | sed -e "s/boost=\(.*\)/\1/")
     if [ "x$chkboost" != "x$opt" ]; then
         boost="${chkboost}"
     fi
-    chkflac=$(echo $opt | sed -e "s/flac=\(.*\)/\1/")
+    chkflac=$(echo $opt | sed -e "s/flaclib=\(.*\)/\1/")
     if [ "x$chkflac" != "x$opt" ]; then
-        flac="${chkflac}"
+        flaclib="${chkflac}"
+        flacinc="$(dirname ${flaclib})/../include"
     fi
 done
 
@@ -51,8 +53,8 @@ tar xzf ${src} \
     -DCMAKE_CXX_FLAGS="@CXXFLAGS@" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DBOOST_ROOT="${boost}" \
-    -DFLAC_LIBRARIES="${flac}/lib/libFLAC.so" \
-    -DFLAC_INCLUDE_DIR="${flac}/include" \
+    -DFLAC_LIBRARIES="${flaclib}" \
+    -DFLAC_INCLUDE_DIR="${flacinc}" \
     -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
     .. >> ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
