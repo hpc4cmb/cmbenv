@@ -4,7 +4,7 @@ pkg="spt3g"
 pkgopts=$@
 cleanup=""
 
-version=5504111765cac138a123ed8528f1cd43c553b0dd
+version=a4a18c916eefaa88fb51a8c8823896d7aa9a85a7
 pfile=spt3g_software-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/CMB-S4/spt3g_software/archive/${version}.tar.gz ${pfile})
 
@@ -19,15 +19,18 @@ echo "Building ${pkg}..." >&2
 export spt3g_start=$(pwd)
 log="${spt3g_start}/log_${pkg}"
 
-# Find the path to the python headers and libs, since cmake can't
-export PYROOT=$(python-config --prefix)
-export PYINC=$(python-config --includes | awk '{print $1}' | sed -e "s#-I##")
-export PYLIB=${PYROOT}/lib/$(python-config --libs | awk '{print $1}' | sed -e "s#-l#lib#").so
-
-# These environment variables are needed for cmake macros.
-export BOOST_ROOT="${PYPREFIX}"
-export BOOST_INCLUDEDIR="${PYPREFIX}/include"
-export BOOST_LIBRARYDIR="${PYPREFIX}/lib"
+boost="@AUX_PREFIX@"
+flac="@AUX_PREFIX@"
+for opt in $pkgopts; do
+    chkboost=$(echo $opt | sed -e "s/boost=\(.*\)/\1/")
+    if [ "x$chkboost" != "x$opt" ]; then
+        boost="${chkboost}"
+    fi
+    chkflac=$(echo $opt | sed -e "s/flac=\(.*\)/\1/")
+    if [ "x$chkflac" != "x$opt" ]; then
+        flac="${chkflac}"
+    fi
+done
 
 rm -rf spt3g_software-${version}
 tar xzf ${src} \
@@ -41,16 +44,16 @@ tar xzf ${src} \
     && cd build \
     && LDFLAGS="-Wl,-z,muldefs" \
     cmake \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_COMPILER="@CC@" \
     -DCMAKE_CXX_COMPILER="@CXX@" \
     -DCMAKE_C_FLAGS="@CFLAGS@" \
     -DCMAKE_CXX_FLAGS="@CXXFLAGS@" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-    -DFLAC_LIBRARIES="@AUX_PREFIX@/lib/libFLAC.so" \
-    -DFLAC_INCLUDE_DIR="@AUX_PREFIX@/include" \
+    -DBOOST_ROOT="${boost}" \
+    -DFLAC_LIBRARIES="${flac}/lib/libFLAC.so" \
+    -DFLAC_INCLUDE_DIR="${flac}/include" \
     -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
-    -DPYTHON_INCLUDE_DIR="${PYINC}" \
-    -DPYTHON_LIBRARY="${PYLIB}" \
     .. >> ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && ln -s @AUX_PREFIX@/spt3g/build/bin/* @AUX_PREFIX@/bin/ \
