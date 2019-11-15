@@ -48,15 +48,15 @@ done
 
 fftw_root=""
 if [ "x$fftw" != "x" ]; then
-    fftw_root="-DFFTW_ROOT=\"$fftw\""
+    fftw_root="-DFFTW_ROOT=$fftw"
 fi
 suitesparse=""
 if [ "x$ssparse" != "x" ]; then
-    suitesparse="-DSUITESPARSE_INCLUDE_DIR_HINTS=\"$ssparse/include\" -DSUITESPARSE_LIBRARY_DIR_HINTS=\"$ssparse/lib\""
+    suitesparse="-DSUITESPARSE_INCLUDE_DIR_HINTS=$ssparse/include -DSUITESPARSE_LIBRARY_DIR_HINTS=$ssparse/lib"
 fi
 
-blaslib="-DBLAS_LIBRARIES=\"${blas}\""
-lapacklib="-DLAPACK_LIBRARIES=\"${lapack}\""
+blaslib="-DBLAS_LIBRARIES=${blas}"
+lapacklib="-DLAPACK_LIBRARIES=${lapack}"
 
 rm -rf toast-${version}
 tar xzf ${src} \
@@ -74,7 +74,7 @@ tar xzf ${src} \
     -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DCMAKE_INSTALL_PREFIX="@AUX_PREFIX@" \
-    ${fftw_root} ${suitesparse} ${blas} ${lapack} .. > "${log}" 2>&1 \
+    ${fftw_root} ${suitesparse} ${blaslib} ${lapacklib} .. > "${log}" 2>&1 \
     && make -j @MAKEJ@ >> "${log}" 2>&1 \
     && make install >> "${log}" 2>&1
 
