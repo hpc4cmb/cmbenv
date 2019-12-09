@@ -100,4 +100,4 @@ pysm
 pympit
 #
 # Install TOAST.
-toast:fftw=/usr suitesparse=/usr lapack=/usr/lib/x86_64-linux-gnu/liblapack.so blas=/usr/lib/x86_64-linux-gnu/libopenblas.so
+toast:lapack=/usr/lib/x86_64-linux-gnu/liblapack.so blas=/usr/lib/x86_64-linux-gnu/libopenblas.so
