@@ -40,7 +40,8 @@ if [ "${pytype}" = "conda" ]; then
     && source "@PYTHON_PREFIX@/bin/cmbenv" \
     && conda install --copy --yes python=@PYVERSION@ \
     && ln -s "@PYTHON_PREFIX@"/include/python* "@AUX_PREFIX@/include/" \
-    && ln -s "@PYTHON_PREFIX@"/lib/libpython* "@AUX_PREFIX@/lib/"
+    && ln -s "@PYTHON_PREFIX@"/lib/libpython* "@AUX_PREFIX@/lib/" \
+    && rm -f "@PYTHON_PREFIX@/compiler_compat/ld"
     if [ $? -ne 0 ]; then
         echo "conda python install failed" >&2
         exit 1
