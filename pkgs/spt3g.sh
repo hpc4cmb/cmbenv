@@ -4,7 +4,7 @@ pkg="spt3g"
 pkgopts=$@
 cleanup=""
 
-version=a4a18c916eefaa88fb51a8c8823896d7aa9a85a7
+version=ce2dd75675229475286d9867b70eac57bbcdd7f5
 pfile=spt3g_software-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/CMB-S4/spt3g_software/archive/${version}.tar.gz ${pfile})
 
@@ -34,10 +34,14 @@ for opt in $pkgopts; do
     fi
 done
 
+# Short version of python to use
+pyshort=$(echo @PYVERSION@ | sed -e "s/\.//")
+
 rm -rf spt3g_software-${version}
 tar xzf ${src} \
     && cd spt3g_software-${version} \
     && cleanup="${cleanup} $(pwd)" \
+    && patch -p1 < "@TOP_DIR@/pkgs/patch_spt3g" > ${log} 2>&1 \
     && cd .. \
     && rm -rf "@AUX_PREFIX@/spt3g" \
     && cp -a spt3g_software-${version} "@AUX_PREFIX@/spt3g" \
@@ -53,6 +57,8 @@ tar xzf ${src} \
     -DCMAKE_CXX_FLAGS="@CXXFLAGS@" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DBOOST_ROOT="${boost}" \
+    -DBoost_PYTHON_TYPE="python${pyshort}" \
+    -DBoost_ARCHITECTURE=-x64 \
     -DFLAC_LIBRARIES="${flaclib}" \
     -DFLAC_INCLUDE_DIR="${flacinc}" \
     -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \

@@ -5,10 +5,10 @@ pkgopts=$@
 cleanup=""
 
 # NOTE:  change URL when changing version.
-version=1_68_0
+version=1_72_0
 
 pfile=boost_${version}.tar.bz2
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://dl.bintray.com/boostorg/release/1.68.0/source/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://dl.bintray.com/boostorg/release/1.72.0/source/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -34,7 +34,7 @@ tar xjf ${src} \
     --with-toolset=@BOOSTCHAIN@ \
     --with-python=python@PYVERSION@ \
     --prefix=@AUX_PREFIX@ > ${log} 2>&1 \
-    && ./b2 --layout=tagged --user-config=./tools/build/user-config.jam\
+    && ./b2 --layout=tagged --user-config=./tools/build/user-config.jam \
     $(python3-config --includes | sed -e 's/-I//g' -e 's/\([^[:space:]]\+\)/ include=\1/g') \
     variant=release threading=multi link=shared runtime-link=shared install \
     >> ${log} 2>&1

@@ -51,12 +51,25 @@ fi
 export CMBENV_ROOT="@PREFIX@"
 export CMBENV_AUX_ROOT="@AUX_PREFIX@"
 
-export PATH="@AUX_PREFIX@/bin":${PATH}
-export CPATH="@AUX_PREFIX@/include":${CPATH}
-export LD_LIBRARY_PATH="@AUX_PREFIX@/lib":${LD_LIBRARY_PATH}
-export LIBRARY_PATH="@AUX_PREFIX@/lib":${LIBRARY_PATH}
-export PYTHONPATH="@AUX_PREFIX@/lib/python@PYVERSION@/site-packages":${PYTHONPATH}
-export PKG_CONFIG_PATH="@AUX_PREFIX@/lib/pkgconfig":${PKG_CONFIG_PATH}
+cmbenv_prepend_env () {
+    # This function is needed since trailing colons
+    # on some environment variables can cause major
+    # problems...
+    local envname=$1
+    local envval=$2
+    if [ "x${!envname}" = "x" ]; then
+        export ${envname}="${envval}"
+    else
+        export ${envname}="${envval}":${!envname}
+    fi
+}
+
+cmbenv_prepend_env "PATH" "@AUX_PREFIX@/bin"
+cmbenv_prepend_env "CPATH" "@AUX_PREFIX@/include"
+cmbenv_prepend_env "LIBRARY_PATH" "@AUX_PREFIX@/lib"
+cmbenv_prepend_env "LD_LIBRARY_PATH" "@AUX_PREFIX@/lib"
+cmbenv_prepend_env "PYTHONPATH" "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
+cmbenv_prepend_env "PKG_CONFIG_PATH" "@AUX_PREFIX@/lib/pkgconfig"
 
 # This should detect bash and zsh, which have a hash command that must
 # be called to get it to forget past commands.  Without forgetting

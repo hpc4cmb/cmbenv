@@ -19,14 +19,28 @@ if [ ! -e lib64 ]; then
 fi
 popd > /dev/null
 
-export CMBENV_AUX_ROOT="@AUX_PREFIX@"
-export CMAKE_PREFIX_PATH="@AUX_PREFIX@":${CMAKE_PREFIX_PATH}
-export PATH="@AUX_PREFIX@/bin":"@PYTHON_PREFIX@/bin":${PATH}
-export CPATH="@AUX_PREFIX@/include":${CPATH}
-export LIBRARY_PATH="@AUX_PREFIX@/lib":${LIBRARY_PATH}
-export LD_LIBRARY_PATH="@AUX_PREFIX@/lib":${LD_LIBRARY_PATH}
-export PYTHONPATH="@AUX_PREFIX@/lib/python@PYVERSION@/site-packages":${PYTHONPATH}
-export PKG_CONFIG_PATH="@AUX_PREFIX@/lib/pkgconfig":${PKG_CONFIG_PATH}
+prepend_env () {
+    # This function is needed since trailing colons
+    # on some environment variables can cause major
+    # problems...
+    local envname=$1
+    local envval=$2
+    if [ "x${!envname}" = "x" ]; then
+        export ${envname}="${envval}"
+    else
+        export ${envname}="${envval}":${!envname}
+    fi
+}
+
+prepend_env "CMBENV_AUX_ROOT" "@AUX_PREFIX@"
+prepend_env "CMAKE_PREFIX_PATH" "@AUX_PREFIX@"
+prepend_env "PATH" "@PYTHON_PREFIX@/bin"
+prepend_env "PATH" "@AUX_PREFIX@/bin"
+prepend_env "CPATH" "@AUX_PREFIX@/include"
+prepend_env "LIBRARY_PATH" "@AUX_PREFIX@/lib"
+prepend_env "LD_LIBRARY_PATH" "@AUX_PREFIX@/lib"
+prepend_env "PYTHONPATH" "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
+prepend_env "PKG_CONFIG_PATH" "@AUX_PREFIX@/lib/pkgconfig"
 
 # Install packages
 

@@ -4,7 +4,7 @@ pkg="cmake"
 pkgopts=$@
 cleanup=""
 
-version=3.14.5
+version=3.16.4
 pfile=cmake-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/Kitware/CMake/releases/download/v${version}/${pfile} ${pfile})
 
