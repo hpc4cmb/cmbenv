@@ -4,7 +4,7 @@ pkg="pysm"
 pkgopts=$@
 cleanup=""
 
-version=09d7fb31e7882e6a98074a8d245706ba41dab720
+version=3.2.0
 pfile=pysm-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/healpy/pysm/archive/${version}.tar.gz ${pfile})
 
