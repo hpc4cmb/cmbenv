@@ -5,8 +5,8 @@ pkgopts=$@
 cleanup=""
 
 version=3.2.0
-pfile=pysm-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/healpy/pysm/archive/${version}.tar.gz ${pfile})
+pfile=pysm3-${version}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/60/b3/daf8e62af528d8d749673069d9eee6006d6c9f9206531b80f3e6145b801d/pysm3-3.2.0.tar.gz  ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -20,7 +20,7 @@ echo "Building ${pkg}..." >&2
 
 rm -rf pysm-${version}
 tar xzf ${src} \
-    && cd pysm-${version} \
+    && cd pysm3-${version} \
     && cleanup="${cleanup} $(pwd)" \
     && python3 setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
 

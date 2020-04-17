@@ -1,0 +1,114 @@
+FROM @DOCKER_BASE@ as builder
+
+MAINTAINER Theodore Kisner <tskisner@lbl.gov>
+
+# Use bash
+
+SHELL ["/bin/bash", "-c"]
+
+# Install system dependencies.  Optionally install an alternate
+# compiler toolchain.
+
+ENV TERM linux
+
+RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
+    && add-apt-repository -y "ppa:ubuntu-toolchain-r/test" \
+    && apt-get -y update \
+    && apt-get install -y @DOCKER_SYS_PKGS@ \
+    curl \
+    procps \
+    build-essential \
+    gfortran \
+    git \
+    pkg-config \
+    lsb-release \
+    libssl-dev \
+    libgl1-mesa-glx \
+    xvfb \
+    && rm -fr /var/lib/apt/lists/*
+
+# Set up locales
+
+ENV LANG C.UTF-8
+
+RUN if [ ! -e /usr/include/xlocale.h ]; then ln -s /usr/include/locale.h /usr/include/xlocale.h; fi
+
+# Create a home directory for builds
+
+RUN mkdir -p /home/cmbenv
+RUN mkdir -p /home/cmbenv/.astropy
+WORKDIR /home/cmbenv
+ENV HOME /home/cmbenv
+
+# Copy files into place
+
+RUN mkdir -p /home/cmbenv/Dockerfile_@CONFIG@_pkgs
+COPY Dockerfile_@CONFIG@_pkgs /home/cmbenv/Dockerfile_@CONFIG@_pkgs/
+
+RUN mkdir -p /home/cmbenv/tools
+COPY tools /home/cmbenv/tools/
+
+RUN mkdir -p /home/cmbenv/pkgs
+COPY pkgs /home/cmbenv/pkgs/
+
+RUN mkdir -p /home/cmbenv/templates
+COPY templates /home/cmbenv/templates/
+
+RUN mkdir -p /home/cmbenv/configs
+COPY configs /home/cmbenv/configs/
+
+COPY cmbenv /home/cmbenv/
+
+# Make site-packages directory
+
+RUN mkdir -p "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
+
+# Install packages
+
+@PACKAGES@
+
+# Precompile all python modules
+
+RUN python3 -m compileall -q "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
+
+# ======================================
+
+FROM @DOCKER_BASE@
+
+# Copy our installed software binaries and libraries
+
+COPY --from=builder /usr /usr/
+COPY --from=builder /lib /lib/
+COPY --from=builder /bin /bin/
+COPY --from=builder /sbin /sbin/
+COPY --from=builder /etc /etc/
+
+# Home directory
+
+RUN mkdir -p /home/cmbenv
+RUN mkdir -p /home/cmbenv/.astropy
+WORKDIR /home/cmbenv
+ENV HOME /home/cmbenv
+
+# Imports to create config files
+
+RUN python3 -c "import astropy"
+RUN python3 -c "import matplotlib.font_manager as fm; f = fm.FontManager"
+
+# Remove conflicting python stuff
+
+ENV PYTHONPATH ""
+ENV PYTHONSTARTUP ""
+ENV PYTHONNOUSERSITE "1"
+ENV PYTHONUSERBASE "/tmp"
+
+# Set the entrypoint and default command
+
+COPY tools/docker-entrypoint.sh /usr/bin/
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["/bin/bash"]

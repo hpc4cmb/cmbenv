@@ -2,6 +2,18 @@
 # OS type (linux OR osx)
 OSTYPE = linux
 
+# Specify the docker base image
+DOCKER_BASE = ubuntu:16.04
+
+# Python version to use
+PYVERSION = 3.5
+
+# On linux, optionally set the alternate compiler toolchain.
+GCC_VER =
+
+# Specify additional packages to install for docker builds
+DOCKER_SYS_PKGS = python3.5 python3.5-dev python3.5-tk
+
 # Serial compilers
 
 CC = gcc
@@ -27,9 +39,9 @@ MPI_EXTRA_LINK =
 
 # Compile flags
 
-CFLAGS = -O3 -fPIC -pthread
-CXXFLAGS = -O3 -fPIC -pthread -std=c++11
-FCFLAGS = -O3 -fPIC -pthread
+CFLAGS = -O2 -g -fPIC -pthread
+CXXFLAGS = -O2 -g -fPIC -pthread -std=c++11
+FCFLAGS = -O2 -g -fPIC -pthread
 
 OPENMP_CFLAGS = -fopenmp
 OPENMP_CXXFLAGS = -fopenmp
@@ -40,10 +52,7 @@ LDFLAGS = -lpthread -fopenmp
 CROSS =
 
 # Parallel builds
-MAKEJ = 4
-
-# Python version to use
-PYVERSION = 3.7
+MAKEJ = 2
 
 # Define MKL location
 MKL =

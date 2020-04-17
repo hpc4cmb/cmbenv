@@ -22,13 +22,13 @@ rm -rf libconviqt-${version}
 tar xzf ${src} \
     && cd libconviqt-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && ./autogen.sh \
+    && ./autogen.sh > ${log} 2>&1 \
     && CC="@MPICC@" CXX="@MPICXX@" MPICC="@MPICC@" MPICXX="@MPICXX@" \
     CFLAGS="@CFLAGS@ -std=gnu99" CXXFLAGS="@CXXFLAGS@" \
     OPENMP_CFLAGS="@OPENMP_CFLAGS@" OPENMP_CXXFLAGS="@OPENMP_CXXFLAGS@" \
     LDFLAGS="@LDFLAGS@" \
     ./configure @CROSS@ \
-    --with-cfitsio="@AUX_PREFIX@" --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
+    --with-cfitsio="@AUX_PREFIX@" --prefix="@AUX_PREFIX@" >> ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1 \
     && cd python \

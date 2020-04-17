@@ -1,0 +1,101 @@
+# This is the full set of packages that can be installed.  This can be
+# used as a starting point for the package list for a particular config.
+# Some packages accept additional options which can be added after a colon ":".
+# These extra options are documented in the shell snippet for each package
+# in the top-level pkgs directory.
+#
+# Autotools.  If you already have recent versions installed with your OS
+# package manager, then comment these out.
+#m4
+#libtool
+#autoconf
+#automake
+#
+# CMake.
+#cmake
+#
+# Install zlib.  This is needed on some systems where the OS-provided zlib is
+# very ancient.
+#zlib
+#
+# Install OpenBLAS.  Comment out if you are using MKL with the Intel compilers
+# or some other vendor BLAS / LAPACK solution.
+#openblas
+#
+# Python 3.  Uncomment one of the following lines.  You should only use the
+# "default" option for Docker images.  All other configs should use either
+# a virtualenv or a conda environment.  This will also install a set of
+# common base packages.
+#python:virtualenv
+#python:conda
+python:default
+#
+# Install MPICH.  This step is optional and only needed in 2 cases:
+#   1.  You don't have MPI available through system packages that is
+#       compatible with the serial compilers you are using.
+#   2.  You are building a docker container for use at NERSC with shifter
+#       and need an MPICH compatible with the Cray one.
+mpich
+#
+# Install mpi4py.  This will use the MPI compilers specified in your config.
+mpi4py
+#
+# Install CFITSIO.
+#cfitsio
+#
+# Install FFTW3.
+#fftw
+#
+# Install libbz2.  This is required to enable some features in the boost
+# build which are in turn needed by spt3g.
+#bzip2
+#
+# Install Boost.
+#boost
+#
+# Install HDF5 (serial version).
+#hdf5
+#
+# Install h5py (using our HDF5).
+h5py:pkg-config
+#
+# Install healpy
+healpy
+#
+# Install quaternionarray
+qarray
+#
+# Install fitsio
+fitsio
+#
+# Install aatm.  Needed for some features of atmosphere simulations.
+aatm
+#
+# Install suitesparse
+#suitesparse
+#
+# Install libconviqt.  4-PI a_lm space beam convolution.
+conviqt
+#
+# Install libsharp.  Distributed harmonic transforms.
+libsharp
+#
+# Install libmadam.  Destriping map-maker.
+madam:--with-cfitsio=/usr --with-fftw=/usr
+#
+# Install FLAC, needed by spt3g
+#libflac
+#
+# Install SPT3G.  Frame based data format.
+#spt3g:boost=/usr/local flaclib=/usr/lib/x86_64-linux-gnu/libFLAC.so
+#
+# Install TIDAS.  HDF5-based timestream data format.
+tidas
+#
+# Install PySM.  Python Sky Model.
+pysm
+#
+# Install PyMPIT for environment testing.  Useful for testing working
+# mpi4py stack.
+pympit
+#

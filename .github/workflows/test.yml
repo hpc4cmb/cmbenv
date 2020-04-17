@@ -1,0 +1,59 @@
+# Test action that attempts to generate new docker containers on push to master
+
+name:  CMBenv Docker Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  py35:
+    name: Docker Py3.5 Debian
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create Dockerfile
+        run: ./cmbenv -c docker-py3.5-debian -p /usr/local
+      - name: Build Docker Image
+        run: docker build -t hpc4cmb/cmbenv:temp_py35 -f Dockerfile_docker-py3.5-debian .
+      - name: Test Docker Image
+        run: docker run hpc4cmb/cmbenv:temp_py35 python -c 'import toast.tests; toast.tests.run()' && docker run hpc4cmb/cmbenv:temp_py35 mpirun -np 2 python -c 'import toast.tests; toast.tests.run()'
+  py36:
+    name: Docker Py3.6 Debian
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create Dockerfile
+        run: ./cmbenv -c docker-py3.6-debian -p /usr/local
+      - name: Build Docker Image
+        run: docker build -t hpc4cmb/cmbenv:temp_py36 -f Dockerfile_docker-py3.6-debian .
+      - name: Test Docker Image
+        run: docker run hpc4cmb/cmbenv:temp_py36 python -c 'import toast.tests; toast.tests.run()' && docker run hpc4cmb/cmbenv:temp_py36 mpirun -np 2 python -c 'import toast.tests; toast.tests.run()'
+  py37:
+    name: Docker Py3.7 Debian
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create Dockerfile
+        run: ./cmbenv -c docker-py3.7-debian -p /usr/local
+      - name: Build Docker Image
+        run: docker build -t hpc4cmb/cmbenv:temp_py37 -f Dockerfile_docker-py3.7-debian .
+      - name: Test Docker Image
+        run: docker run hpc4cmb/cmbenv:temp_py37 python -c 'import toast.tests; toast.tests.run()' && docker run hpc4cmb/cmbenv:temp_py37 mpirun -np 2 python -c 'import toast.tests; toast.tests.run()'
+  py38:
+    name: Docker Py3.8 Debian
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create Dockerfile
+        run: ./cmbenv -c docker-py3.8-debian -p /usr/local
+      - name: Build Docker Image
+        run: docker build -t hpc4cmb/cmbenv:temp_py38 -f Dockerfile_docker-py3.8-debian .
+      - name: Test Docker Image
+        run: docker run hpc4cmb/cmbenv:temp_py38 python -c 'import toast.tests; toast.tests.run()' && docker run hpc4cmb/cmbenv:temp_py38 mpirun -np 2 python -c 'import toast.tests; toast.tests.run()'

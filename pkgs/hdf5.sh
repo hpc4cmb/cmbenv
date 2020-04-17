@@ -4,10 +4,10 @@ pkg="hdf5"
 pkgopts=$@
 cleanup=""
 
-version=1.10.5
+version=1.12.0
 
 pfile=hdf5-${version}.tar.bz2
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-${version}/src/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-${version}/src/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -30,11 +30,12 @@ tar xjf ${src} \
     FC="@FC@" FCFLAGS=$(if [ "x@CROSS@" = x ]; then echo "@FCFLAGS@"; \
        else echo "-O3"; fi) \
     ./configure \
+    --enable-build-mode=production \
+    --with-default-api-version=v110 \
     --disable-silent-rules \
     --disable-parallel \
     --enable-cxx \
-    --enable-fortran \
-    --enable-fortran2003 \
+    --disable-fortran \
     --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1

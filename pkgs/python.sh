@@ -7,7 +7,7 @@ cleanup=""
 pkg="python"
 
 export pytype=$(echo "$pkgopts" | awk '{print $1}')
-export cdatype=$(echo "$pkgopts" | awk '{print $2}')
+export pextra=$(echo "$pkgopts" | awk '{print $2}')
 
 mkdir -p "@PYTHON_PREFIX@/bin"
 
@@ -31,12 +31,12 @@ if [ "${pytype}" = "conda" ]; then
     bash "${inst}" -b -f -p "@PYTHON_PREFIX@" \
     && echo "# condarc to force channel order" > "@PYTHON_PREFIX@/.condarc" \
     && echo "channels:" >> "@PYTHON_PREFIX@/.condarc" \
-    && if [ "x${cdatype}" = "xnomkl" ]; then
+    && if [ "x${pextra}" = "xnomkl" ]; then
         echo "  - conda-forge" >> "@PYTHON_PREFIX@/.condarc"
     fi \
     && echo "  - defaults" >> "@PYTHON_PREFIX@/.condarc" \
     && echo "changeps1: false" >> "@PYTHON_PREFIX@/.condarc" \
-    && eval "@SRCDIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${cdatype}" \
+    && eval "@TOP_DIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${pextra}" \
     && source "@PYTHON_PREFIX@/bin/cmbenv" \
     && conda install --copy --yes python=@PYVERSION@ \
     && ln -s "@PYTHON_PREFIX@"/include/python* "@AUX_PREFIX@/include/" \
@@ -46,7 +46,7 @@ if [ "${pytype}" = "conda" ]; then
         echo "conda python install failed" >&2
         exit 1
     fi
-    if [ "x${cdatype}" = "xnomkl" ]; then
+    if [ "x${pextra}" = "xnomkl" ]; then
         conda install --copy --yes "blas=*=openblas"
     else
         conda install --copy --yes blas
@@ -55,80 +55,33 @@ if [ "${pytype}" = "conda" ]; then
         echo "conda blas install failed" >&2
         exit 1
     fi
-    conda install --copy --yes \
-        nose \
-        cython \
-        numpy \
-        scipy \
-        matplotlib \
-        pyyaml \
-        astropy \
-        six \
-        psutil \
-        ephem \
-        virtualenv \
-        pandas \
-        memory_profiler \
-        ipython \
-        cython \
-        cycler \
-        kiwisolver \
-        python-dateutil \
-        toml \
-        numba \
-        tbb \
-        nbstripout \
-        black \
-        wurlitzer \
-        ipympl \
-        ipykernel \
-        jupyterlab \
-    && rm -rf "@PYTHON_PREFIX@/pkgs/*"
+    if [ "x@CONDA_PKGS@" != "x" ]; then
+        conda install --copy --yes @CONDA_PKGS@
+    fi
     if [ $? -ne 0 ]; then
         echo "conda install packages failed" >&2
         exit 1
     fi
+    rm -rf "@PYTHON_PREFIX@/pkgs/*"
 else
     if [ "${pytype}" = "virtualenv" ]; then
         echo "Python using virtualenv" >&2
         virtualenv -p python@PYVERSION@ "@PYTHON_PREFIX@" \
-        && eval "@SRCDIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${cdatype}" \
+        && eval "@TOP_DIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${pextra}" \
         && source "@PYTHON_PREFIX@/bin/cmbenv"
     else
         echo "Python using default" >&2
-        eval "@SRCDIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${cdatype}" \
+        eval "@TOP_DIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${pextra}" \
         && source "@PYTHON_PREFIX@/bin/cmbenv"
     fi
-    pip3 install \
-        nose \
-        cython \
-        numpy \
-        scipy \
-        matplotlib \
-        pyyaml \
-        astropy \
-        six \
-        psutil \
-        ephem \
-        pandas \
-        memory_profiler \
-        ipython \
-        cython \
-        cycler \
-        kiwisolver \
-        python-dateutil \
-        toml \
-        numba \
-        tbb \
-        nbstripout \
-        black \
-        wurlitzer \
-        ipympl \
-        ipykernel \
-        jupyterlab
-    if [ $? -ne 0 ]; then
-        echo "pip install failed" >&2
-        exit 1
+    if [ "x@PIP_PKGS@" != "x" ]; then
+        for pip_pkg in @PIP_PKGS@; do
+            pip3 install ${pip_pkg} >&2
+            if [ $? -ne 0 ]; then
+                echo "pip install of ${pip_pkg} failed" >&2
+                exit 1
+            fi
+        done
     fi
 fi
 python3 -c "import matplotlib.font_manager"

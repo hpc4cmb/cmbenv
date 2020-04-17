@@ -61,7 +61,7 @@ tar xzf ${src} \
     -DBoost_ARCHITECTURE=-x64 \
     -DFLAC_LIBRARIES="${flaclib}" \
     -DFLAC_INCLUDE_DIR="${flacinc}" \
-    -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
+    -DPython_EXECUTABLE:FILEPATH=$(which python3) \
     .. >> ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && ln -s @AUX_PREFIX@/spt3g/build/bin/* @AUX_PREFIX@/bin/ \

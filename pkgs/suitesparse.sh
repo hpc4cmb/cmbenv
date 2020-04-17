@@ -4,7 +4,7 @@ pkg="suitesparse"
 pkgopts=$@
 cleanup=""
 
-version=5.4.0
+version=5.6.0
 pfile=SuiteSparse-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://faculty.cse.tamu.edu/davis/SuiteSparse/${pfile} ${pfile})
 
@@ -28,7 +28,8 @@ tar xzf ${src} \
     CFOPENMP="@OPENMP_CXXFLAGS@" LAPACK="@LAPACK@" BLAS="@BLAS@" \
     > ${log} 2>&1 \
     && cp -a ./lib/* "@AUX_PREFIX@/lib/" \
-    && cp -a ./include/* "@AUX_PREFIX@/include/"
+    && cp -a ./include/* "@AUX_PREFIX@/include/" \
+    && find . -name "*.a" -exec cp -a '{}' "@AUX_PREFIX@/lib/" \;
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2

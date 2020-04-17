@@ -1,0 +1,105 @@
+FROM @DOCKER_BASE@ as builder
+
+MAINTAINER Theodore Kisner <tskisner@lbl.gov>
+
+# Use bash
+
+SHELL ["/bin/sh", "-c"]
+
+# Install system dependencies.
+
+RUN apk add --no-cache --update-cache @DOCKER_SYS_PKGS@ \
+    bash \
+    build-base \
+    libgomp \
+    libgcc \
+    libquadmath \
+    linux-headers \
+    openssl-dev \
+    gfortran \
+    libgfortran \
+    curl \
+    perl \
+    git \
+    less \
+    make \
+    pkgconf \
+    libpng-dev \
+    freetype-dev
+
+RUN if [ ! -e /usr/include/xlocale.h ]; then ln -s /usr/include/locale.h /usr/include/xlocale.h; fi
+
+RUN if [ ! -e /usr/bin/llvm-config ]; then ln -s /usr/bin/llvm*-config /usr/bin/llvm-config; fi
+
+# We install everything directly into /usr so that we do
+# not need to modify the default library and executable
+# search paths.  Shifter will manipulate LD_LIBRARY_PATH,
+# so it is important not to use that variable.
+
+# Create a home directory for builds
+
+RUN mkdir -p /home/cmbenv
+WORKDIR /home/cmbenv
+ENV HOME /home/cmbenv
+
+# Copy files into place
+
+RUN mkdir -p /home/cmbenv/Dockerfile_@CONFIG@_pkgs
+COPY Dockerfile_@CONFIG@_pkgs /home/cmbenv/Dockerfile_@CONFIG@_pkgs/
+
+RUN mkdir -p /home/cmbenv/tools
+COPY tools /home/cmbenv/tools/
+
+RUN mkdir -p /home/cmbenv/pkgs
+COPY pkgs /home/cmbenv/pkgs/
+
+RUN mkdir -p /home/cmbenv/templates
+COPY templates /home/cmbenv/templates/
+
+RUN mkdir -p /home/cmbenv/configs
+COPY configs /home/cmbenv/configs/
+
+COPY cmbenv /home/cmbenv/
+
+# Install packages
+
+@PACKAGES@
+
+# Precompile all python modules
+
+RUN python3 -m compileall -q "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
+
+# ======================================
+
+FROM @DOCKER_BASE@
+
+# Copy our installed software binaries and libraries
+
+COPY --from=builder /usr /usr/
+
+# Home directory
+
+RUN mkdir -p /home/cmbenv
+RUN mkdir -p /home/cmbenv/.astropy
+WORKDIR /home/cmbenv
+ENV HOME /home/cmbenv
+
+# Imports to create config files
+
+RUN python3 -c "import astropy"
+RUN python3 -c "import matplotlib.font_manager as fm; f = fm.FontManager"
+
+# Remove conflicting python stuff
+
+ENV PYTHONPATH ""
+ENV PYTHONSTARTUP ""
+ENV PYTHONNOUSERSITE "1"
+ENV PYTHONUSERBASE "/tmp"
+
+# Set the entrypoint and default command
+
+COPY tools/docker-entrypoint.sh /usr/bin/
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["/bin/bash"]
