@@ -1,0 +1,28 @@
+
+# Before running the install, run these commands once
+# to get dependencies from OS packages.
+
+apt update
+
+apt install \
+build-essential \
+gfortran \
+python3-dev \
+virtualenv \
+pkg-config \
+curl \
+m4 \
+git \
+libtool \
+autoconf \
+automake \
+zlib1g-dev \
+libopenblas-dev \
+liblapack-dev \
+libboost-all-dev \
+libopenmpi-dev \
+libcfitsio-dev \
+libfftw3-dev \
+libhdf5-dev \
+libflac-dev \
+libsuitesparse-dev

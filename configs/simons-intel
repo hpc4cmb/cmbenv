@@ -2,6 +2,18 @@
 # OS type (linux OR osx)
 OSTYPE = linux
 
+# Specify the template to use
+TEMPLATE = linux
+
+# Python version to use
+PYVERSION = 3.7
+
+# Packages to install with pip
+PIP_PKGS =
+
+# Packages to install with conda
+CONDA_PKGS = nose Cython numpy scipy matplotlib pyyaml astropy six psutil ephem virtualenv pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab
+
 # Serial compilers
 
 CC = icc
@@ -41,9 +53,6 @@ CROSS =
 
 # Parallel builds
 MAKEJ = 4
-
-# Python version to use
-PYVERSION = 3.6
 
 # Define MKL location
 MKL = ${MKLROOT}

@@ -5,10 +5,10 @@ pkgopts=$@
 cleanup=""
 
 # Note:  update the URL when you change the version.
-version=3.0.1
+version=3.0.3
 
 pfile=mpi4py-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/55/a2/c827b196070e161357b49287fa46d69f25641930fd5f854722319d431843/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566dd77e408d8136e2bab7fdf2b97ce06cab830ba8b50a2f588/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2

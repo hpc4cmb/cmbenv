@@ -19,14 +19,16 @@ log="../../log_${pkg}"
 echo "Building ${pkg}..." >&2
 
 # Parse options for dependency install prefix
-fftw="@AUX_PREFIX@"
-ssparse="@AUX_PREFIX@"
-blas="@AUX_PREFIX@/lib/libopenblas.a"
-lapack="@AUX_PREFIX@/lib/libopenblas.a"
+fftw=""
+ssparse=""
+blas=""
+lapack=""
+
 if [ "x@MKL@" != "x" ]; then
     blas="@MKL@/lib/intel64/libmkl_rt.so"
     lapack="@MKL@/lib/intel64/libmkl_rt.so"
 fi
+
 for opt in $pkgopts; do
     chkfftw=$(echo $opt | sed -e "s/fftw=\(.*\)/\1/")
     if [ "x$chkfftw" != "x$opt" ]; then
@@ -50,13 +52,21 @@ fftw_root=""
 if [ "x$fftw" != "x" ]; then
     fftw_root="-DFFTW_ROOT=$fftw"
 fi
+
 suitesparse=""
 if [ "x$ssparse" != "x" ]; then
     suitesparse="-DSUITESPARSE_INCLUDE_DIR_HINTS=$ssparse/include -DSUITESPARSE_LIBRARY_DIR_HINTS=$ssparse/lib"
 fi
 
-blaslib="-DBLAS_LIBRARIES=${blas}"
-lapacklib="-DLAPACK_LIBRARIES=${lapack}"
+blaslib=""
+if [ "x$blas" != "x" ]; then
+    blaslib="-DBLAS_LIBRARIES=${blas}"
+fi
+
+lapacklib=""
+if [ "x$lapack" != "x" ]; then
+    lapacklib="-DLAPACK_LIBRARIES=${lapack}"
+fi
 
 rm -rf toast-${version}
 tar xzf ${src} \

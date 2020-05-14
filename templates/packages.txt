@@ -4,14 +4,6 @@
 # These extra options are documented in the shell snippet for each package
 # in the top-level pkgs directory.
 #
-# Python 3.  Uncomment one of the following lines.  You should only use the
-# "default" option for Docker images.  All other configs should use either
-# a virtualenv or a conda environment.  This will also install a set of
-# common base packages.
-python:virtualenv
-#python:conda
-#python:default
-#
 # Autotools.  If you already have recent versions installed with your OS
 # package manager, then comment these out.
 m4
@@ -19,9 +11,24 @@ libtool
 autoconf
 automake
 #
+# CMake.
+cmake
+#
 # Install zlib.  This is needed on some systems where the OS-provided zlib is
 # very ancient.
 zlib
+#
+# Install OpenBLAS.  Comment out if you are using MKL with the Intel compilers
+# or some other vendor BLAS / LAPACK solution.
+openblas
+#
+# Python 3.  Uncomment one of the following lines.  You should only use the
+# "default" option for Docker images.  All other configs should use either
+# a virtualenv or a conda environment.  This will also install a set of
+# common base packages.
+python:virtualenv
+#python:conda
+#python:default
 #
 # Install MPICH.  This step is optional and only needed in 2 cases:
 #   1.  You don't have MPI available through system packages that is
@@ -35,10 +42,6 @@ mpi4py
 #
 # Install CFITSIO.
 cfitsio
-#
-# Install OpenBLAS.  Comment out if you are using MKL with the Intel compilers
-# or some other vendor BLAS / LAPACK solution.
-openblas
 #
 # Install FFTW3.
 fftw

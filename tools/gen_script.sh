@@ -24,7 +24,6 @@ moddir=${10}
 # polluting the image.
 docker=${11}
 
-
 # Top level cmbenv git checkout
 pushd $(dirname $0) > /dev/null
 topdir=$(dirname $(pwd))
@@ -87,8 +86,13 @@ python_prefix="${prefix}/cmbenv_python"
 module_dir="${moddir}/cmbenv"
 
 if [ "x${docker}" = "xyes" ]; then
-    compiled_prefix="/usr"
-    python_prefix="/usr"
+    if [ "x${prefix}" = "x" ]; then
+        compiled_prefix="/usr"
+        python_prefix="/usr"
+    else
+        compiled_prefix="${prefix}"
+        python_prefix="${prefix}"
+    fi
 fi
 
 confsub="${confsub} -e 's#@SRCDIR@#${topdir}#g'"
@@ -97,8 +101,14 @@ confsub="${confsub} -e 's#@AUX_PREFIX@#${compiled_prefix}#g'"
 confsub="${confsub} -e 's#@PYTHON_PREFIX@#${python_prefix}#g'"
 confsub="${confsub} -e 's#@VERSION@#${version}#g'"
 confsub="${confsub} -e 's#@MODULE_DIR@#${module_dir}#g'"
-confsub="${confsub} -e 's#@TOP_DIR@#${topdir}#g'"
 
+# If we are using docker, then the package scripts need to be able to find
+# the tools that we have copied into the container.
+if [ "x${docker}" = "xyes" ]; then
+    confsub="${confsub} -e 's#@TOP_DIR@#/home/cmbenv#g'"
+else
+    confsub="${confsub} -e 's#@TOP_DIR@#${topdir}#g'"
+fi
 
 # Process each selected package for this config.  Copy each package file into
 # the output location while substituting config variables.  Also build up the

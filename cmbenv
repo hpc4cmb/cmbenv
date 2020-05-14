@@ -105,20 +105,26 @@ pushd $(dirname $0) > /dev/null
 topdir=$(pwd -P)
 popd > /dev/null
 
-conf_file="configs/${config}"
-conf_pkgs="configs/${config}.pkgs"
-conf_mod="configs/${config}.mod"
-conf_sh="configs/${config}.sh"
+conf_file="${topdir}/configs/${config}"
+conf_pkgs="${topdir}/configs/${config}.pkgs"
+conf_mod="${topdir}/configs/${config}.mod"
+conf_sh="${topdir}/configs/${config}.sh"
+
+# We need to get the name of the template from the input config.
+template=$(grep TEMPLATE "${conf_file}" | sed -e "s#[^=]*= *\(.*\)#\1#")
+if [ "x${template}" = "x" ]; then
+    template="linux"
+fi
 
 script=""
 if [ "${is_docker}" = "yes" ]; then
     script="Dockerfile_${config}"
-    eval "${topdir}/tools/gen_script.sh" Dockerfile.in "${config}" \
+    eval "${topdir}/tools/gen_script.sh" "${template}.in" "${config}" \
         "${conf_file}" "${conf_pkgs}" "${conf_mod}" "${conf_sh}" \
         "${script}" "${prefix}" "${version}" "${moduledir}" yes
 else
     script="install_${config}"
-    eval "${topdir}/tools/gen_script.sh" install.in "${config}" \
+    eval "${topdir}/tools/gen_script.sh" "install-${template}.in" "${config}" \
         "${conf_file}" "${conf_pkgs}" "${conf_mod}" "${conf_sh}" \
         "${script}" "${prefix}" "${version}" "${moduledir}" no
 fi
