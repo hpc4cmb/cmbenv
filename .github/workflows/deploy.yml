@@ -9,6 +9,10 @@ on:
     tags:
       - '*'
 
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 jobs:
   full:
     name: Docker Release
@@ -18,17 +22,16 @@ jobs:
         uses: actions/checkout@v2
       - name: Create Dockerfile
         run: ./cmbenv -c docker-py3.8-debian -p /usr/local
+      - name: Set tag name
+        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "::set-env name=TAGNAME::${tag}"
       - name: Build Docker Image
-        run: docker build -t hpc4cmb/cmbenv:${GITHUB_REF} -f Dockerfile_docker-py3.8-debian .
+        run: docker build -t hpc4cmb/cmbenv:${TAGNAME} -f Dockerfile_docker-py3.8-debian .
       - name: Test Docker Image
-        run: docker run hpc4cmb/cmbenv:${GITHUB_REF} python -c 'import toast.tests; toast.tests.run()'
+        run: docker run hpc4cmb/cmbenv:${TAGNAME} python -c 'import toast.tests; toast.tests.run()'
       - name: Tag Latest
-        run: docker tag hpc4cmb/cmbenv:${GITHUB_REF} hpc4cmb/cmbenv:latest
+        run: docker tag hpc4cmb/cmbenv:${TAGNAME} hpc4cmb/cmbenv:latest
       - name: Push Docker Image
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin && docker push hpc4cmb/cmbenv:${GITHUB_REF} && docker push hpc4cmb/cmbenv:latest
+        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin && docker push hpc4cmb/cmbenv:${TAGNAME} && docker push hpc4cmb/cmbenv:latest
   toastdeps-py35:
     name: TOAST Dependencies Python 3.5
     runs-on: ubuntu-latest
@@ -37,15 +40,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Create Dockerfile
         run: ./cmbenv -c docker-toastdeps-py35 -p /usr/local
+      - name: Set tag name
+        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "::set-env name=TAGNAME::${tag}"
       - name: Build Docker Image
-        run: docker build -t hpc4cmb/toast-deps-py35:${GITHUB_REF} -f Dockerfile_docker-toastdeps-py35 .
+        run: docker build -t hpc4cmb/toast-deps-py35:${TAGNAME} -f Dockerfile_docker-toastdeps-py35 .
       - name: Tag Latest
-        run: docker tag hpc4cmb/toast-deps-py35:${GITHUB_REF} hpc4cmb/toast-deps-py35:latest
+        run: docker tag hpc4cmb/toast-deps-py35:${TAGNAME} hpc4cmb/toast-deps-py35:latest
       - name: Push Docker Image
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin && docker push hpc4cmb/toast-deps-py35:${GITHUB_REF} && docker push hpc4cmb/toast-deps-py35:latest
+        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin && docker push hpc4cmb/toast-deps-py35:${TAGNAME} && docker push hpc4cmb/toast-deps-py35:latest
   toastdeps-py36:
     name: TOAST Dependencies Python 3.6
     runs-on: ubuntu-latest
@@ -54,15 +56,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Create Dockerfile
         run: ./cmbenv -c docker-toastdeps-py36 -p /usr/local
+      - name: Set tag name
+        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "::set-env name=TAGNAME::${tag}"
       - name: Build Docker Image
-        run: docker build -t hpc4cmb/toast-deps-py36:${GITHUB_REF} -f Dockerfile_docker-toastdeps-py36 .
+        run: docker build -t hpc4cmb/toast-deps-py36:${TAGNAME} -f Dockerfile_docker-toastdeps-py36 .
       - name: Tag Latest
-        run: docker tag hpc4cmb/toast-deps-py36:${GITHUB_REF} hpc4cmb/toast-deps-py36:latest
+        run: docker tag hpc4cmb/toast-deps-py36:${TAGNAME} hpc4cmb/toast-deps-py36:latest
       - name: Push Docker Image
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin && docker push hpc4cmb/toast-deps-py36:${GITHUB_REF} && docker push hpc4cmb/toast-deps-py36:latest
+        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin && docker push hpc4cmb/toast-deps-py36:${TAGNAME} && docker push hpc4cmb/toast-deps-py36:latest
   toastdeps-py37:
     name: TOAST Dependencies Python 3.7
     runs-on: ubuntu-latest
@@ -71,15 +72,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Create Dockerfile
         run: ./cmbenv -c docker-toastdeps-py37 -p /usr/local
+      - name: Set tag name
+        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "::set-env name=TAGNAME::${tag}"
       - name: Build Docker Image
-        run: docker build -t hpc4cmb/toast-deps-py37:${GITHUB_REF} -f Dockerfile_docker-toastdeps-py37 .
+        run: docker build -t hpc4cmb/toast-deps-py37:${TAGNAME} -f Dockerfile_docker-toastdeps-py37 .
       - name: Tag Latest
-        run: docker tag hpc4cmb/toast-deps-py37:${GITHUB_REF} hpc4cmb/toast-deps-py37:latest
+        run: docker tag hpc4cmb/toast-deps-py37:${TAGNAME} hpc4cmb/toast-deps-py37:latest
       - name: Push Docker Image
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin && docker push hpc4cmb/toast-deps-py37:${GITHUB_REF} && docker push hpc4cmb/toast-deps-py37:latest
+        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin && docker push hpc4cmb/toast-deps-py37:${TAGNAME} && docker push hpc4cmb/toast-deps-py37:latest
   toastdeps-py38:
     name: TOAST Dependencies Python 3.8
     runs-on: ubuntu-latest
@@ -88,12 +88,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Create Dockerfile
         run: ./cmbenv -c docker-toastdeps-py38 -p /usr/local
+      - name: Set tag name
+        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "::set-env name=TAGNAME::${tag}"
       - name: Build Docker Image
-        run: docker build -t hpc4cmb/toast-deps-py38:${GITHUB_REF} -f Dockerfile_docker-toastdeps-py38 .
+        run: docker build -t hpc4cmb/toast-deps-py38:${TAGNAME} -f Dockerfile_docker-toastdeps-py38 .
       - name: Tag Latest
-        run: docker tag hpc4cmb/toast-deps-py38:${GITHUB_REF} hpc4cmb/toast-deps-py38:latest
+        run: docker tag hpc4cmb/toast-deps-py38:${TAGNAME} hpc4cmb/toast-deps-py38:latest
       - name: Push Docker Image
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin && docker push hpc4cmb/toast-deps-py38:${GITHUB_REF} && docker push hpc4cmb/toast-deps-py38:latest
+        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin && docker push hpc4cmb/toast-deps-py38:${TAGNAME} && docker push hpc4cmb/toast-deps-py38:latest
