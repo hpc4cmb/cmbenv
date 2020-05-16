@@ -72,7 +72,7 @@ RUN mkdir -p "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
 
 # Precompile all python modules
 
-RUN python3 -m compileall -q "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
+RUN python3 -m compileall -q "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages" -x ".*jinja.*"
 
 # ======================================
 
