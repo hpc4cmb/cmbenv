@@ -61,6 +61,7 @@ tar xzf ${src} \
     -DBoost_ARCHITECTURE=-x64 \
     -DFLAC_LIBRARIES="${flaclib}" \
     -DFLAC_INCLUDE_DIR="${flacinc}" \
+    -DPython_USE_STATIC_LIBS=FALSE \
     -DPython_EXECUTABLE:FILEPATH=$(which python3) \
     .. >> ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \

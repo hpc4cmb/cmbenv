@@ -38,7 +38,7 @@ python:virtualenv
 #mpich
 #
 # Install mpi4py.  This will use the MPI compilers specified in your config.
-#mpi4py
+mpi4py
 #
 # Install CFITSIO.
 #cfitsio
@@ -57,7 +57,7 @@ python:virtualenv
 #hdf5
 #
 # Install h5py (using our HDF5).
-#h5py:pkg-config
+h5py:pkg-config
 #
 # Install healpy
 healpy
