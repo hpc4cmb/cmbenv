@@ -4,9 +4,9 @@ pkg="suitesparse"
 pkgopts=$@
 cleanup=""
 
-version=5.6.0
+version=5.7.2
 pfile=SuiteSparse-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://faculty.cse.tamu.edu/davis/SuiteSparse/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v${version}.tar.gz ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -18,9 +18,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-rm -rf SuiteSparse
+rm -rf SuiteSparse-${version}
 tar xzf ${src} \
-    && cd SuiteSparse \
+    && cd SuiteSparse-${version} \
     && cleanup="${cleanup} $(pwd)" \
     && make library JOBS=@MAKEJ@ \
     CC="@CC@" CXX="@CXX@" CFLAGS="@CFLAGS@" AUTOCC=no \
