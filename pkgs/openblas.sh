@@ -22,14 +22,15 @@ rm -rf OpenBLAS-${version}
 tar xzf ${src} \
     && cd OpenBLAS-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && make USE_OPENMP=1 NO_SHARED=0 \
+    && make USE_OPENMP=1 \
     FC="@FC@" \
     MAKE_NB_JOBS="@MAKEJ@" \
     CC="@CC@" \
     CROSS=$(if [ "x@CROSS@" = x ]; then echo "0"; else echo "1"; fi) \
     COMMON_OPT="@CFLAGS@" \
-    FCOMMON_OPT="@FCFLAGS@" > ${log} 2>&1 \
-    && make NO_SHARED=1 PREFIX="@AUX_PREFIX@" install >> ${log} 2>&1
+    FCOMMON_OPT="@FCFLAGS@" \
+    LDFLAGS="@OPENMP_CFLAGS@ -lm" > ${log} 2>&1 \
+    && make PREFIX="@AUX_PREFIX@" install >> ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
