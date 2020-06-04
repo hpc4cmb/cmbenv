@@ -25,7 +25,7 @@ tar xzf ${src} \
     && make USE_OPENMP=1 \
     FC="@FC@" \
     MAKE_NB_JOBS="@MAKEJ@" \
-    CC="@CC@" \
+    CC="@CC@" DYNAMIC_ARCH=1 \
     CROSS=$(if [ "x@CROSS@" = x ]; then echo "0"; else echo "1"; fi) \
     COMMON_OPT="@CFLAGS@" \
     FCOMMON_OPT="@FCFLAGS@" \
