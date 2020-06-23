@@ -12,7 +12,7 @@ PYVERSION = 3.7
 PIP_PKGS =
 
 # Packages to install with conda
-CONDA_PKGS = future nose Cython numpy scipy matplotlib pyyaml astropy six psutil ephem virtualenv pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab
+CONDA_PKGS = future nose Cython numpy scipy matplotlib pyyaml astropy six psutil ephem virtualenv pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab pyfftw
 
 # Serial compilers
 

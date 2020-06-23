@@ -15,7 +15,7 @@ DOCKER_BASE = python:3.5-alpine3.11
 DOCKER_SYS_PKGS = cmake m4 libtool autoconf automake zlib llvm8-dev suitesparse-dev fftw-dev flac-dev
 
 # Packages to install with pip
-PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pkgconfig pytz psutil==5.0.1 numpy==1.11.3 scipy==0.18.1 matplotlib==1.5.3 pandas==0.19.2 memory_profiler==0.42 astropy==1.2.2 ephem==3.7.6.0 ipython==5.2.2 numba==0.30.1
+PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pkgconfig pytz psutil==5.0.1 numpy==1.11.3 scipy==0.18.1 matplotlib==1.5.3 pandas==0.19.2 memory_profiler==0.42 astropy==1.2.2 ephem==3.7.6.0 ipython==5.2.2 numba==0.30.1 pyfftw
 
 # Packages to install with conda
 CONDA_PKGS =

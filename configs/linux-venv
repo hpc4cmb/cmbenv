@@ -9,7 +9,7 @@ TEMPLATE = linux
 PYVERSION = auto
 
 # Packages to install with pip
-PIP_PKGS = future nose Cython numpy scipy matplotlib pyyaml astropy six psutil ephem pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab
+PIP_PKGS = future nose Cython numpy scipy matplotlib pyyaml astropy six psutil ephem pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab pyfftw
 
 # Packages to install with conda
 CONDA_PKGS =
