@@ -24,7 +24,7 @@ conflict cmbenv python
 unsetenv PYTHONSTARTUP
 
 # Create a versioned location for user-installed packages.
-setenv PYTHONUSERBASE \$HOME/.local/cmbenv-@VERSION@
+setenv PYTHONUSERBASE $env(HOME)/.local/cmbenv-@VERSION@
 
 # Put the cmbenv shell init in our path
 prepend-path PATH "@PYTHON_PREFIX@/bin"
