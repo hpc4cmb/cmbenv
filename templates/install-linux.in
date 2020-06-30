@@ -2,8 +2,8 @@
 
 # Initialize environment
 
-if [ -e "@TOP_DIR@/@CONFFILE@.sh" ]; then
-    source "@TOP_DIR@/@CONFFILE@.sh"
+if [ -e "@CONFFILE@.sh" ]; then
+    source "@CONFFILE@.sh"
 fi
 
 # Add install prefix to our environment.
