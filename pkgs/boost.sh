@@ -40,6 +40,7 @@ tar xjf ${src} \
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
+    cat "${log}" >&2
     exit 1
 fi
 
