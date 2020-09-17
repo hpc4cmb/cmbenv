@@ -4,9 +4,9 @@ pkg="fitsio"
 pkgopts=$@
 cleanup=""
 
-version=1.0.1
+version=1.1.2
 pfile=fitsio-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/esheldon/fitsio/archive/v${version}.tar.gz ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/5e/d7/58ef112ec42a23a866351b09f802e1b1fa6967ac01df0c9f3ea5ee8223ce/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2

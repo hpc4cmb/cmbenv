@@ -41,7 +41,7 @@ mpich
 mpi4py
 #
 # Install CFITSIO.
-#cfitsio
+cfitsio
 #
 # Install FFTW3.
 fftw
