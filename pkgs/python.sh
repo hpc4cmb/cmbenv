@@ -16,7 +16,7 @@ if [ "${pytype}" = "conda" ]; then
     if [ "@OSTYPE@" = "linux" ]; then
         inst=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh miniconda.sh)
     else
-        if [ "@OSTYPE@" = "osx" ]; then
+        if [ "@OSTYPE@" = "macos" ]; then
             inst=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh)
         else
             echo "Unsupported value for config option OSTYPE" >&2

@@ -35,7 +35,7 @@ python:virtualenv
 #       compatible with the serial compilers you are using.
 #   2.  You are building a docker container for use at NERSC with shifter
 #       and need an MPICH compatible with the Cray one.
-#mpich
+mpich
 #
 # Install mpi4py.  This will use the MPI compilers specified in your config.
 mpi4py

@@ -1,6 +1,6 @@
 # Test action that attempts to generate new docker containers on push to master
 
-name:  CMBenv Docker Test
+name:  CMBenv Test
 
 on:
   push:
@@ -9,18 +9,6 @@ on:
     branches: [ master ]
 
 jobs:
-  py35:
-    name: Docker Py3.5 Debian
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Create Dockerfile
-        run: ./cmbenv -c docker-py3.5-debian -p /usr/local
-      - name: Build Docker Image
-        run: docker build -t hpc4cmb/cmbenv:temp_py35 -f Dockerfile_docker-py3.5-debian .
-      - name: Test Docker Image
-        run: docker run hpc4cmb/cmbenv:temp_py35 python -c 'import toast.tests; toast.tests.run()' && docker run hpc4cmb/cmbenv:temp_py35 mpirun -np 2 python -c 'import toast.tests; toast.tests.run()'
   py36:
     name: Docker Py3.6 Debian
     runs-on: ubuntu-latest
@@ -57,3 +45,13 @@ jobs:
         run: docker build -t hpc4cmb/cmbenv:temp_py38 -f Dockerfile_docker-py3.8-debian .
       - name: Test Docker Image
         run: docker run hpc4cmb/cmbenv:temp_py38 python -c 'import toast.tests; toast.tests.run()' && docker run hpc4cmb/cmbenv:temp_py38 mpirun -np 2 python -c 'import toast.tests; toast.tests.run()'
+  macos-venv-clang:
+    name: MacOS Virtualenv Clang
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create Install Script
+        run: ./cmbenv -c macos-venv-clang -p ~/cmbenv
+      - name: Install Packages
+        run:  mkdir build; cd build; ../install_macos-venv-clang.sh; cd ..; . ~/cmbenv/cmbenv_init.sh; mpirun -np 2 python -c 'import toast.tests; toast.tests.run()'

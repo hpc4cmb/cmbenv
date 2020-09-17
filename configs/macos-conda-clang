@@ -1,25 +1,28 @@
 
-# OS type (linux OR osx)
-OSTYPE = osx
+# OS type (linux OR macos)
+OSTYPE = macos
+
+# Specify the template to use
+TEMPLATE = macos
 
 # Serial compilers
 
-CC = gcc-mp-9
-CXX = g++-mp-9
-FC = gfortran-mp-9
+CC = clang
+CXX = clang++
+FC =
 
 # Compiler to use for packages needed on the build machine
 
-BUILD_CC = gcc
-BUILD_CXX = g++
+BUILD_CC = clang
+BUILD_CXX = clang++
 
 # MPI compilers
 
 MPICC = mpicc
 MPICXX = mpicxx
-MPIFC = mpif90
-MPI_CPPFLAGS =
-MPI_LDFLAGS =
+MPIFC =
+MPI_CPPFLAGS = @AUX_PREFIX@/include
+MPI_LDFLAGS = @AUX_PREFIX@/lib
 MPI_CXXLIB = mpichcxx
 MPI_LIB = mpich
 MPI_EXTRA_COMP =
@@ -28,11 +31,11 @@ MPI_EXTRA_LINK =
 # Compile flags
 
 CFLAGS = -O3 -fPIC
-CXXFLAGS = -O3 -fPIC -std=c++11
+CXXFLAGS = -O3 -fPIC -std=c++11 -stdlib=libc++
 FCFLAGS = -O3 -fPIC
 
-OPENMP_CFLAGS = -fopenmp
-OPENMP_CXXFLAGS = -fopenmp
+OPENMP_CFLAGS =
+OPENMP_CXXFLAGS =
 LDFLAGS =
 
 # Are we doing a cross-compile?
@@ -43,16 +46,16 @@ CROSS =
 MAKEJ = 2
 
 # Python version to use
-PYVERSION = auto
+PYVERSION = 3.7
 
-# For BLAS/LAPACK, we use macports openblas
+# For BLAS/LAPACK, we use accelerate framework
 
-BLAS = -lopenblas
+BLAS = -framework Accelerate
 LAPACK =
 
 # Boost toolchain name
 
-BOOSTCHAIN = gcc
+BOOSTCHAIN = clang
 
 # Group and permissions to set
 

@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# Initialize environment
+
+if [ -e "@CONFFILE@.sh" ]; then
+    source "@CONFFILE@.sh"
+fi
+
+# Add install prefix to our environment.
+
+mkdir -p "@PYTHON_PREFIX@/bin"
+mkdir -p "@PYTHON_PREFIX@/lib"
+mkdir -p "@AUX_PREFIX@/include"
+mkdir -p "@AUX_PREFIX@/bin"
+mkdir -p "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
+pushd "@AUX_PREFIX@" > /dev/null
+if [ ! -e lib64 ]; then
+    ln -s lib lib64
+fi
+popd > /dev/null
+
+prepend_env () {
+    # This function is needed since trailing colons
+    # on some environment variables can cause major
+    # problems...
+    local envname=$1
+    local envval=$2
+    if [ "x${!envname}" = "x" ]; then
+        export ${envname}="${envval}"
+    else
+        export ${envname}="${envval}":${!envname}
+    fi
+}
+
+prepend_env "CMBENV_AUX_ROOT" "@AUX_PREFIX@"
+prepend_env "CMAKE_PREFIX_PATH" "@AUX_PREFIX@"
+prepend_env "PATH" "@PYTHON_PREFIX@/bin"
+prepend_env "PATH" "@AUX_PREFIX@/bin"
+prepend_env "CPATH" "@AUX_PREFIX@/include"
+prepend_env "LIBRARY_PATH" "@AUX_PREFIX@/lib"
+prepend_env "LD_LIBRARY_PATH" "@AUX_PREFIX@/lib"
+prepend_env "PYTHONPATH" "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
+prepend_env "PKG_CONFIG_PATH" "@AUX_PREFIX@/lib/pkgconfig"
+
+# Install packages
+
+@PACKAGES@
+
+# Compile python modules
+
+echo "Compiling python packages..."
+python3 -m compileall -f "@AUX_PREFIX@" > log_pycompile
+
+# Install environment init file
+
+cp "$0.init" "@PREFIX@/cmbenv_init.sh"
+
+# Install modulefile
+
+if [ "x@MODULE_DIR@" != "x" ]; then
+    mkdir -p "@MODULE_DIR@"
+    cp "$0.mod" "@MODULE_DIR@/@VERSION@"
+    cp "$0.modver" "@MODULE_DIR@/.version_@VERSION@"
+fi
+
+# Install logo
+
+cp "@TOP_DIR@"/logo-*.png "@PREFIX@/"
+
+# Set permissions
+
+if [ "x@CHGRP@" != "x" ]; then
+    chgrp -R @CHGRP@ "@PREFIX@"
+fi
+
+if [ "x@CHMOD@" != "x" ]; then
+    chmod -R @CHMOD@ "@PREFIX@"
+fi
