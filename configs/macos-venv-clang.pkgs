@@ -44,7 +44,7 @@ mpi4py
 #cfitsio
 #
 # Install FFTW3.
-#fftw
+fftw
 #
 # Install libbz2.  This is required to enable some features in the boost
 # build which are in turn needed by spt3g.
@@ -72,7 +72,7 @@ fitsio
 aatm
 #
 # Install suitesparse
-#suitesparse
+suitesparse
 #
 # Install libconviqt.  4-PI a_lm space beam convolution.
 conviqt

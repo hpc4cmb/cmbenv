@@ -18,6 +18,11 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
+CFOMP=""
+if [ "x@OPENMP_CFLAGS@" != "x" ]; then
+    CFOMP="CFOPENMP=\"@OPENMP_CFLAGS@\""
+fi
+
 rm -rf SuiteSparse-${version}
 tar xzf ${src} \
     && cd SuiteSparse-${version} \
@@ -25,7 +30,7 @@ tar xzf ${src} \
     && make library JOBS=@MAKEJ@ \
     CC="@CC@" CXX="@CXX@" CFLAGS="@CFLAGS@" AUTOCC=no \
     GPU_CONFIG="" \
-    CFOPENMP="@OPENMP_CXXFLAGS@" LAPACK="@LAPACK@" BLAS="@BLAS@" \
+    ${CFOMP} LAPACK="@LAPACK@" BLAS="@BLAS@" \
     > ${log} 2>&1 \
     && cp -a ./lib/* "@AUX_PREFIX@/lib/" \
     && cp -a ./include/* "@AUX_PREFIX@/include/" \
