@@ -66,7 +66,7 @@ if [ "${pytype}" = "conda" ]; then
 else
     if [ "${pytype}" = "virtualenv" ]; then
         echo "Python using virtualenv" >&2
-        virtualenv -p python@PYVERSION@ "@PYTHON_PREFIX@" \
+        python3 -m venv "@PYTHON_PREFIX@" \
         && eval "@TOP_DIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${pextra}" \
         && source "@PYTHON_PREFIX@/bin/cmbenv"
     else
@@ -76,7 +76,7 @@ else
     fi
     if [ "x@PIP_PKGS@" != "x" ]; then
         for pip_pkg in @PIP_PKGS@; do
-            pip3 install ${pip_pkg} >&2
+            python3 -m pip install ${pip_pkg} >&2
             if [ $? -ne 0 ]; then
                 echo "pip install of ${pip_pkg} failed" >&2
                 exit 1
