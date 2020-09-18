@@ -4,7 +4,7 @@ diff -urN libsharp-1.0.0_orig/configure.ac libsharp-1.0.0/configure.ac
 @@ -47,28 +47,30 @@
       ENABLE_PIC=yes
     fi])
- 
+
 -case $CCTYPE in
 -  gcc)
 -    CCFLAGS="-O3 -fno-tree-vectorize -ffast-math -fomit-frame-pointer -std=c99 -pedantic -Wextra -Wall -Wno-unknown-pragmas -Wshadow -Wmissing-prototypes -Wfatal-errors -march=native"
@@ -51,7 +51,7 @@ diff -urN libsharp-1.0.0_orig/configure.ac libsharp-1.0.0/configure.ac
 +# esac
 +
 +CCFLAGS="$CFLAGS"
- 
+
  case $system in
    Darwin-*)
 diff -urN libsharp-1.0.0_orig/python/setup.py libsharp-1.0.0/python/setup.py
@@ -60,7 +60,7 @@ diff -urN libsharp-1.0.0_orig/python/setup.py libsharp-1.0.0/python/setup.py
 @@ -34,12 +34,21 @@
  libsharp_include = os.environ.get('LIBSHARP_INCLUDE', libsharp and os.path.join(libsharp, 'include'))
  libsharp_lib = os.environ.get('LIBSHARP_LIB', libsharp and os.path.join(libsharp, 'lib'))
- 
+
 +ompflags = os.environ.get('OPENMP_CXXFLAGS', None)
 +
  if libsharp_include is None or libsharp_lib is None:
@@ -68,7 +68,7 @@ diff -urN libsharp-1.0.0_orig/python/setup.py libsharp-1.0.0/python/setup.py
                       'this script will refer to the lib and include sub-directories. Alternatively '
                       'set LIBSHARP_INCLUDE and LIBSHARP_LIB\n')
      sys.exit(1)
- 
+
 +extra_link = []
 +if ompflags is not None:
 +    extra_link.append(ompflags)
@@ -84,7 +84,7 @@ diff -urN libsharp-1.0.0_orig/python/setup.py libsharp-1.0.0/python/setup.py
                          include_dirs=[libsharp_include, np.get_include()],
                          library_dirs=[libsharp_lib],
 -                        extra_link_args=["-fopenmp"],
-+                        extra_link_args=[extra_link],
++                        extra_link_args=extra_link,
                ),
                Extension("libsharp.libsharp_mpi",
                          ["libsharp/libsharp_mpi.pyx"],
@@ -92,7 +92,7 @@ diff -urN libsharp-1.0.0_orig/python/setup.py libsharp-1.0.0/python/setup.py
                          include_dirs=[libsharp_include, np.get_include()],
                          library_dirs=[libsharp_lib],
 -                        extra_link_args=["-fopenmp"],
-+                        extra_link_args=[extra_link],
++                        extra_link_args=extra_link,
                ),
                ]),
            )
