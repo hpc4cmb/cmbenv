@@ -57,6 +57,9 @@ CROSS =
 # Parallel builds
 MAKEJ = 2
 
+# Define MKL location
+MKL =
+
 # For BLAS/LAPACK, we use accelerate framework
 
 BLAS = -framework Accelerate

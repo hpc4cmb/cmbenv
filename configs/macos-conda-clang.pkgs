@@ -87,7 +87,7 @@ libsharp
 libflac
 #
 # Install SPT3G.  Frame based data format.
-spt3g
+#spt3g
 #
 # Install TIDAS.  HDF5-based timestream data format.
 tidas

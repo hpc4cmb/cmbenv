@@ -55,3 +55,13 @@ jobs:
         run: ./cmbenv -c macos-venv-clang -p ~/cmbenv
       - name: Install Packages
         run:  mkdir build; cd build; ../install_macos-venv-clang.sh; cd ..; . ~/cmbenv/cmbenv_init.sh; mpirun -np 2 python -c 'import toast.tests; toast.tests.run()'
+  macos-venv-gcc:
+    name: MacOS Virtualenv GCC
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create Install Script
+        run: ./cmbenv -c macos-venv-gcc -p ~/cmbenv
+      - name: Install Packages
+        run:  mkdir build; cd build; ../install_macos-venv-gcc.sh; cd ..; . ~/cmbenv/cmbenv_init.sh; mpirun -np 2 python -c 'import toast.tests; toast.tests.run()'

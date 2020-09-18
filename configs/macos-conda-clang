@@ -45,6 +45,9 @@ CROSS =
 # Parallel builds
 MAKEJ = 2
 
+# Define MKL location
+MKL =
+
 # Python version to use
 PYVERSION = 3.7
 
