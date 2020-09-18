@@ -4,7 +4,7 @@ diff -urN libsharp-1.0.0_orig/configure.ac libsharp-1.0.0/configure.ac
 @@ -47,28 +47,30 @@
       ENABLE_PIC=yes
     fi])
- 
+
 -case $CCTYPE in
 -  gcc)
 -    CCFLAGS="-O3 -fno-tree-vectorize -ffast-math -fomit-frame-pointer -std=c99 -pedantic -Wextra -Wall -Wno-unknown-pragmas -Wshadow -Wmissing-prototypes -Wfatal-errors -march=native"
@@ -51,7 +51,7 @@ diff -urN libsharp-1.0.0_orig/configure.ac libsharp-1.0.0/configure.ac
 +# esac
 +
 +CCFLAGS="$CFLAGS"
- 
+
  case $system in
    Darwin-*)
 diff -urN libsharp-1.0.0_orig/python/setup.py libsharp-1.0.0/python/setup.py
@@ -60,8 +60,8 @@ diff -urN libsharp-1.0.0_orig/python/setup.py libsharp-1.0.0/python/setup.py
 @@ -34,6 +34,8 @@
  libsharp_include = os.environ.get('LIBSHARP_INCLUDE', libsharp and os.path.join(libsharp, 'include'))
  libsharp_lib = os.environ.get('LIBSHARP_LIB', libsharp and os.path.join(libsharp, 'lib'))
- 
-+ompflags = os.environ("OPENMP_CXXFLAGS", "")
+
++ompflags = os.environ.get("OPENMP_CXXFLAGS", "")
 +
  if libsharp_include is None or libsharp_lib is None:
      sys.stderr.write('Please set LIBSHARP environment variable to the install directly of libsharp, '

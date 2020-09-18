@@ -24,11 +24,13 @@ fcopt=""
 if [ "x@FC@" = "x" ]; then
     fcopt="--disable-fortran"
 fi
+
 tar xzf ${src} \
     && cd mpich-${version} \
     && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CXX="@CXX@" FC="@FC@" \
     CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" FCFLAGS="@FCFLAGS@" \
+    FFLAGS=-fallow-argument-mismatch \
     ./configure @CROSS@ ${fcopt} --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1
