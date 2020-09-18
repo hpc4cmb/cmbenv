@@ -9,7 +9,7 @@ TEMPLATE = macos-homebrew
 PYVERSION = auto
 
 # Specify additional packages to install with Homebrew
-HOMEBREW_PKGS = python libtool autoconf automake cfitsio cmake boost
+HOMEBREW_PKGS = python libtool autoconf automake cmake boost
 
 # Packages to install with pip
 PIP_PKGS = future nose Cython numpy scipy matplotlib pyyaml astropy six psutil ephem pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab pyfftw pillow
