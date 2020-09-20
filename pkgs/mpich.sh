@@ -29,8 +29,8 @@ else
     verline=$(@FC@ --version | head -n 1)
     gnucheck=$(echo ${verline} | awk '{print $1}')
     if [ "${gnucheck}" = "GNU" ]; then
-        gnuversion=$(echo ${verline} | sed -e 's#.*[[:space:]]\+\([0-9\.]\+\)$#\1#')
-        gnumajor=$(echo ${gnuversion} | sed -e 's#^\([0-9]\+\)\..*#\1#')
+        gnuversion=$(echo ${verline} | sed -e 's#.*[[:space:]]\([0-9\.]*\)$#\1#')
+        gnumajor=$(echo ${gnuversion} | sed -e 's#^\([0-9]*\)\..*#\1#')
         if [ "${gnumajor}" -ge "10" ]; then
             fextra="-fallow-argument-mismatch"
         fi
