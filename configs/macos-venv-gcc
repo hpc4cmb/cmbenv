@@ -62,7 +62,7 @@ MKL =
 
 # For BLAS/LAPACK, we use self-built openblas
 
-BLAS = -lopenblas
+BLAS = -framework Accelerate
 LAPACK =
 
 # Boost toolchain name
