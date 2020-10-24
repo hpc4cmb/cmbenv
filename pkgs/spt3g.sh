@@ -37,6 +37,11 @@ done
 # Short version of python to use
 pyshort=$(echo @PYVERSION@ | sed -e "s/\.//")
 
+ldflags=""
+if [ "@OSTYPE@" != "macos" ]; then
+    ldflags="-Wl,-z,muldefs"
+fi
+
 rm -rf spt3g_software-${version}
 tar xzf ${src} \
     && cd spt3g_software-${version} \
@@ -48,7 +53,7 @@ tar xzf ${src} \
     && cd "@AUX_PREFIX@/spt3g" \
     && mkdir build \
     && cd build \
-    && LDFLAGS="-Wl,-z,muldefs" \
+    && LDFLAGS="${ldflags}" \
     cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_COMPILER="@CC@" \
