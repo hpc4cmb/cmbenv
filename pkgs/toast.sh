@@ -4,7 +4,7 @@ pkg="toast"
 pkgopts=$@
 cleanup=""
 
-version=2.3.8
+version=2.3.10
 pfile=toast-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/toast/archive/${version}.tar.gz ${pfile})
 
@@ -75,10 +75,8 @@ tar xzf ${src} \
     && mkdir -p build \
     && cd build \
     && cmake \
-    -DCMAKE_C_COMPILER="@MPICC@" \
-    -DCMAKE_CXX_COMPILER="@MPICXX@" \
-    -DMPI_C_COMPILER="@MPICC@" \
-    -DMPI_CXX_COMPILER="@MPICXX@" \
+    -DCMAKE_C_COMPILER="@CC@" \
+    -DCMAKE_CXX_COMPILER="@CXX@" \
     -DCMAKE_C_FLAGS="@CFLAGS@" \
     -DCMAKE_CXX_FLAGS="@CXXFLAGS@" \
     -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
@@ -90,6 +88,7 @@ tar xzf ${src} \
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
+    cat "${log}" >&2
     exit 1
 fi
 

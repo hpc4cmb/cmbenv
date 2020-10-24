@@ -4,7 +4,7 @@ pkg="openblas"
 pkgopts=$@
 cleanup=""
 
-version=0.3.9
+version=0.3.10
 pfile=OpenBLAS-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/xianyi/OpenBLAS/archive/v${version}.tar.gz ${pfile})
 
@@ -34,6 +34,7 @@ tar xzf ${src} \
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
+    cat "${log}" >&2
     exit 1
 fi
 

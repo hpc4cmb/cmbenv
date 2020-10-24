@@ -1,12 +1,15 @@
 
 # OS type (linux OR macos)
-OSTYPE = linux
+OSTYPE = macos
 
 # Specify the template to use
-TEMPLATE = linux
+TEMPLATE = macos-homebrew
 
 # Python version to use
 PYVERSION = auto
+
+# Specify additional packages to install with Homebrew
+HOMEBREW_PKGS = python libtool autoconf automake cmake boost
 
 # Packages to install with pip
 PIP_PKGS = future nose Cython numpy scipy matplotlib pyyaml astropy six psutil ephem pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab pyfftw pillow
@@ -16,20 +19,20 @@ CONDA_PKGS =
 
 # Serial compilers
 
-CC = gcc
-CXX = g++
-FC = gfortran
+CC = clang
+CXX = clang++
+FC =
 
 # Compiler to use for packages needed on the build machine
 
-BUILD_CC = gcc
-BUILD_CXX = g++
+BUILD_CC = clang
+BUILD_CXX = clang++
 
 # MPI compilers
 
 MPICC = mpicc
 MPICXX = mpicxx
-MPIFC = mpifort
+MPIFC =
 MPI_CPPFLAGS = @AUX_PREFIX@/include
 MPI_LDFLAGS = @AUX_PREFIX@/lib
 MPI_CXXLIB = mpichcxx
@@ -39,31 +42,32 @@ MPI_EXTRA_LINK =
 
 # Compile flags
 
-CFLAGS = -O3 -fPIC -pthread
-CXXFLAGS = -O3 -fPIC -pthread -std=c++11
-FCFLAGS = -O3 -fPIC -pthread
+CFLAGS = -O3 -fPIC
+CXXFLAGS = -O3 -fPIC -std=c++11 -stdlib=libc++
+FCFLAGS = -O3 -fPIC
 
-OPENMP_CFLAGS = -fopenmp
-OPENMP_CXXFLAGS = -fopenmp
-LDFLAGS = -lpthread -fopenmp
+OPENMP_CFLAGS =
+OPENMP_CXXFLAGS =
+LDFLAGS =
 
 # Are we doing a cross-compile?
+
 CROSS =
 
 # Parallel builds
-MAKEJ = 4
+MAKEJ = 2
 
 # Define MKL location
 MKL =
 
-# For BLAS/LAPACK, we use openblas
+# For BLAS/LAPACK, we use accelerate framework
 
-BLAS = -lopenblas -fopenmp -lm
+BLAS = -framework Accelerate
 LAPACK =
 
 # Boost toolchain name
 
-BOOSTCHAIN = gcc
+BOOSTCHAIN = clang
 
 # Group and permissions to set
 

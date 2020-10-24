@@ -1,6 +1,9 @@
 
-# OS type (linux OR osx)
-OSTYPE = osx
+# OS type (linux OR macos)
+OSTYPE = macos
+
+# Specify the template to use
+TEMPLATE = macos
 
 # Serial compilers
 
@@ -42,8 +45,11 @@ CROSS =
 # Parallel builds
 MAKEJ = 2
 
+# Define MKL location
+MKL =
+
 # Python version to use
-PYVERSION = auto
+PYVERSION = 3.7
 
 # For BLAS/LAPACK, we use accelerate framework
 

@@ -4,9 +4,9 @@ pkg="healpy"
 pkgopts=$@
 cleanup=""
 
-version=1.13.0
+version=1.14.0
 pfile=healpy-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/26/74/0c8592686027a8196e275cb81999e8aae88d0416c223fa55a7f0cb5bdd26/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/52/bb/21e57f6b3a4c2a3bb59fb2a284fccf6ea15241a180e86ace1f9b891e251b/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -28,6 +28,7 @@ tar xzf ${src} \
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
+    cat "${log}" >&2
     exit 1
 fi
 

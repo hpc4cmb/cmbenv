@@ -4,7 +4,7 @@ pkg="h5py"
 pkgopts=$@
 cleanup=""
 
-hdf5pref='--hdf5="@AUX_PREFIX@"'
+hdf5pref='--hdf5=@AUX_PREFIX@'
 if [ "x$pkgopts" != "x" ]; then
     if [ "x$pkgopts" = "xpkg-config" ]; then
         hdf5pref=""
@@ -39,6 +39,7 @@ tar xzf ${src} \
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
+    cat "${log}" >&2
     exit 1
 fi
 

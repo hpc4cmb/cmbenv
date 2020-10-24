@@ -16,7 +16,7 @@ if [ "${pytype}" = "conda" ]; then
     if [ "@OSTYPE@" = "linux" ]; then
         inst=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh miniconda.sh)
     else
-        if [ "@OSTYPE@" = "osx" ]; then
+        if [ "@OSTYPE@" = "macos" ]; then
             inst=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh)
         else
             echo "Unsupported value for config option OSTYPE" >&2
@@ -66,7 +66,7 @@ if [ "${pytype}" = "conda" ]; then
 else
     if [ "${pytype}" = "virtualenv" ]; then
         echo "Python using virtualenv" >&2
-        virtualenv -p python@PYVERSION@ "@PYTHON_PREFIX@" \
+        python3 -m venv "@PYTHON_PREFIX@" \
         && eval "@TOP_DIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${pextra}" \
         && source "@PYTHON_PREFIX@/bin/cmbenv"
     else
@@ -76,7 +76,7 @@ else
     fi
     if [ "x@PIP_PKGS@" != "x" ]; then
         for pip_pkg in @PIP_PKGS@; do
-            pip3 install ${pip_pkg} >&2
+            python3 -m pip install ${pip_pkg} >&2
             if [ $? -ne 0 ]; then
                 echo "pip install of ${pip_pkg} failed" >&2
                 exit 1

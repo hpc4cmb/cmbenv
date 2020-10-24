@@ -21,18 +21,20 @@ If you are installing on a Linux or OS X workstation you may be able to use one 
 
     Linux:  Is your system python3 fairly recent (>= 3.6.0)?
         - YES.  Do you want to use Anaconda python for some reason?
-            - YES.  Use the linux-conda config.
-            - NO.  Use the linux-venv config.
-        - NO.  You should use the linux-conda config.
-    OS X:  Are you currently using macports or homebrew to get python3?
+            - YES.  Do you want to use MKL for your own compiled python extensions?
+                - Yes.  Use the linux-conda-nomkl config, so that numpy uses OpenBLAS.
+                - No.  Use the linux-conda config.
+            - NO.  Use the linux-venv config.  See MKL notes below.
+        - NO.  You should use the linux-conda or linux-conda-nomkl config.
+    OS X:  Are you currently using macports or homebrew to get a newer python3?
         - YES.  Do you want to use Fortran packages (libmadam)?
             - YES.  Install GNU compilers with macports or homebrew.
-                    Use the osx-venv-gcc config.
-            - NO.  Use the osx-venv-clang config.
+                    Use the macos-venv-gcc config.
+            - NO.  Use the macos-venv-clang config.
         - NO.  Do you want to use Fortran packages (libmadam)?
             - YES.  Install GNU compilers with macports or homebrew.
-                    Use the osx-conda-gcc config.
-            - NO.  Use the osx-conda-clang config.
+                    Use the macos-conda-gcc config.
+            - NO.  Use the macos-conda-clang config.
 
 ### Special Notes for OS X
 
@@ -40,18 +42,36 @@ Apple's operating system can be challenging to work with when building larger co
 
   - Whenever you update your OS, also ensure that X Code and the commandline tools have been updated.
 
-  - If using macports or homebrew, wipe and reinstall these when you upgrade your OS to a new major version.
+  - If using macports or homebrew, wipe and reinstall these when you upgrade your OS to a new version.
 
-If you have trouble with python or gcc on OS X, try testing the "osx-conda-clang" config.  This should be the most stand-alone solution since it uses only the system clang compiler.  Downsides of this are the lack of fortran support and perhaps other features like OpenMP threading.
+If you have trouble with python or gcc on OS X, try testing the "macos-conda-clang" config.  This should be the most stand-alone solution since it uses only the system clang compiler.  Downsides of this are the lack of fortran support and perhaps other features like OpenMP threading.
+
+### MKL Warning
+
+Some versions of numpy use a bundled version of MKL and the Intel threading libraries for linear algebra.  Some packages in `cmbenv` have compiled extensions that also link to external BLAS / LAPACK libraries.  The linear algebra libraries specified in the `BLAS` and `LAPACK` config variables must either be *different* from those used by numpy or **identical** to those used by numpy.
+
+Since it is very challenging to control what upstream MKL is used by numpy, we take a different approach:
+
+  - If you want to use the Intel compilers and MKL when building packages with `cmbenv`, please ensure that your numpy is NOT using MKL (for example, but choosing the "conda nomkl" option for the python package in the config files).
+
+  - If you are using OpenBLAS (external or built by `cmbenv`) or the Apple accelerate framework, then you should not have any conflicts regardless of what numpy is using.
+
+More details:  If you have a compiled extension that is linking to MKL and numpy is also
+linked to a (different) MKL, then only one MKL version will be dlopen'ed by the dynamic
+library loader.  So the order of python imports will determine which one gets loaded.
+Even if the MKL versions are binary compatible, they may link to different threading
+interface libraries.  For example, numpy ships with a bundled version of the Intel
+threading library.  If your extension is built with gcc and linked to MKL, it will link
+to the GNU interface library.
 
 ### Custom Configurations
 
-Create or edit a file in the "configs" subdirectory that is named whatever you
-like.  This file will define compilers, flags, etc. Optionally create files
-with the same name and the ".module" and ".sh" suffixes.  These optional files
-should contain any modulefile and shell commands needed to set up the
-environment prior to building the tools or loading them later.  See existing
-files for examples.
+Create or edit a file in the "configs" subdirectory that is named whatever you like.
+This file will define compilers, flags, etc. Optionally create files with the same name
+and the ".module" and ".sh" suffixes.  These optional files should contain any
+modulefile and shell commands needed to set up the environment prior to building the
+tools or loading them later.  The ".pkgs" file defines the packages to build for your
+system.  See existing files for examples.  
 
 To create a config for a docker image, the config file must be prefixed
 with "docker-".  You should not have any "*.module" or "*.sh" files for
@@ -107,9 +127,10 @@ it here.
 
 It is recommended to tag the container with the hash of the cmbenv git
 repository. In the following snippets, I assume that username is the same on
-local machine, Github, DockerHub and NERSC. Build it with:
+local machine, Github, DockerHub and NERSC. Build it with (for example):
 
-    %> docker build . -t $USER/cmbenv:$(git rev-parse --short HEAD)
+    %> docker build -t $USER/cmbenv:$(git rev-parse --short HEAD) \
+       -f Dockerfile_docker-py3.8-debian .
 
 ### Push the Docker container to Docker Hub
 
@@ -139,11 +160,12 @@ To use this image in a slurm batch script, just add:
 
     #SBATCH --image=docker:YOURUSERNAME/cmbenv:xxxxx
 
-In the SLURM header to set the image. Then prepend `shifter` to all running
-commands (after `srun` and all its options).  For example, to run a script in the container:
+In the SLURM header to set the image. Then prepend `shifter` to all running commands
+(after `srun` and all its options).  For example, to run a script in the container:
 
     srun -n 1 -N 1 shifter myscript.py
 
-If you are running any command in the container, make sure to prepend the shifter command.  For example:
+If you are running any command in the container, make sure to prepend the shifter
+command.  For example:
 
     shifter which myscript.py
