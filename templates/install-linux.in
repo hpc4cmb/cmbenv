@@ -25,10 +25,11 @@ prepend_env () {
     # problems...
     local envname="$1"
     local envval="$2"
-    if [ "x${!envname}" = "x" ]; then
+    eval "local temp=\"\${$envname}\""
+    if [ -z ${temp+x} ]; then
         export ${envname}="${envval}"
     else
-        export ${envname}="${envval}":"${!envname}"
+        export ${envname}="${envval}:${temp}"
     fi
 }
 
