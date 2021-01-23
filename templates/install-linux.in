@@ -23,12 +23,12 @@ prepend_env () {
     # This function is needed since trailing colons
     # on some environment variables can cause major
     # problems...
-    local envname=$1
-    local envval=$2
+    local envname="$1"
+    local envval="$2"
     if [ "x${!envname}" = "x" ]; then
         export ${envname}="${envval}"
     else
-        export ${envname}="${envval}":${!envname}
+        export ${envname}="${envval}":"${!envname}"
     fi
 }
 
