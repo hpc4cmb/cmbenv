@@ -4,7 +4,7 @@
 cmbenv-deactivate () {
     unset CMBENV_ROOT
     unset CMBENV_AUX_PREFIX
-    if ! [ -z "${CONDA_PREFIX+_}" ]; then
+    if [ -n "${CONDA_PREFIX+_}" ]; then
         # We must be using conda
         conda deactivate
     else
@@ -15,7 +15,7 @@ cmbenv-deactivate () {
 
 cmbenv-jupyter () {
     kerneldir=${HOME}/.local/share/jupyter/kernels/cmbenv-@VERSION@
-    if [ -d ${kerneldir} ]; then
+    if [ -d "${kerneldir}" ]; then
         echo "cmbenv @VERSION@ is already installed in ${kerneldir}, skipping." >&2
         return 1
     else
@@ -55,12 +55,13 @@ cmbenv_prepend_env () {
     # This function is needed since trailing colons
     # on some environment variables can cause major
     # problems...
-    local envname=$1
-    local envval=$2
-    if [ "x${!envname}" = "x" ]; then
+    local envname="$1"
+    local envval="$2"
+    eval "local temp=\"\${$envname}\""
+    if [ -z ${temp+x} ]; then
         export ${envname}="${envval}"
     else
-        export ${envname}="${envval}":${!envname}
+        export ${envname}="${envval}:${temp}"
     fi
 }
 
