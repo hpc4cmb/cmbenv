@@ -4,7 +4,7 @@ pkg="toast"
 pkgopts=$@
 cleanup=""
 
-version=2.3.8
+version=2.3.12
 pfile=toast-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/toast/archive/${version}.tar.gz ${pfile})
 
