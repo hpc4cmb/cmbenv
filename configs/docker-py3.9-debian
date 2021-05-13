@@ -15,7 +15,7 @@ DOCKER_BASE = python:3.9-slim-buster
 DOCKER_SYS_PKGS = m4 libtool autoconf automake llvm libsuitesparse-dev libfftw3-dev libcfitsio-dev libflac-dev zlib1g-dev libbz2-dev libopenblas-dev liblapack-dev libhdf5-dev
 
 # Packages to install with pip
-PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba tbb cmake sphinx sphinx-rtd-theme pyfftw pshmem tomlkit traitlets>=5.0
+PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba tbb cmake sphinx sphinx-rtd-theme pyfftw pshmem tomlkit traitlets
 
 # Packages to install with conda
 CONDA_PKGS =
