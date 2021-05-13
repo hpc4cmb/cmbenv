@@ -9,7 +9,7 @@ TEMPLATE = linux
 PYVERSION = auto
 
 # Packages to install with pip
-PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pyyaml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba cmake nbstripout black wurlitzer ipympl ipykernel jupyterlab pyfftw pillow
+PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pyyaml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba cmake nbstripout black wurlitzer ipympl ipykernel jupyterlab pyfftw pillow pshmem tomlkit traitlets>=5.0
 
 # Packages to install with conda
 CONDA_PKGS =

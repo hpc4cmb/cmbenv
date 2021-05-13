@@ -22,7 +22,7 @@ rm -rf flac-${version}
 tar xJf ${src} \
     && cd flac-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && CC="@CC@" CFLAGS="@CFLAGS@" \
+    && CC="@BUILD_CC@" CFLAGS="-O3 -g -fPIC" \
     ./configure @CROSS@ --disable-cpplibs \
     --disable-ogg --disable-xmms-plugin \
     --prefix="@AUX_PREFIX@" > ${log} 2>&1 \

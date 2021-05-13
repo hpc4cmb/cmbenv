@@ -62,6 +62,9 @@ h5py
 # Install healpy
 healpy
 #
+# Install Pixell
+pixell
+#
 # Install quaternionarray
 qarray
 #

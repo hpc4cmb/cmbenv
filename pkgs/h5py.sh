@@ -34,8 +34,7 @@ rm -rf h5py-${version}
 tar xzf ${src} \
     && cd h5py-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && python3 setup.py configure ${hdf5pref} > ${log} \
-    && CC="@CC@" python3 setup.py install --prefix "@AUX_PREFIX@" >> ${log} 2>&1
+    && CC="@CC@" HDF5_DIR="${hdf5pref}" pip install -v --prefix "@AUX_PREFIX@" . >> ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2

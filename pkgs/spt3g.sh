@@ -4,7 +4,7 @@ pkg="spt3g"
 pkgopts=$@
 cleanup=""
 
-version=c2c60207458869faacecd4157baba5d65d715760
+version=56393887cf57785690c3746917382f1ec3cc08fb
 pfile=spt3g_software-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/CMB-S4/spt3g_software/archive/${version}.tar.gz ${pfile})
 
@@ -37,6 +37,10 @@ done
 # Short version of python to use
 pyshort=$(echo @PYVERSION@ | sed -e "s/\.//")
 
+# The spt3g package uses Cereal and Boost, which have issues building with some vendor
+# compilers (e.g. Intel).  Instead, we use the OS compilers (typically gcc or clang)
+# for compilation.
+
 rm -rf spt3g_software-${version}
 tar xzf ${src} \
     && cd spt3g_software-${version} \
@@ -51,10 +55,10 @@ tar xzf ${src} \
     && LDFLAGS="-Wl,-z,muldefs" \
     cmake \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_C_COMPILER="@CC@" \
-    -DCMAKE_CXX_COMPILER="@CXX@" \
-    -DCMAKE_C_FLAGS="@CFLAGS@" \
-    -DCMAKE_CXX_FLAGS="@CXXFLAGS@" \
+    -DCMAKE_C_COMPILER="@BUILD_CC@" \
+    -DCMAKE_CXX_COMPILER="@BUILD_CXX@" \
+    -DCMAKE_C_FLAGS="-O3 -g -fPIC" \
+    -DCMAKE_CXX_FLAGS="-O3 -g -fPIC -std=c++11" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DBOOST_ROOT="${boost}" \
     -DBoost_PYTHON_TYPE="python${pyshort}" \
