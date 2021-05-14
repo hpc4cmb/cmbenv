@@ -45,7 +45,6 @@ rm -rf spt3g_software-${version}
 tar xzf ${src} \
     && cd spt3g_software-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && patch -p1 < "@TOP_DIR@/pkgs/patch_spt3g" > ${log} 2>&1 \
     && cd .. \
     && rm -rf "@AUX_PREFIX@/spt3g" \
     && cp -a spt3g_software-${version} "@AUX_PREFIX@/spt3g" \
