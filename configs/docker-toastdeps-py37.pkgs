@@ -89,6 +89,9 @@ madam:--with-cfitsio=/usr --with-fftw=/usr
 # Install SPT3G.  Frame based data format.
 #spt3g:boost=/usr/local flaclib=/usr/lib/x86_64-linux-gnu/libFLAC.so
 #
+# Install uncrustify
+uncrustify
+#
 # Install TIDAS.  HDF5-based timestream data format.
 tidas
 #
