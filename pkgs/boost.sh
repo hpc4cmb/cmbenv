@@ -8,7 +8,7 @@ cleanup=""
 version=1_76_0
 
 pfile=boost_${version}.tar.bz2
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://dl.bintray.com/boostorg/release/1.76.0/source/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -20,9 +20,9 @@ log="../log_${pkg}"
 
 echo "Building ${pkg}..." >&2
 
-# NOTE:  Due to perpetual flakiness of boost compilation with vendor compilers (e.g. Intel),
-# we build boost with separate OS compilers (usually gcc or clang), as specified by the
-# config BOOSTCHAIN variable.
+# NOTE:  Due to perpetual flakiness of boost compilation with vendor compilers 
+# (e.g. Intel), we build boost with separate OS compilers (usually gcc or clang),
+# as specified by the config BOOSTCHAIN variable.
 
 rm -rf boost_${version}
 tar xjf ${src} \

@@ -64,7 +64,7 @@ LAPACK =
 
 # Boost toolchain name
 
-BOOSTCHAIN = intel-linux
+BOOSTCHAIN = gcc
 
 # Group and permissions to set
 
