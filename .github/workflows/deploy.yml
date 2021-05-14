@@ -23,7 +23,7 @@ jobs:
       - name: Create Dockerfile
         run: ./cmbenv -c docker-py3.8-debian -p /usr/local
       - name: Set tag name
-        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "::set-env name=TAGNAME::${tag}"
+        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "TAGNAME=${tag}" >> $GITHUB_ENV
       - name: Build Docker Image
         run: docker build -t hpc4cmb/cmbenv:${TAGNAME} -f Dockerfile_docker-py3.8-debian .
       - name: Test Docker Image
@@ -41,7 +41,7 @@ jobs:
       - name: Create Dockerfile
         run: ./cmbenv -c docker-toastdeps-py37 -p /usr/local
       - name: Set tag name
-        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "::set-env name=TAGNAME::${tag}"
+        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "TAGNAME=${tag}" >> $GITHUB_ENV
       - name: Build Docker Image
         run: docker build -t hpc4cmb/toast-deps-py37:${TAGNAME} -f Dockerfile_docker-toastdeps-py37 .
       - name: Tag Latest
@@ -57,7 +57,7 @@ jobs:
       - name: Create Dockerfile
         run: ./cmbenv -c docker-toastdeps-py38 -p /usr/local
       - name: Set tag name
-        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "::set-env name=TAGNAME::${tag}"
+        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "TAGNAME=${tag}" >> $GITHUB_ENV
       - name: Build Docker Image
         run: docker build -t hpc4cmb/toast-deps-py38:${TAGNAME} -f Dockerfile_docker-toastdeps-py38 .
       - name: Tag Latest
@@ -73,7 +73,7 @@ jobs:
       - name: Create Dockerfile
         run: ./cmbenv -c docker-toastdeps-py39 -p /usr/local
       - name: Set tag name
-        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "::set-env name=TAGNAME::${tag}"
+        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "TAGNAME=${tag}" >> $GITHUB_ENV
       - name: Build Docker Image
         run: docker build -t hpc4cmb/toast-deps-py39:${TAGNAME} -f Dockerfile_docker-toastdeps-py39 .
       - name: Tag Latest
