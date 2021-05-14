@@ -4,7 +4,7 @@ pkg="openblas"
 pkgopts=$@
 cleanup=""
 
-version=0.3.9
+version=0.3.13
 pfile=OpenBLAS-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/xianyi/OpenBLAS/archive/v${version}.tar.gz ${pfile})
 

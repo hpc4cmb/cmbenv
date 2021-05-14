@@ -62,6 +62,9 @@ h5py
 # Install healpy
 healpy
 #
+# Install Pixell
+pixell
+#
 # Install fitsio
 fitsio
 #
@@ -79,6 +82,9 @@ madam
 #
 # Install SPT3G.  Frame based data format.
 spt3g
+#
+# Install uncrustify
+uncrustify
 #
 # Install TIDAS.  HDF5-based timestream data format.
 tidas

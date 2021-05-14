@@ -4,7 +4,7 @@ pkg="suitesparse"
 pkgopts=$@
 cleanup=""
 
-version=5.7.2
+version=5.9.0
 pfile=SuiteSparse-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v${version}.tar.gz ${pfile})
 

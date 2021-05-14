@@ -4,7 +4,7 @@ pkg="fftw"
 pkgopts=$@
 cleanup=""
 
-version=3.3.8
+version=3.3.9
 pfile=fftw-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://www.fftw.org/${pfile} ${pfile})
 
