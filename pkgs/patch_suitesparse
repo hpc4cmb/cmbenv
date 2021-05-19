@@ -1,0 +1,49 @@
+diff -urN SuiteSparse-5.9.0_orig/Makefile SuiteSparse-5.9.0/Makefile
+--- SuiteSparse-5.9.0_orig/Makefile	2021-03-03 14:04:33.000000000 -0800
++++ SuiteSparse-5.9.0/Makefile	2021-05-19 13:22:30.345693531 -0700
+@@ -282,6 +282,9 @@
+ # hardcoded below.
+ include/metis.h:
+ ifeq (,$(MY_METIS_LIB))
++	- ( cd metis-5.1.0 && $(MAKE) config prefix=$(SUITESPARSE) cc=$(CC) )
++	- ( cd metis-5.1.0 && $(MAKE) )
++	- ( cd metis-5.1.0 && $(MAKE) install )
+ 	- ( cd metis-5.1.0 && $(MAKE) config shared=1 prefix=$(SUITESPARSE) cc=$(CC) )
+ 	- ( cd metis-5.1.0 && $(MAKE) )
+ 	- ( cd metis-5.1.0 && $(MAKE) install )
+diff -urN SuiteSparse-5.9.0_orig/SLIP_LU/Demo/Makefile SuiteSparse-5.9.0/SLIP_LU/Demo/Makefile
+--- SuiteSparse-5.9.0_orig/SLIP_LU/Demo/Makefile	2021-03-03 14:04:33.000000000 -0800
++++ SuiteSparse-5.9.0/SLIP_LU/Demo/Makefile	2021-05-19 13:24:29.964559530 -0700
+@@ -20,7 +20,7 @@
+ 
+ # LDFLAGS = -L../../lib
+ 
+-LDLIBS += -lm -lgmp -lmpfr -lcolamd -lamd -lsliplu
++LDLIBS += -lsliplu -lcolamd -lamd -lmpfr -lgmp -lm
+ CS = $(LDLIBS)
+ 
+ 
+diff -urN SuiteSparse-5.9.0_orig/SLIP_LU/Lib/Makefile SuiteSparse-5.9.0/SLIP_LU/Lib/Makefile
+--- SuiteSparse-5.9.0_orig/SLIP_LU/Lib/Makefile	2021-03-03 14:04:33.000000000 -0800
++++ SuiteSparse-5.9.0/SLIP_LU/Lib/Makefile	2021-05-19 13:25:29.476018521 -0700
+@@ -20,7 +20,7 @@
+ # CFLAGS += -Wall -Wextra -Wpedantic -Werror
+ 
+ # SLIP_LU depends on SuiteSparse_config, AMD, COLAMD, M, GMP, and MPFR
+-LDLIBS += -lsuitesparseconfig -lamd -lcolamd -lm -lgmp -lmpfr
++LDLIBS += -lsuitesparseconfig -lamd -lcolamd -lmpfr -lgmp -lm
+ 
+ C = $(CC) $(CF) -I../Include -I../../COLAMD/Include -I../../AMD/Include -I../../SuiteSparse_config
+ 
+diff -urN SuiteSparse-5.9.0_orig/SLIP_LU/Tcov/Makefile SuiteSparse-5.9.0/SLIP_LU/Tcov/Makefile
+--- SuiteSparse-5.9.0_orig/SLIP_LU/Tcov/Makefile	2021-03-03 14:04:33.000000000 -0800
++++ SuiteSparse-5.9.0/SLIP_LU/Tcov/Makefile	2021-05-19 13:26:23.571538251 -0700
+@@ -21,7 +21,7 @@
+         -I../../SuiteSparse_config -I../../COLAMD/Include -I../../AMD/Include \
+         -DSLIP_GMP_LIST_INIT=2 -DSLIP_LU_TCOV
+ 
+-LDLIBS += -lm -lgmp -lmpfr -lcolamd -lamd -lsuitesparseconfig
++LDLIBS += -lsuitesparseconfig -lcolamd -lamd -lmpfr -lgmp -lm
+ 
+ # run all statement coverage tests, and then check for 100% coverage
+ run: runtests
