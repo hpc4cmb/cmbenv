@@ -62,6 +62,9 @@ h5py
 # Install healpy
 healpy
 #
+# Install quaternionarray
+qarray
+#
 # Install Pixell
 pixell
 #
@@ -71,6 +74,13 @@ fitsio
 # Install aatm.  Needed for some features of atmosphere simulations.
 aatm
 #
+# GMP and MPFR are needed by SuiteSparse
+gmp
+mpfr
+#
+# Install suitesparse
+suitesparse
+#
 # Install libconviqt.  4-PI a_lm space beam convolution.
 conviqt
 #
@@ -79,6 +89,9 @@ libsharp
 #
 # Install libmadam.  Destriping map-maker.
 madam
+#
+# Install FLAC, needed by spt3g
+libflac
 #
 # Install SPT3G.  Frame based data format.
 spt3g

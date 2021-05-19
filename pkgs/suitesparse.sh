@@ -22,7 +22,13 @@ rm -rf SuiteSparse-${version}
 tar xzf ${src} \
     && cd SuiteSparse-${version} \
     && cleanup="${cleanup} $(pwd)" \
+    && patch -p1 < "@TOP_DIR@/pkgs/patch_suitesparse" > ${log} 2>&1 \
     && make library JOBS=@MAKEJ@ \
+    CC="@CC@" CXX="@CXX@" CFLAGS="@CFLAGS@" AUTOCC=no \
+    GPU_CONFIG="" \
+    CFOPENMP="@OPENMP_CXXFLAGS@" LAPACK="@LAPACK@" BLAS="@BLAS@" \
+    > ${log} 2>&1 \
+    && make static JOBS=@MAKEJ@ \
     CC="@CC@" CXX="@CXX@" CFLAGS="@CFLAGS@" AUTOCC=no \
     GPU_CONFIG="" \
     CFOPENMP="@OPENMP_CXXFLAGS@" LAPACK="@LAPACK@" BLAS="@BLAS@" \

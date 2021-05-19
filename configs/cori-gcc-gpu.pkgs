@@ -64,11 +64,18 @@ healpy
 # Install quaternionarray
 qarray
 #
+# Install Pixell
+pixell
+#
 # Install fitsio
 fitsio
 #
 # Install aatm.  Needed for some features of atmosphere simulations.
 aatm
+#
+# GMP and MPFR are needed by SuiteSparse
+gmp
+mpfr
 #
 # Install suitesparse
 suitesparse
