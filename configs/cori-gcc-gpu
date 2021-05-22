@@ -56,7 +56,7 @@ MAKEJ = 4
 # Define MKL location
 MKL =
 
-# For BLAS/LAPACK, we use openblas
+# For BLAS/LAPACK, we use cuda blas
 
 BLAS = -lcublas -lm
 LAPACK =

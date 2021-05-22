@@ -58,7 +58,7 @@ MKL =
 
 # For BLAS/LAPACK, we use openblas
 
-BLAS = -lopenblas -fopenmp -lm
+BLAS = @AUX_PREFIX@/lib/libopenblas.a -fopenmp -lm
 LAPACK =
 
 # Boost toolchain name

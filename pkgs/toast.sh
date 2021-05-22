@@ -21,8 +21,8 @@ echo "Building ${pkg}..." >&2
 # Parse options for dependency install prefix
 fftw=""
 ssparse=""
-blas=""
-lapack=""
+blas="@BLAS@"
+lapack="@LAPACK@"
 
 if [ "x@MKL@" != "x" ]; then
     blas="@MKL@/lib/intel64/libmkl_rt.so"
