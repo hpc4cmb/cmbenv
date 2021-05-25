@@ -21,12 +21,17 @@ echo "Building ${pkg}..." >&2
 # Parse options for dependency install prefix
 fftw=""
 ssparse=""
-blas="@BLAS@"
-lapack="@LAPACK@"
+blas=""
+lapack=""
 
+staticflag=""
+mklflag=""
 if [ "x@MKL@" != "x" ]; then
     blas="@MKL@/lib/intel64/libmkl_rt.so"
     lapack="@MKL@/lib/intel64/libmkl_rt.so"
+else
+    mklflag="-DMKL_DISABLED:BOOL=ON"
+    staticflag="-DTOAST_STATIC_DEPS:BOOL=ON"
 fi
 
 for opt in $pkgopts; do
@@ -84,7 +89,7 @@ tar xzf ${src} \
     -DPYTHON_EXECUTABLE:FILEPATH=$(which python3) \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DCMAKE_INSTALL_PREFIX="@AUX_PREFIX@" \
-    ${fftw_root} ${suitesparse} ${blaslib} ${lapacklib} .. > "${log}" 2>&1 \
+    ${staticflag} ${mklflag} ${fftw_root} ${suitesparse} ${blaslib} ${lapacklib} .. > "${log}" 2>&1 \
     && make -j @MAKEJ@ >> "${log}" 2>&1 \
     && make install >> "${log}" 2>&1
 
