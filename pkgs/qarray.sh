@@ -24,7 +24,7 @@ rm -rf quaternionarray-${version}
 tar xzf ${src} \
     && cd quaternionarray-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && python3 setup.py install --prefix "@AUX_PREFIX@" > ${log} 2>&1
+    && python3 -m pip install --prefix="@AUX_PREFIX@" . > ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
