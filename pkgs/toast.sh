@@ -23,21 +23,24 @@ fftw=""
 ssparse=""
 blas=""
 lapack=""
+static=""
 
-staticflag=""
 mklflag=""
 if [ "x@MKL@" != "x" ]; then
     blas="@MKL@/lib/intel64/libmkl_rt.so"
     lapack="@MKL@/lib/intel64/libmkl_rt.so"
 else
     mklflag="-DMKL_DISABLED:BOOL=ON"
-    staticflag="-DTOAST_STATIC_DEPS:BOOL=ON"
 fi
 
 for opt in $pkgopts; do
     chkfftw=$(echo $opt | sed -e "s/fftw=\(.*\)/\1/")
     if [ "x$chkfftw" != "x$opt" ]; then
         fftw="${chkfftw}"
+    fi
+    chkstatic=$(echo $opt | sed -e "s/static=\(.*\)/\1/")
+    if [ "x$chkstatic" != "x$opt" ]; then
+        static="${chkstatic}"
     fi
     chksparse=$(echo $opt | sed -e "s/suitesparse=\(.*\)/\1/")
     if [ "x$chksparse" != "x$opt" ]; then
@@ -52,6 +55,11 @@ for opt in $pkgopts; do
         lapack="${chklapack}"
     fi
 done
+
+staticflag=""
+if [ "x$static" != "x" ]; then
+    staticflag="-DTOAST_STATIC_DEPS:BOOL=ON"
+fi
 
 fftw_root=""
 if [ "x$fftw" != "x" ]; then

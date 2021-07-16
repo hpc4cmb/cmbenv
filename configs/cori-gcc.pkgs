@@ -110,4 +110,4 @@ pysm
 pympit
 #
 # Install TOAST.
-toast
+toast:static=yes
