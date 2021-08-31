@@ -9,7 +9,10 @@ if [ module-info mode load ] {
       module swap PrgEnv-nvidia PrgEnv-gnu
     }
   }
-  module load cuda
+  if [ is-loaded cuda ] {
+  } else {
+    module load cuda
+  }
   # altd may cause random job hangs
   if [ is-loaded altd ] {
     module unload altd
@@ -18,6 +21,8 @@ if [ module-info mode load ] {
   if [ is-loaded darshan ] {
     module unload darshan
   }
-  module unload cray-libsci
+  if [ is-loaded cray-libsci ] {
+    module unload cray-libsci
+  }
   setenv CRAYPE_LINK_TYPE dynamic
 }
