@@ -88,7 +88,7 @@ conviqt
 libsharp
 #
 # Install libmadam.  Destriping map-maker.
-madam
+#madam
 #
 # Install FLAC, needed by spt3g
 libflac
