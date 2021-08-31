@@ -12,10 +12,7 @@ if [ "x${loadedgnu}" = x ]; then
       module swap PrgEnv-nvidia PrgEnv-gnu
     fi
 fi
-# Select compatible compiler
-if [ "x${loadedcpe}" = x ]; then
-  module load cpe-cuda
-fi
+module load cuda
 # altd may cause random job hangs
 if [ "x${loadedaltd}" != x ]; then
   module unload altd

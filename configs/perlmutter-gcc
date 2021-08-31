@@ -47,18 +47,16 @@ OPENMP_CFLAGS = -fopenmp
 OPENMP_CXXFLAGS = -fopenmp
 LDFLAGS = -fopenmp -lpthread
 
-CROSS =
+# Cuda
+CUDA = ${CUDA_DIR}
 
 # Parallel builds
 MAKEJ = 4
 
-# Define MKL location
-MKL =
-
-# For BLAS/LAPACK, we use cublas
+# For BLAS/LAPACK, we use openblas + nvblas
 
 BLAS = -lnvblas -fopenmp -lm
-LAPACK =
+LAPACK = -lopenblas
 
 # Boost toolchain name
 

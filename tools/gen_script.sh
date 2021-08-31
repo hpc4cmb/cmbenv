@@ -46,9 +46,34 @@ rm -rf "${outpkg}"
 
 mkdir -p "${outpkg}"
 
+# Helper function to get the python version
+get_pyversion () {
+    ver=$(python3 --version 2>&1 | awk '{print $2}' | sed -e "s#\(.*\)\.\(.*\)\..*#\1.\2#")
+    echo ${ver}
+}
 
-# Create list of variable substitutions from the input config file
+# Create list of variable substitutions from the input config file.  We add special
+# handling for variables that *may* be defined, which are used by some packages.
+# If the variables are not found, we set them to an empty string.
 
+found_mkl="no"
+mkl_val=""
+
+found_cuda="no"
+found_cuda_inc="no"
+found_cuda_lib="no"
+cuda_val=""
+cuda_inc_val=""
+cuda_lib_val=""
+
+found_cudamath="no"
+found_cudamath_inc="no"
+found_cudamath_lib="no"
+cudamath_val=""
+cudamath_inc_val=""
+cudamath_lib_val=""
+
+found_pyversion="no"
 pyversion=""
 
 confsub="-e 's#@CONFFILE@#${conffile}#g'"
@@ -67,16 +92,86 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
             val=$(echo ${line} | sed -e "s#[^=]*= *\(.*\)#\1#")
             if [ "${var}" = "PYVERSION" ]; then
                 if [ "x${val}" = "xauto" ]; then
-                    val=$(python3 --version 2>&1 | awk '{print $2}' | sed -e "s#\(.*\)\.\(.*\)\..*#\1.\2#")
+                    val=$(get_pyversion)
                 fi
                 pyversion="${val}"
+                found_pyversion="yes"
+            elif [ "${var}" = "MKL" ]; then
+                found_mkl="yes"
+                mkl_val="${val}"
+            elif [ "${var}" = "CUDA" ]; then
+                found_cuda="yes"
+                cuda_val="${val}"
+            elif [ "${var}" = "CUDA_INC" ]; then
+                found_cuda_inc="yes"
+                cuda_inc_val="${val}"
+            elif [ "${var}" = "CUDA_LIB" ]; then
+                found_cuda_lib="yes"
+                cuda_lib_val="${val}"
+            elif [ "${var}" = "CUDA_MATH" ]; then
+                found_cudamath="yes"
+                cudamath_val="${val}"
+            elif [ "${var}" = "CUDA_MATH_INC" ]; then
+                found_cudamath_inc="yes"
+                cudamath_inc_val="${val}"
+            elif [ "${var}" = "CUDA_MATH_LIB" ]; then
+                found_cudamath_lib="yes"
+                cudamath_lib_val="${val}"
+            else
+                # add to list of substitutions
+                confsub="${confsub} -e 's#@${var}@#${val}#g'"
             fi
-
-            # add to list of substitutions
-            confsub="${confsub} -e 's#@${var}@#${val}#g'"
         fi
     fi
 done < "${conffile}"
+
+if [ "${found_pyversion}" = "no" ]; then
+    pyversion=$(get_pyversion)
+fi
+confsub="${confsub} -e 's#@PYVERSION@#${pyversion}#g'"
+
+if [ "${found_mkl}" = "no" ]; then
+    mkl_val=""
+fi
+confsub="${confsub} -e 's#@MKL@#${mkl_val}#g'"
+
+if [ "${found_cuda}" = "no" ]; then
+    confsub="${confsub} -e 's#@CUDA@##g'"
+    confsub="${confsub} -e 's#@CUDA_INC@##g'"
+    confsub="${confsub} -e 's#@CUDA_LIB@##g'"
+    confsub="${confsub} -e 's#@CUDA_MATH@##g'"
+    confsub="${confsub} -e 's#@CUDA_MATH_INC@##g'"
+    confsub="${confsub} -e 's#@CUDA_MATH_LIB@##g'"
+else
+    confsub="${confsub} -e 's#@CUDA@#${cuda_val}#g'"
+    if [ "${found_cuda_inc}" = "no" ]; then
+        cuda_inc_val="${cuda_val}/include"
+    fi
+    confsub="${confsub} -e 's#@CUDA_INC@#${cuda_inc_val}#g'"
+    if [ "${found_cuda_lib}" = "no" ]; then
+        cuda_lib_val="${cuda_val}/lib64"
+    fi
+    confsub="${confsub} -e 's#@CUDA_LIB@#${cuda_lib_val}#g'"
+    if [ "${found_cudamath}" = "no" ]; then
+        cudamath_val="${cuda_val}"
+        if [ "${found_cudamath_inc}" = "no" ]; then
+            cudamath_inc_val="${cuda_inc_val}"
+        fi
+        if [ "${found_cudamath_lib}" = "no" ]; then
+            cudamath_lib_val="${cuda_lib_val}"
+        fi
+    else
+        if [ "${found_cudamath_inc}" = "no" ]; then
+            cudamath_inc_val="${cudamath_val}/include"
+        fi
+        if [ "${found_cudamath_lib}" = "no" ]; then
+            cudamath_lib_val="${cudamath_val}/lib64"
+        fi
+    fi
+    confsub="${confsub} -e 's#@CUDA_MATH@#${cudamath_val}#g'"
+    confsub="${confsub} -e 's#@CUDA_MATH_INC@#${cudamath_inc_val}#g'"
+    confsub="${confsub} -e 's#@CUDA_MATH_LIB@#${cudamath_lib_val}#g'"
+fi
 
 # We add these predefined matches at the end- so that the config
 # file can actually use these as well.
@@ -109,6 +204,8 @@ if [ "x${docker}" = "xyes" ]; then
 else
     confsub="${confsub} -e 's#@TOP_DIR@#${topdir}#g'"
 fi
+
+# echo "${confsub}"
 
 # Process each selected package for this config.  Copy each package file into
 # the output location while substituting config variables.  Also build up the

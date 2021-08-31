@@ -9,12 +9,7 @@ if [ module-info mode load ] {
       module swap PrgEnv-nvidia PrgEnv-gnu
     }
   }
-  # Get compatible gcc
-  if [ is-loaded cpe-cuda ] {
-  } else {
-    module load cpe-cuda
-  }
-  module load cpe-cuda
+  module load cuda
   # altd may cause random job hangs
   if [ is-loaded altd ] {
     module unload altd
