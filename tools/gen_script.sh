@@ -76,6 +76,9 @@ cudamath_lib_val=""
 found_pyversion="no"
 pyversion=""
 
+found_cross="no"
+cross_val=""
+
 confsub="-e 's#@CONFFILE@#${conffile}#g'"
 confsub="${confsub} -e 's#@CONFIG@#${config}#g'"
 
@@ -99,6 +102,9 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
             elif [ "${var}" = "MKL" ]; then
                 found_mkl="yes"
                 mkl_val="${val}"
+            elif [ "${var}" = "CROSS" ]; then
+                found_cross="yes"
+                cross_val="${val}"
             elif [ "${var}" = "CUDA" ]; then
                 found_cuda="yes"
                 cuda_val="${val}"
@@ -130,10 +136,8 @@ if [ "${found_pyversion}" = "no" ]; then
 fi
 confsub="${confsub} -e 's#@PYVERSION@#${pyversion}#g'"
 
-if [ "${found_mkl}" = "no" ]; then
-    mkl_val=""
-fi
 confsub="${confsub} -e 's#@MKL@#${mkl_val}#g'"
+confsub="${confsub} -e 's#@CROSS@#${cross_val}#g'"
 
 if [ "${found_cuda}" = "no" ]; then
     confsub="${confsub} -e 's#@CUDA@##g'"
