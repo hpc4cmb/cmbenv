@@ -55,7 +55,7 @@ MAKEJ = 4
 
 # For BLAS/LAPACK, we use openblas + nvblas
 
-BLAS = -L${CUDA_DIR}/lib64 -lopenblas -lnvblas -fopenmp -lm
+BLAS = -lopenblas -fopenmp -lm
 LAPACK =
 
 # Boost toolchain name
