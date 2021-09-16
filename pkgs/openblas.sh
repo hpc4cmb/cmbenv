@@ -16,13 +16,22 @@ cleanup="${src}"
 
 log="../log_${pkg}"
 
+static="no"
+for opt in $pkgopts; do
+    chkstatic=$(echo $opt | sed -e "s/static=\(.*\)/\1/")
+    if [ "x$chkstatic" != "x$opt" ]; then
+        static="${chkstatic}"
+    fi
+done
+
 echo "Building ${pkg}..." >&2
 
 rm -rf OpenBLAS-${version}
 tar xzf ${src} \
     && cd OpenBLAS-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && make NO_SHARED=1 USE_OPENMP=1 \
+    && if [ "$static" = "yes" ]; then
+    make NO_SHARED=1 USE_OPENMP=1 \
     FC="@FC@" \
     MAKE_NB_JOBS="@MAKEJ@" \
     CC="@CC@" DYNAMIC_ARCH=1 \
@@ -30,7 +39,16 @@ tar xzf ${src} \
     COMMON_OPT="@CFLAGS@" \
     FCOMMON_OPT="@FCFLAGS@" \
     LDFLAGS="@OPENMP_CFLAGS@ -lm" > ${log} 2>&1 \
-    && make NO_SHARED=1 PREFIX="@AUX_PREFIX@" install >> ${log} 2>&1
+    && make NO_SHARED=1 PREFIX="@AUX_PREFIX@" install >> ${log} 2>&1; \
+    else make USE_OPENMP=1 \
+    FC="@FC@" \
+    MAKE_NB_JOBS="@MAKEJ@" \
+    CC="@CC@" DYNAMIC_ARCH=1 \
+    CROSS=$(if [ "x@CROSS@" = x ]; then echo "0"; else echo "1"; fi) \
+    COMMON_OPT="@CFLAGS@" \
+    FCOMMON_OPT="@FCFLAGS@" \
+    LDFLAGS="@OPENMP_CFLAGS@ -lm" > ${log} 2>&1 \
+    && make PREFIX="@AUX_PREFIX@" install >> ${log} 2>&1; fi
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2

@@ -58,7 +58,7 @@ CUDA_LIB = /usr/lib/x86_64-linux-gnu
 # For BLAS/LAPACK, we use openblas plus nvblas
 
 BLAS = -lopenblas -lnvblas -fopenmp -lm
-LAPACK = -llapack
+LAPACK =
 
 # Boost toolchain name
 
