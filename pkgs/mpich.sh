@@ -4,7 +4,7 @@ pkg="mpich"
 pkgopts=$@
 cleanup=""
 
-version=3.2
+version=3.3.2
 pfile=mpich-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://www.mpich.org/static/downloads/${version}/${pfile} ${pfile})
 
@@ -20,16 +20,19 @@ echo "Building ${pkg}..." >&2
 
 rm -rf mpich-${version}
 
-fcopt=""
+fcopt="--enable-fortran"
 if [ "x@FC@" = "x" ]; then
     fcopt="--disable-fortran"
 fi
 tar xzf ${src} \
     && cd mpich-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && CC="@CC@" CXX="@CXX@" FC="@FC@" \
-    CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" FCFLAGS="@FCFLAGS@" \
-    ./configure @CROSS@ ${fcopt} --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
+    && CC="@CC@" CXX="@CXX@" FC="@FC@" F77="@FC@" \
+    CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" \
+    FFLAGS="@FCFLAGS@ -fallow-argument-mismatch" FCFLAGS="@FCFLAGS@" \
+    ./configure @CROSS@ ${fcopt} \
+    --with-device=ch3 \
+    --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1
 
