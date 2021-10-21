@@ -110,4 +110,4 @@ pysm
 pympit
 #
 # Install TOAST.
-toast
+toast:blas=\${CMBENV_AUX_ROOT}/lib/libopenblas.a
