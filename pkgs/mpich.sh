@@ -4,7 +4,7 @@ pkg="mpich"
 pkgopts=$@
 cleanup=""
 
-version=3.3.2
+version=3.2
 pfile=mpich-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://www.mpich.org/static/downloads/${version}/${pfile} ${pfile})
 
