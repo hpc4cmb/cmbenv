@@ -21,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Create Dockerfile
-        run: ./cmbenv -c docker-py3.8-debian -p /usr/local
+        run: ./cmbenv -c docker-py3.9-debian -p /usr/local
       - name: Set tag name
         run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "TAGNAME=${tag}" >> $GITHUB_ENV
       - name: Build Docker Image
