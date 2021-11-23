@@ -6,7 +6,7 @@ OSTYPE = linux
 TEMPLATE = linux
 
 # Python version to use
-PYVERSION = 3.8
+PYVERSION = 3.9
 
 # Packages to install with pip
 PIP_PKGS =

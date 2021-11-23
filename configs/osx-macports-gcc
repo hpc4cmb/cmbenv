@@ -4,9 +4,9 @@ OSTYPE = osx
 
 # Serial compilers
 
-CC = gcc-mp-9
-CXX = g++-mp-9
-FC = gfortran-mp-9
+CC = gcc-mp-10
+CXX = g++-mp-10
+FC = gfortran-mp-10
 
 # Compiler to use for packages needed on the build machine
 

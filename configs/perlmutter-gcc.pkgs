@@ -27,7 +27,7 @@ openblas
 # a virtualenv or a conda environment.  This will also install a set of
 # common base packages.
 #python:virtualenv
-python:conda nomkl
+python:conda
 #python:default
 #
 # Install MPICH.  This step is optional and only needed in 2 cases:
@@ -53,7 +53,7 @@ bzip2
 # Install Boost.
 boost
 #
-# Install HDF5 (serial version).
+# Install HDF5.
 hdf5
 #
 # Install h5py (using our HDF5).
