@@ -208,6 +208,7 @@ if [ "x${docker}" = "xyes" ]; then
 else
     confsub="${confsub} -e 's#@TOP_DIR@#${topdir}#g'"
 fi
+confsub="${confsub} -e 's#@DOCKER@#${docker}#g'"
 
 # echo "${confsub}"
 
@@ -246,7 +247,7 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
         fi
 
         if [ "x${docker}" = "xyes" ]; then
-            pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}) && if [ \"x\${cln}\" != \"x\" ]; then for cl in \${cln}; do if [ -e \"\${cl}\" ]; then rm -rf \"\${cl}\"; fi; done; fi"
+            pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi"
             pkgcom+="${pcom}"$'\n'$'\n'
         else
             pcom="cln=\$(${topdir}/${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi"
