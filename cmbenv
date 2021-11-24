@@ -78,7 +78,7 @@ if [ "x${prefix}" = "x" ]; then
         show_help
         exit 1
     else
-        prefix="/usr"
+        prefix="NONE"
     fi
 fi
 

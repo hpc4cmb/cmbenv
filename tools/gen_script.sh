@@ -182,17 +182,13 @@ fi
 
 compiled_prefix="${prefix}/cmbenv_aux"
 python_prefix="${prefix}/cmbenv_python"
-module_dir="${moddir}/cmbenv"
-
 if [ "x${docker}" = "xyes" ]; then
-    if [ "x${prefix}" = "x" ]; then
-        compiled_prefix="/usr"
-        python_prefix="/usr"
-    else
-        compiled_prefix="${prefix}"
-        python_prefix="${prefix}"
-    fi
+    prefix="/usr/local"
+    compiled_prefix="/usr/local"
+    python_prefix="/usr/local"
 fi
+
+module_dir="${moddir}/cmbenv"
 
 confsub="${confsub} -e 's#@SRCDIR@#${topdir}#g'"
 confsub="${confsub} -e 's#@PREFIX@#${prefix}#g'"

@@ -4,7 +4,7 @@ pkg="h5py"
 pkgopts=$@
 cleanup=""
 
-hdf5pref='--hdf5="@AUX_PREFIX@"'
+hdf5pref='HDF5_DIR="@AUX_PREFIX@"'
 if [ "x$pkgopts" != "x" ]; then
     if [ "x$pkgopts" = "xpkg-config" ]; then
         hdf5pref=""
@@ -27,7 +27,7 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log = "/dev/stdout"
+    log="/dev/stdout"
 else
     log="../log_${pkg}"
 fi
@@ -38,7 +38,7 @@ rm -rf h5py-${version}
 tar xzf ${src} \
     && cd h5py-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && CC="@MPICC@" HDF5_MPI="ON" HDF5_DIR="${hdf5pref}" pip install -v --prefix "@AUX_PREFIX@" . >> ${log} 2>&1
+    && CC="@MPICC@" HDF5_MPI="ON" ${hdf5pref} pip install -v --prefix "@AUX_PREFIX@" . >> ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
