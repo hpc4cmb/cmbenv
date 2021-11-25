@@ -17,7 +17,7 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log="/dev/stdout"
+    log=/dev/stdout
 else
     log="../log_${pkg}"
 fi
