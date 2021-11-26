@@ -4,7 +4,7 @@ pkg="toast"
 pkgopts=$@
 cleanup=""
 
-version=2.3.12
+version=2.3.14
 pfile=toast-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/toast/archive/${version}.tar.gz ${pfile})
 
@@ -14,7 +14,11 @@ if [ "x${src}" = "x" ]; then
 fi
 cleanup="${src}"
 
-log="../../log_${pkg}"
+if [ "@DOCKER@" = "yes" ]; then
+    log=/dev/stdout
+else
+    log="../../log_${pkg}"
+fi
 
 echo "Building ${pkg}..." >&2
 

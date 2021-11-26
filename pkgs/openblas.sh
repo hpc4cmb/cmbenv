@@ -14,7 +14,11 @@ if [ "x${src}" = "x" ]; then
 fi
 cleanup="${src}"
 
-log="../log_${pkg}"
+if [ "@DOCKER@" = "yes" ]; then
+    log=/dev/stdout
+else
+    log="../log_${pkg}"
+fi
 
 static="no"
 for opt in $pkgopts; do
@@ -34,7 +38,7 @@ tar xzf ${src} \
     make NO_SHARED=1 USE_OPENMP=1 \
     FC="@FC@" \
     MAKE_NB_JOBS="@MAKEJ@" \
-    CC="@CC@" DYNAMIC_ARCH=1 \
+    CC="@CC@" DYNAMIC_ARCH=1 TARGET=GENERIC \
     CROSS=$(if [ "x@CROSS@" = x ]; then echo "0"; else echo "1"; fi) \
     COMMON_OPT="@CFLAGS@" \
     FCOMMON_OPT="@FCFLAGS@" \
@@ -43,7 +47,7 @@ tar xzf ${src} \
     else make USE_OPENMP=1 \
     FC="@FC@" \
     MAKE_NB_JOBS="@MAKEJ@" \
-    CC="@CC@" DYNAMIC_ARCH=1 \
+    CC="@CC@" DYNAMIC_ARCH=1 TARGET=GENERIC \
     CROSS=$(if [ "x@CROSS@" = x ]; then echo "0"; else echo "1"; fi) \
     COMMON_OPT="@CFLAGS@" \
     FCOMMON_OPT="@FCFLAGS@" \

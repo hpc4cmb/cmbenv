@@ -6,7 +6,7 @@ OSTYPE = linux
 TEMPLATE = linux
 
 # Python version to use
-PYVERSION = 3.7
+PYVERSION = 3.9
 
 # Packages to install with pip
 PIP_PKGS =
@@ -41,7 +41,7 @@ MPI_EXTRA_LINK =
 
 CFLAGS = -O3 -fPIC -pthread
 CXXFLAGS = -O3 -fPIC -pthread -std=c++11
-FCFLAGS = -O3 -fPIC -pthread
+FCFLAGS = -O3 -fPIC -pthread -fallow-argument-mismatch
 
 OPENMP_CFLAGS = -fopenmp
 OPENMP_CXXFLAGS = -fopenmp

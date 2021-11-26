@@ -33,7 +33,7 @@ prepend_env () {
     fi
 }
 
-prepend_env "CMBENV_AUX_ROOT" "@AUX_PREFIX@"
+export CMBENV_AUX_ROOT="@AUX_PREFIX@"
 prepend_env "CMAKE_PREFIX_PATH" "@AUX_PREFIX@"
 prepend_env "PATH" "@PYTHON_PREFIX@/bin"
 prepend_env "PATH" "@AUX_PREFIX@/bin"

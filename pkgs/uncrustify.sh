@@ -17,7 +17,11 @@ if [ "x${src}" = "x" ]; then
 fi
 cleanup="${src}"
 
-log="../../log_${pkg}"
+if [ "@DOCKER@" = "yes" ]; then
+    log=/dev/stdout
+else
+    log="../../log_${pkg}"
+fi
 
 echo "Building ${pkg}..." >&2
 

@@ -14,27 +14,24 @@ mkdir -p "@PYTHON_PREFIX@/bin"
 if [ "${pytype}" = "conda" ]; then
     echo "Python using conda" >&2
     if [ "@OSTYPE@" = "linux" ]; then
-        inst=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh miniconda.sh)
+        inst=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh miniforge.sh)
     else
         if [ "@OSTYPE@" = "osx" ]; then
-            inst=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh)
+            inst=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh miniforge.sh)
         else
             echo "Unsupported value for config option OSTYPE" >&2
             exit 1
         fi
     fi
     if [ "x${inst}" = "x" ]; then
-        echo "Failed to fetch miniconda" >&2
+        echo "Failed to fetch miniforge" >&2
         exit 1
     fi
     cleanup="${inst}"
     bash "${inst}" -b -f -p "@PYTHON_PREFIX@" \
     && echo "# condarc to force channel order" > "@PYTHON_PREFIX@/.condarc" \
     && echo "channels:" >> "@PYTHON_PREFIX@/.condarc" \
-    && if [ "x${pextra}" = "xnomkl" ]; then
-        echo "  - conda-forge" >> "@PYTHON_PREFIX@/.condarc"
-    fi \
-    && echo "  - defaults" >> "@PYTHON_PREFIX@/.condarc" \
+    && echo "  - conda-forge" >> "@PYTHON_PREFIX@/.condarc" \
     && echo "changeps1: false" >> "@PYTHON_PREFIX@/.condarc" \
     && eval "@TOP_DIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${pextra}" \
     && source "@PYTHON_PREFIX@/bin/cmbenv" \
@@ -46,13 +43,13 @@ if [ "${pytype}" = "conda" ]; then
         echo "conda python install failed" >&2
         exit 1
     fi
-    if [ "x${pextra}" = "xnomkl" ]; then
-        conda install --copy --yes "blas=*=openblas"
+    if [ "x${pextra}" = "xmkl" ]; then
+        conda install --copy --yes "libblas=*=*mkl" numpy
     else
-        conda install --copy --yes blas
+        conda install --copy --yes "libopenblas=*=*openmp*" "libblas=*=*openblas" numpy
     fi
     if [ $? -ne 0 ]; then
-        echo "conda blas install failed" >&2
+        echo "conda libblas / numpy install failed" >&2
         exit 1
     fi
     if [ "x@CONDA_PKGS@" != "x" ]; then

@@ -17,7 +17,12 @@ cleanup="${src}"
 echo "Building ${pkg}..." >&2
 
 export spt3g_start=$(pwd)
-log="${spt3g_start}/log_${pkg}"
+
+if [ "@DOCKER@" = "yes" ]; then
+    log=/dev/stdout
+else
+    log="${spt3g_start}/log_${pkg}"
+fi
 
 boost="@AUX_PREFIX@"
 flaclib="@AUX_PREFIX@/lib/libFLAC.so"

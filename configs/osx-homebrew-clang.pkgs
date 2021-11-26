@@ -53,8 +53,8 @@ mpi4py
 # Install Boost.
 #boost
 #
-# Install HDF5 (serial version).
-hdf5
+# Install HDF5.
+#hdf5
 #
 # Install h5py (using our HDF5).
 h5py
@@ -75,8 +75,8 @@ fitsio
 aatm
 #
 # GMP and MPFR are needed by SuiteSparse
-gmp
-mpfr
+#gmp
+#mpfr
 #
 # Install suitesparse
 #suitesparse

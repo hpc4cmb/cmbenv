@@ -6,7 +6,7 @@ OSTYPE = linux
 TEMPLATE = linux
 
 # Python version to use
-PYVERSION = 3.8
+PYVERSION = 3.9
 
 # Packages to install with pip
 PIP_PKGS =
@@ -41,7 +41,7 @@ MPI_EXTRA_LINK = -shared
 
 CFLAGS = -O3 -march=znver2 -g -fPIC -pthread
 CXXFLAGS = -O3 -march=znver2 -g -fPIC -pthread -std=c++11
-FCFLAGS = -O3 -march=znver2 -g -fPIC -pthread
+FCFLAGS = -O3 -march=znver2 -g -fPIC -pthread -fallow-argument-mismatch
 
 OPENMP_CFLAGS = -fopenmp
 OPENMP_CXXFLAGS = -fopenmp
@@ -53,9 +53,9 @@ CUDA = ${CUDA_DIR}
 # Parallel builds
 MAKEJ = 4
 
-# For BLAS/LAPACK, we use openblas + nvblas
+# For BLAS/LAPACK, we use openblas
 
-BLAS = -lopenblas -fopenmp -lm
+BLAS = @AUX_PREFIX@/lib/libopenblas.a -fopenmp -lm
 LAPACK =
 
 # Boost toolchain name

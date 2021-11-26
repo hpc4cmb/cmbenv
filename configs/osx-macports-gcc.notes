@@ -1,0 +1,15 @@
+
+# Before running the install, run these commands once
+# to get dependencies from OS packages.
+
+sudo port install \
+gcc10 \
+mpich-gcc10 \
+cmake \
+OpenBLAS +gcc10 \
+OpenBLAS-devel +gcc10 \
+SuiteSparse +gcc10 \
+boost176 \
+fftw-3 +gcc10 \
+cfitsio +gcc10 \
+hdf5 +gcc10

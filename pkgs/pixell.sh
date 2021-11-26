@@ -12,7 +12,11 @@ if [ "x${fetched}" = "x" ]; then
     exit 1
 fi
 
-log="../log_${pkg}"
+if [ "@DOCKER@" = "yes" ]; then
+    log=/dev/stdout
+else
+    log="../log_${pkg}"
+fi
 
 echo "Building ${pkg}..." >&2
 

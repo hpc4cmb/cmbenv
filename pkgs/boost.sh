@@ -16,11 +16,15 @@ if [ "x${src}" = "x" ]; then
 fi
 cleanup="${src}"
 
-log="../log_${pkg}"
+if [ "@DOCKER@" = "yes" ]; then
+    log=/dev/stdout
+else
+    log="../log_${pkg}"
+fi
 
 echo "Building ${pkg}..." >&2
 
-# NOTE:  Due to perpetual flakiness of boost compilation with vendor compilers 
+# NOTE:  Due to perpetual flakiness of boost compilation with vendor compilers
 # (e.g. Intel), we build boost with separate OS compilers (usually gcc or clang),
 # as specified by the config BOOSTCHAIN variable.
 

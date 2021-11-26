@@ -14,7 +14,11 @@ if [ "x${src}" = "x" ]; then
 fi
 cleanup="${src}"
 
-log="../log_${pkg}"
+if [ "@DOCKER@" = "yes" ]; then
+    log=/dev/stdout
+else
+    log="../log_${pkg}"
+fi
 
 static="no"
 for opt in $pkgopts; do
@@ -24,7 +28,7 @@ for opt in $pkgopts; do
     fi
 done
 
-gpuconf="CUDA=no"
+gpuconf="CUDA_ROOT=no"
 if [ "x@CUDA@" != "x" ]; then
     gpuconf="CUDA_ROOT=@CUDA@ CUDA_ROOT_INC=@CUDA_INC@ CUDA_ROOT_LIB=@CUDA_LIB@ CUDA_MATH=@CUDA_MATH@ CUDA_MATH_INC=@CUDA_MATH_INC@ CUDA_MATH_LIB=@CUDA_MATH_LIB@"
 fi

@@ -67,13 +67,14 @@ RUN python3 -m compileall -q "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages" 
 
 FROM @DOCKER_BASE@
 
-# Copy our installed software binaries and libraries
+# Copy our installed software binaries and libraries.
 
 COPY --from=builder /usr /usr/
 COPY --from=builder /lib /lib/
 COPY --from=builder /bin /bin/
 COPY --from=builder /sbin /sbin/
 COPY --from=builder /etc /etc/
+COPY --from=builder /usr/local /usr/local
 
 # Home directory
 
