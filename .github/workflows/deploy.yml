@@ -25,7 +25,7 @@ jobs:
       - name: Set tag name
         run: tag=$(echo "${GITHUB_REF}" | sed -e 's/.*\/\(v.*\)/\1/') && echo "TAGNAME=${tag}" >> $GITHUB_ENV
       - name: Build Docker Image
-        run: docker build -t hpc4cmb/cmbenv:${TAGNAME} -f Dockerfile_docker-py3.8-debian .
+        run: docker build -t hpc4cmb/cmbenv:${TAGNAME} -f Dockerfile_docker-py3.9-debian .
       - name: Test Docker Image
         run: docker run hpc4cmb/cmbenv:${TAGNAME} python -c 'import toast.tests; toast.tests.run()'
       - name: Tag Latest
