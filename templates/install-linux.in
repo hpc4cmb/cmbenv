@@ -40,8 +40,8 @@ prepend_env "PATH" "@AUX_PREFIX@/bin"
 prepend_env "CPATH" "@AUX_PREFIX@/include"
 prepend_env "LIBRARY_PATH" "@AUX_PREFIX@/lib"
 prepend_env "LD_LIBRARY_PATH" "@AUX_PREFIX@/lib"
-prepend_env "PYTHONPATH" "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
 prepend_env "PKG_CONFIG_PATH" "@AUX_PREFIX@/lib/pkgconfig"
+export PYTHONPATH="@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
 
 # Install packages
 

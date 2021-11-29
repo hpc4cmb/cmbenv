@@ -69,8 +69,11 @@ cmbenv_prepend_env "PATH" "@AUX_PREFIX@/bin"
 cmbenv_prepend_env "CPATH" "@AUX_PREFIX@/include"
 cmbenv_prepend_env "LIBRARY_PATH" "@AUX_PREFIX@/lib"
 cmbenv_prepend_env "LD_LIBRARY_PATH" "@AUX_PREFIX@/lib"
-cmbenv_prepend_env "PYTHONPATH" "@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
 cmbenv_prepend_env "PKG_CONFIG_PATH" "@AUX_PREFIX@/lib/pkgconfig"
+
+# We intentionally reset this, to exclude conflicts with pre-existing
+# python stuff
+export PYTHONPATH="@AUX_PREFIX@/lib/python@PYVERSION@/site-packages"
 
 # This should detect bash and zsh, which have a hash command that must
 # be called to get it to forget past commands.  Without forgetting
