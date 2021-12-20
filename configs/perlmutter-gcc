@@ -41,7 +41,9 @@ MPI_EXTRA_LINK = -shared
 
 CFLAGS = -O3 -march=znver2 -g -fPIC -pthread
 CXXFLAGS = -O3 -march=znver2 -g -fPIC -pthread -std=c++11
-FCFLAGS = -O3 -march=znver2 -g -fPIC -pthread -fallow-argument-mismatch
+FCFLAGS = -O3 -march=znver2 -g -fPIC -pthread
+# Change back once using gfortran >= 10
+#FCFLAGS = -O3 -march=znver2 -g -fPIC -pthread -fallow-argument-mismatch
 
 OPENMP_CFLAGS = -fopenmp
 OPENMP_CXXFLAGS = -fopenmp
