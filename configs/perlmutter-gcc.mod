@@ -13,10 +13,6 @@ if [ module-info mode load ] {
   } else {
     module load cpe-cuda
   }   
-  if [ is-loaded cuda ] {
-  } else {
-    module load cuda
-  }
   # altd may cause random job hangs
   if [ is-loaded altd ] {
     module unload altd
