@@ -38,7 +38,7 @@ rm -rf h5py-${version}
 tar xzf ${src} \
     && cd h5py-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && eval CC="@MPICC@" HDF5_MPI="ON" ${hdf5pref} pip install -v --prefix "@AUX_PREFIX@" . >> ${log} 2>&1
+    && eval CC="@MPICC@" HDF5_MPI="ON" ${hdf5pref} pip install --no-deps -v --prefix "@AUX_PREFIX@" . >> ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2

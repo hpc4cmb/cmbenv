@@ -37,7 +37,8 @@ tar xzf ${src} \
     && echo "libraries = @MPI_LIB@" >> mpi.cfg \
     && echo "extra_compile_args = @MPI_EXTRA_COMP@" >> mpi.cfg \
     && echo "extra_link_args = @MPI_EXTRA_LINK@" >> mpi.cfg \
-    && python3 -m pip install --prefix="@AUX_PREFIX@" . > ${log} 2>&1
+    && CFLAGS="@MPI_EXTRA_COMP@" \
+    python3 -m pip install --prefix="@AUX_PREFIX@" . > ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
