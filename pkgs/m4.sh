@@ -4,7 +4,7 @@ pkg="m4"
 pkgopts=$@
 cleanup=""
 
-version=1.4.18
+version=1.4.19
 pfile=m4-${version}.tar.bz2
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://ftp.gnu.org/gnu/m4/${pfile} ${pfile})
 
@@ -26,7 +26,6 @@ rm -rf m4-${version}
 tar xjf ${src} \
     && cd m4-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && patch -p1 < "@TOP_DIR@/pkgs/patch_m4" > ${log} 2>&1 \
     && CC="@BUILD_CC@" ./configure --prefix="@AUX_PREFIX@" >> ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1

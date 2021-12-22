@@ -4,7 +4,7 @@ pkg="spt3g"
 pkgopts=$@
 cleanup=""
 
-version=56393887cf57785690c3746917382f1ec3cc08fb
+version=acd66e76dff1318a79b0fffc0ed24ca4bfde11a5
 pfile=spt3g_software-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/CMB-S4/spt3g_software/archive/${version}.tar.gz ${pfile})
 
@@ -50,10 +50,6 @@ rm -rf spt3g_software-${version}
 tar xzf ${src} \
     && cd spt3g_software-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && cd .. \
-    && rm -rf "@AUX_PREFIX@/spt3g" \
-    && cp -a spt3g_software-${version} "@AUX_PREFIX@/spt3g" \
-    && cd "@AUX_PREFIX@/spt3g" \
     && mkdir build \
     && cd build \
     && LDFLAGS="-Wl,-z,muldefs" \
@@ -71,10 +67,10 @@ tar xzf ${src} \
     -DFLAC_INCLUDE_DIR="${flacinc}" \
     -DPython_USE_STATIC_LIBS=FALSE \
     -DPython_EXECUTABLE:FILEPATH=$(which python3) \
+    -DPYTHON_MODULE_DIR="@AUX_PREFIX@/lib/python@PYVERSION@/site-packages" \
+    -DCMAKE_INSTALL_PREFIX="@AUX_PREFIX@" \
     .. >> ${log} 2>&1 \
-    && make -j @MAKEJ@ >> ${log} 2>&1 \
-    && ln -s @AUX_PREFIX@/spt3g/build/bin/* @AUX_PREFIX@/bin/ \
-    && ln -s @AUX_PREFIX@/spt3g/build/spt3g @AUX_PREFIX@/lib/python@PYVERSION@/site-packages/ \
+    && make -j @MAKEJ@ install >> ${log} 2>&1 \
     && cd ${spt3g_start}
 
 if [ $? -ne 0 ]; then

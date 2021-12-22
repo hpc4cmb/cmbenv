@@ -34,8 +34,8 @@ tar xzf ${src} \
     && cd mpich-${version} \
     && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CXX="@CXX@" FC="@FC@" F77="@FC@" \
-    CFLAGS="-O1 -g -fPIC" CXXFLAGS="-O1 -g -fPIC" \
-    FFLAGS="-O1 -g -fPIC" FCFLAGS="-O1 -g -fPIC" \
+    CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" \
+    FFLAGS="@FCFLAGS@" FCFLAGS="@FCFLAGS@" \
     MPICH_MPICC_CFLAGS="@CFLAGS@ @MPI_EXTRA_COMP@" \
     MPICH_MPICXX_CXXFLAGS="@CXXFLAGS@ @MPI_EXTRA_COMP@" \
     MPICH_MPIF77_FFLAGS="@FCFLAGS@ @MPI_EXTRA_COMP@" \
