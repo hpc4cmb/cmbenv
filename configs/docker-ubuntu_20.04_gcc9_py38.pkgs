@@ -44,7 +44,10 @@ python:default
 #cfitsio
 #
 # Install FFTW3.
-#fftw
+fftw
+#
+# Install pyFFTW
+pyfftw
 #
 # Install libbz2.  This is required to enable some features in the boost
 # build which are in turn needed by spt3g.

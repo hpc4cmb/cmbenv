@@ -4,7 +4,7 @@ pkg="fftw"
 pkgopts=$@
 cleanup=""
 
-version=3.3.9
+version=3.3.10
 pfile=fftw-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://www.fftw.org/${pfile} ${pfile})
 
@@ -27,8 +27,12 @@ tar xzf ${src} \
     && cd fftw-${version} \
     && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CFLAGS="@CFLAGS@" \
-    ./configure --enable-threads @CROSS@ \
-    --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
+    ./configure \
+    --enable-float \
+    --enable-threads \
+    --enable-openmp \
+    --enable-shared \
+    @CROSS@ --prefix="@AUX_PREFIX@" > ${log} 2>&1 \
     && make -j @MAKEJ@ >> ${log} 2>&1 \
     && make install >> ${log} 2>&1
 
