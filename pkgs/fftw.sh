@@ -28,7 +28,6 @@ tar xzf ${src} \
     && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CFLAGS="@CFLAGS@" \
     ./configure \
-    --enable-float \
     --enable-threads \
     --enable-openmp \
     --enable-shared \
