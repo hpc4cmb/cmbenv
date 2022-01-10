@@ -28,6 +28,7 @@ tar xzf ${src} \
     && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CXX="@CXX@" \
     CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" \
+    LDSHARED="@CC@ -shared" \
     python3 -m pip install --prefix="@AUX_PREFIX@" . > ${log} 2>&1
 
 if [ $? -ne 0 ]; then
