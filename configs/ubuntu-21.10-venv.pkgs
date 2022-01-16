@@ -57,10 +57,10 @@ pyfftw
 #boost
 #
 # Install HDF5 (serial version).
-#hdf5
+hdf5
 #
 # Install h5py (using our HDF5).
-h5py:pkg-config
+h5py
 #
 # Install healpy
 healpy

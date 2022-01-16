@@ -71,6 +71,8 @@ else
         eval "@TOP_DIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${pextra}" \
         && source "@PYTHON_PREFIX@/bin/cmbenv"
     fi
+    # Upgrade pip and wheel
+    pip3 install --upgrade pip setuptools wheel >&2
     if [ "x@PIP_PKGS@" != "x" ]; then
         for pip_pkg in @PIP_PKGS@; do
             pip3 install ${pip_pkg} >&2
