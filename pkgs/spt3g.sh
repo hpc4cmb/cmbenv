@@ -4,7 +4,7 @@ pkg="spt3g"
 pkgopts=$@
 cleanup=""
 
-version=acd66e76dff1318a79b0fffc0ed24ca4bfde11a5
+version=959caff19ccc37ee269f1aa37c7ee80740ac6ff5
 pfile=spt3g_software-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/CMB-S4/spt3g_software/archive/${version}.tar.gz ${pfile})
 
