@@ -24,6 +24,5 @@ liblapack-dev \
 libboost-all-dev \
 libcfitsio-dev \
 libfftw3-dev \
-libhdf5-dev \
 libflac-dev \
 libsuitesparse-dev
