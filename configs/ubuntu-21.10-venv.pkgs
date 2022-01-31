@@ -72,7 +72,7 @@ qarray
 pixell
 #
 # Install fitsio
-fitsio
+#fitsio
 #
 # Install aatm.  Needed for some features of atmosphere simulations.
 aatm

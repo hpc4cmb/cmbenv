@@ -9,7 +9,7 @@ TEMPLATE = linux
 PYVERSION = auto
 
 # Packages to install with pip
-PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pyyaml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba cmake nbstripout black wurlitzer ipympl ipykernel jupyterlab pillow pshmem tomlkit traitlets
+PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pyyaml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba cmake nbstripout black wurlitzer ipympl ipykernel jupyterlab pillow pshmem tomlkit traitlets fitsio
 
 # Packages to install with conda
 CONDA_PKGS =
@@ -52,7 +52,7 @@ LDFLAGS = -lpthread -fopenmp
 CROSS =
 
 # Parallel builds
-MAKEJ = 4
+MAKEJ = 2
 
 # Define MKL location
 MKL =
