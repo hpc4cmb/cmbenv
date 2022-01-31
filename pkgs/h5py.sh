@@ -15,7 +15,7 @@ fi
 
 # Note- the download URL includes a checksum and will need to
 # be updated when you change this version string.
-version=3.5.0
+version=3.6.0
 
 pfile=h5py-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/h5py/h5py/archive/refs/tags/${version}.tar.gz ${pfile})
