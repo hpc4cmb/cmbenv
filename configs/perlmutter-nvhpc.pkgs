@@ -91,7 +91,7 @@ suitesparse
 #libsharp
 #
 # Install libmadam.  Destriping map-maker.
-#madam
+madam
 #
 # Install FLAC, needed by spt3g
 #libflac
@@ -113,4 +113,4 @@ uncrustify
 #pympit
 #
 # Install TOAST.
-toast:blas=${CMBENV_AUX_ROOT}/lib/libopenblas.a
+#toast:blas=${CMBENV_AUX_ROOT}/lib/libopenblas.a
