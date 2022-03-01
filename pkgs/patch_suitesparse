@@ -1,6 +1,6 @@
 diff -urN SuiteSparse-5.10.1_orig/CHOLMOD/Lib/Makefile SuiteSparse-5.10.1/CHOLMOD/Lib/Makefile
 --- SuiteSparse-5.10.1_orig/CHOLMOD/Lib/Makefile	2021-05-18 06:01:16.000000000 -0700
-+++ SuiteSparse-5.10.1/CHOLMOD/Lib/Makefile	2021-08-30 21:40:31.560235441 -0700
++++ SuiteSparse-5.10.1/CHOLMOD/Lib/Makefile	2022-03-01 10:32:25.000000000 -0800
 @@ -22,7 +22,7 @@
  #-------------------------------------------------------------------------------
  # With the CUDA BLAS:
@@ -32,9 +32,73 @@ diff -urN SuiteSparse-5.10.1_orig/CHOLMOD/Lib/Makefile SuiteSparse-5.10.1/CHOLMO
  	$(C) -DDLONG -c $(I) $< -o $@
  
  #-------------------------------------------------------------------------------
+diff -urN SuiteSparse-5.10.1_orig/GraphBLAS/Tcov/Makefile SuiteSparse-5.10.1/GraphBLAS/Tcov/Makefile
+--- SuiteSparse-5.10.1_orig/GraphBLAS/Tcov/Makefile	2021-05-18 06:01:16.000000000 -0700
++++ SuiteSparse-5.10.1/GraphBLAS/Tcov/Makefile	2022-03-01 10:35:44.000000000 -0800
+@@ -27,7 +27,7 @@
+ SRC2 = $(notdir $(wildcard $(SRC)))
+ OBJ = $(SRC2:.c=.o)
+ LDFLAGS = -fopenmp
+-CFLAGS = -g -std=c11 -fopenmp -fexceptions -fPIC -Wno-pragmas
++CFLAGS = -g -std=c11 -fopenmp -fPIC -Wno-pragmas
+ CPPFLAGS = -Itmp_include -DGBCOVER $(RENAME)
+ SO_OPTS = $(LDFLAGS)
+ 
+diff -urN SuiteSparse-5.10.1_orig/KLU/Tcov/Makefile SuiteSparse-5.10.1/KLU/Tcov/Makefile
+--- SuiteSparse-5.10.1_orig/KLU/Tcov/Makefile	2021-05-18 06:01:16.000000000 -0700
++++ SuiteSparse-5.10.1/KLU/Tcov/Makefile	2022-03-01 10:37:41.000000000 -0800
+@@ -18,9 +18,9 @@
+ 
+ # for statement coverage, picky tests
+ CF = -Wall -W -Wshadow -Wmissing-prototypes -Wstrict-prototypes \
+-   	-Wredundant-decls -Wnested-externs -Wdisabled-optimization \
+- 	-ansi -g -ftest-coverage -fprofile-arcs -fexceptions \
+-	-fopenmp
++     -Wredundant-decls -Wnested-externs -Wdisabled-optimization \
++     -ansi -g -ftest-coverage -fprofile-arcs \
++     -fopenmp
+ 
+ C = $(CC) $(CF)
+ 
 diff -urN SuiteSparse-5.10.1_orig/Makefile SuiteSparse-5.10.1/Makefile
 --- SuiteSparse-5.10.1_orig/Makefile	2021-05-18 06:01:16.000000000 -0700
-+++ SuiteSparse-5.10.1/Makefile	2021-08-30 14:16:56.574251576 -0700
++++ SuiteSparse-5.10.1/Makefile	2022-03-01 11:33:36.000000000 -0800
+@@ -34,7 +34,7 @@
+ 	( cd GPUQREngine && $(MAKE) )
+ endif
+ 	( cd SPQR && $(MAKE) )
+-	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' )
++#	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' )
+ 	( cd SLIP_LU && $(MAKE) )
+ #	( cd PIRO_BAND && $(MAKE) )
+ #	( cd SKYLINE_SVD && $(MAKE) )
+@@ -63,7 +63,7 @@
+ 	( cd GPUQREngine && $(MAKE) install )
+ endif
+ 	( cd SPQR && $(MAKE) install )
+-	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' install )
++#	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' install )
+ #	( cd PIRO_BAND && $(MAKE) install )
+ #	( cd SKYLINE_SVD && $(MAKE) install )
+ 	( cd SLIP_LU && $(MAKE) install )
+@@ -144,7 +144,7 @@
+ 	( cd GPUQREngine && $(MAKE) library )
+ endif
+ 	( cd SPQR && $(MAKE) library )
+-	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' library )
++#	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' library )
+ 	( cd SLIP_LU && $(MAKE) library )
+ #	( cd PIRO_BAND && $(MAKE) library )
+ #	( cd SKYLINE_SVD && $(MAKE) library )
+@@ -172,7 +172,7 @@
+ 	( cd GPUQREngine && $(MAKE) static )
+ endif
+ 	( cd SPQR && $(MAKE) static )
+-	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' static )
++#	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' static )
+ 	( cd SLIP_LU && $(MAKE) static )
+ #	( cd PIRO_BAND && $(MAKE) static )
+ #	( cd SKYLINE_SVD && $(MAKE) static )
 @@ -282,6 +282,9 @@
  # hardcoded below.
  include/metis.h:
@@ -47,7 +111,7 @@ diff -urN SuiteSparse-5.10.1_orig/Makefile SuiteSparse-5.10.1/Makefile
  	- ( cd metis-5.1.0 && $(MAKE) install )
 diff -urN SuiteSparse-5.10.1_orig/SLIP_LU/Demo/Makefile SuiteSparse-5.10.1/SLIP_LU/Demo/Makefile
 --- SuiteSparse-5.10.1_orig/SLIP_LU/Demo/Makefile	2021-05-18 06:01:16.000000000 -0700
-+++ SuiteSparse-5.10.1/SLIP_LU/Demo/Makefile	2021-08-30 14:16:56.574251576 -0700
++++ SuiteSparse-5.10.1/SLIP_LU/Demo/Makefile	2022-03-01 10:32:25.000000000 -0800
 @@ -20,7 +20,7 @@
  
  # LDFLAGS = -L../../lib
@@ -59,7 +123,7 @@ diff -urN SuiteSparse-5.10.1_orig/SLIP_LU/Demo/Makefile SuiteSparse-5.10.1/SLIP_
  
 diff -urN SuiteSparse-5.10.1_orig/SLIP_LU/Lib/Makefile SuiteSparse-5.10.1/SLIP_LU/Lib/Makefile
 --- SuiteSparse-5.10.1_orig/SLIP_LU/Lib/Makefile	2021-05-18 06:01:16.000000000 -0700
-+++ SuiteSparse-5.10.1/SLIP_LU/Lib/Makefile	2021-08-30 14:16:56.574251576 -0700
++++ SuiteSparse-5.10.1/SLIP_LU/Lib/Makefile	2022-03-01 10:32:25.000000000 -0800
 @@ -20,7 +20,7 @@
  # CFLAGS += -Wall -Wextra -Wpedantic -Werror
  
@@ -71,7 +135,7 @@ diff -urN SuiteSparse-5.10.1_orig/SLIP_LU/Lib/Makefile SuiteSparse-5.10.1/SLIP_L
  
 diff -urN SuiteSparse-5.10.1_orig/SLIP_LU/Tcov/Makefile SuiteSparse-5.10.1/SLIP_LU/Tcov/Makefile
 --- SuiteSparse-5.10.1_orig/SLIP_LU/Tcov/Makefile	2021-05-18 06:01:16.000000000 -0700
-+++ SuiteSparse-5.10.1/SLIP_LU/Tcov/Makefile	2021-08-30 14:16:56.574251576 -0700
++++ SuiteSparse-5.10.1/SLIP_LU/Tcov/Makefile	2022-03-01 10:32:25.000000000 -0800
 @@ -21,7 +21,7 @@
          -I../../SuiteSparse_config -I../../COLAMD/Include -I../../AMD/Include \
          -DSLIP_GMP_LIST_INIT=2 -DSLIP_LU_TCOV
@@ -83,7 +147,16 @@ diff -urN SuiteSparse-5.10.1_orig/SLIP_LU/Tcov/Makefile SuiteSparse-5.10.1/SLIP_
  run: runtests
 diff -urN SuiteSparse-5.10.1_orig/SuiteSparse_config/SuiteSparse_config.mk SuiteSparse-5.10.1/SuiteSparse_config/SuiteSparse_config.mk
 --- SuiteSparse-5.10.1_orig/SuiteSparse_config/SuiteSparse_config.mk	2021-05-18 06:01:16.000000000 -0700
-+++ SuiteSparse-5.10.1/SuiteSparse_config/SuiteSparse_config.mk	2021-08-30 21:22:27.518803108 -0700
++++ SuiteSparse-5.10.1/SuiteSparse_config/SuiteSparse_config.mk	2022-03-01 10:33:37.000000000 -0800
+@@ -154,7 +154,7 @@
+ 
+     # The CF macro is used by SuiteSparse Makefiles as a combination of
+     # CFLAGS, CPPFLAGS, TARGET_ARCH, and system-dependent settings.
+-    CF ?= $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) $(OPTIMIZATION) -fexceptions -fPIC
++    CF ?= $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) $(OPTIMIZATION) -fPIC
+ 
+     #---------------------------------------------------------------------------
+     # code formatting (for Tcov on Linux only)
 @@ -224,15 +224,51 @@
      #---------------------------------------------------------------------------
  
