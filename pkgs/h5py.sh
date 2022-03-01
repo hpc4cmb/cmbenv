@@ -38,7 +38,10 @@ rm -rf h5py-${version}
 tar xzf ${src} \
     && cd h5py-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && CC="@MPICC@" HDF5_MPI="ON" ${hdf5pref} python3 setup.py install --prefix "@AUX_PREFIX@" >> ${log} 2>&1
+    && eval CC="\"@MPICC@\"" CFLAGS="\"@CFLAGS@ @MPI_EXTRA_COMP@\"" HDF5_MPI="ON" H5PY_SETUP_REQUIRES=0 ${hdf5pref} python3 setup.py build > ${log} 2>&1 \
+    && eval CC="\"@MPICC@\"" CFLAGS="\"@CFLAGS@ @MPI_EXTRA_COMP@\"" \
+    HDF5_MPI="ON" H5PY_SETUP_REQUIRES=0 ${hdf5pref} \
+    python3 -m pip install --prefix "@AUX_PREFIX@" --no-build-isolation . >> ${log} 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Failed to build ${pkg}" >&2
