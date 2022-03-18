@@ -7,8 +7,9 @@ cleanup=""
 # NOTE:  change URL when changing version
 version=1.0.8
 
-pfile=bzip2_${version}.orig.tar.bz2
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://launchpad.net/debian/+archive/primary/+sourcefiles/bzip2/${version}-5/${pfile} ${pfile})
+pdir=bzip2-bzip2-${version}
+pfile=${pdir}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://gitlab.com/bzip2/bzip2/-/archive/bzip2-${version}/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -24,9 +25,9 @@ fi
 
 echo "Building ${pkg}..." >&2
 
-rm -rf bzip2-${version}
-tar xjf ${src} \
-    && cd bzip2-${version} \
+rm -rf ${pdir}
+tar xzf ${src} \
+    && cd ${pdir} \
     && cleanup="${cleanup} $(pwd)" \
     && patch -p1 < "@TOP_DIR@/pkgs/patch_bzip2" > ${log} 2>&1 \
     && CC="@CC@" CFLAGS="@CFLAGS@" \
