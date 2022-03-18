@@ -4,7 +4,7 @@ pkg="gmp"
 pkgopts=$@
 cleanup=""
 
-version=6.2.0
+version=6.2.1
 pdir=gmp-${version}
 pfile=${pdir}.tar.xz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://ftp.gnu.org/gnu/gmp/${pfile} ${pfile})

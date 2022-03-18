@@ -4,9 +4,9 @@ pkg="pysm"
 pkgopts=$@
 cleanup=""
 
-version=3.3.0
+version=3.3.2
 pfile=pysm3-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/0a/bd/8a3d2306f3ab1ce06f3bf22139875ad01e7c9671286baebd016cd9662fa7/pysm3-3.3.0.tar.gz ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/8a/10/cecd80d1f14b8ebcb3c85bc9478d9774574f82305d316446e84da7221394/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2

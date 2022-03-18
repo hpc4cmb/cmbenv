@@ -4,7 +4,7 @@ pkg="autoconf"
 pkgopts=$@
 cleanup=""
 
-version=2.69
+version=2.71
 pfile=autoconf-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftp.gnu.org/gnu/autoconf/${pfile} ${pfile})
 

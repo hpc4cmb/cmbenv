@@ -4,7 +4,7 @@ pkg="libflac"
 pkgopts=$@
 cleanup=""
 
-version=1.3.3
+version=1.3.4
 pfile=flac-${version}.tar.xz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://ftp.osuosl.org/pub/xiph/releases/flac/${pfile} ${pfile})
 

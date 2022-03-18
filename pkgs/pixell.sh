@@ -1,7 +1,7 @@
 #!/bin/bash
 
 pkg="pixell"
-version=0.14.3
+version=0.15.3
 psrc=${pkg}-${version}
 pfile=${psrc}.tar.gz
 

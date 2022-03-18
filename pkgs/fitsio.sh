@@ -4,7 +4,7 @@ pkg="fitsio"
 pkgopts=$@
 cleanup=""
 
-version=1.1.5
+version=1.1.7
 pfile=fitsio-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/17/b2/8bbf4ac91866449474ce847e2fbcfe6a95a6b917a38b94c0ce9c3860edc0/${pfile} ${pfile})
 

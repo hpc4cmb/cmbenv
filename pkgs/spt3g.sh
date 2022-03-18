@@ -4,7 +4,7 @@ pkg="spt3g"
 pkgopts=$@
 cleanup=""
 
-version=959caff19ccc37ee269f1aa37c7ee80740ac6ff5
+version=4da2f4b5b6cba198803a2efbffc8892d220b7e63
 pfile=spt3g_software-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/CMB-S4/spt3g_software/archive/${version}.tar.gz ${pfile})
 
@@ -63,6 +63,7 @@ tar xzf ${src} \
     -DBOOST_ROOT="${boost}" \
     -DBoost_PYTHON_TYPE="python${pyshort}" \
     -DBoost_ARCHITECTURE=-x64 \
+    -DBoost_DEBUG=ON \
     -DFLAC_LIBRARIES="${flaclib}" \
     -DFLAC_INCLUDE_DIR="${flacinc}" \
     -DPython_USE_STATIC_LIBS=FALSE \
