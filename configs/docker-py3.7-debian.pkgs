@@ -6,21 +6,21 @@
 #
 # Autotools.  If you already have recent versions installed with your OS
 # package manager, then comment these out.
-#m4
-#libtool
-#autoconf
-#automake
+m4
+libtool
+autoconf
+automake
 #
 # CMake.
-#cmake
+cmake
 #
 # Install zlib.  This is needed on some systems where the OS-provided zlib is
 # very ancient.
-#zlib
+zlib
 #
 # Install OpenBLAS.  Comment out if you are using MKL with the Intel compilers
 # or some other vendor BLAS / LAPACK solution.
-#openblas
+openblas
 #
 # Python 3.  Uncomment one of the following lines.  You should only use the
 # "default" option for Docker images.  All other configs should use either
@@ -41,7 +41,7 @@ mpich
 mpi4py
 #
 # Install CFITSIO.
-#cfitsio
+cfitsio
 #
 # Install FFTW3.
 fftw
@@ -51,10 +51,10 @@ pyfftw
 #
 # Install libbz2.  This is required to enable some features in the boost
 # build which are in turn needed by spt3g.
-#bzip2
+bzip2
 #
 # Install Boost.
-#boost
+boost
 #
 # Install HDF5.
 hdf5
@@ -91,13 +91,13 @@ conviqt
 libsharp
 #
 # Install libmadam.  Destriping map-maker.
-madam:--with-cfitsio=/usr --with-fftw=/usr
+madam:--with-cfitsio=/usr/local --with-fftw=/usr/local
 #
 # Install FLAC, needed by spt3g
-#libflac
+libflac
 #
 # Install SPT3G.  Frame based data format.
-#spt3g:boost=/usr/local flaclib=/usr/lib/x86_64-linux-gnu/libFLAC.so
+spt3g:boost=/usr/local flaclib=/usr/local/lib/libFLAC.so
 #
 # Install uncrustify
 uncrustify

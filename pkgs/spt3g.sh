@@ -19,7 +19,7 @@ echo "Building ${pkg}..." >&2
 export spt3g_start=$(pwd)
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="${spt3g_start}/log_${pkg}"
 fi

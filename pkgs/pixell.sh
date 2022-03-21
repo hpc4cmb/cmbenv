@@ -13,7 +13,7 @@ if [ "x${fetched}" = "x" ]; then
 fi
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../log_${pkg}"
 fi

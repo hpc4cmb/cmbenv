@@ -243,7 +243,7 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
         fi
 
         if [ "x${docker}" = "xyes" ]; then
-            pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi"
+            pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi; echo \${cln}; rm -rf \${cln}"
             pkgcom+="${pcom}"$'\n'$'\n'
         else
             pcom="cln=\$(${topdir}/${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi"
