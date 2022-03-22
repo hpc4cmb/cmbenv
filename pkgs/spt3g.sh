@@ -57,8 +57,8 @@ tar xzf ${src} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_COMPILER="@BUILD_CC@" \
     -DCMAKE_CXX_COMPILER="@BUILD_CXX@" \
-    -DCMAKE_C_FLAGS="-O3 -g -fPIC" \
-    -DCMAKE_CXX_FLAGS="-O3 -g -fPIC -std=c++11" \
+    -DCMAKE_C_FLAGS="-O3 -fPIC" \
+    -DCMAKE_CXX_FLAGS="-O3 -fPIC -std=c++11" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DBOOST_ROOT="${boost}" \
     -DBoost_PYTHON_TYPE="python${pyshort}" \
