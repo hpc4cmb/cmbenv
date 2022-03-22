@@ -82,7 +82,7 @@ gmp
 mpfr
 #
 # Install suitesparse
-#suitesparse
+suitesparse
 #
 # Install libconviqt.  4-PI a_lm space beam convolution.
 conviqt
