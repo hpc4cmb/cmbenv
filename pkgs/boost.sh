@@ -43,7 +43,7 @@ tar xjf ${src} \
     --with-python=python3 \
     --prefix=@AUX_PREFIX@ > ${log} 2>&1 \
     && ./b2 --layout=tagged --user-config=./tools/build/user-config.jam \
-    ${pyincl} cxxflags="@CXXFLAGS@" \
+    ${pyincl} cxxflags="-O3 -fPIC -std=c++11" \
     variant=release threading=multi link=shared runtime-link=shared install \
     >> ${log} 2>&1
 
