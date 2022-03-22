@@ -42,7 +42,7 @@ if [ "x@MPI_EXTRA_LINK@" != "x" ]; then
 fi
 
 tar xzf ${src} \
-    && cd mpich-${version} \
+    && cd ${pdir} \
     && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CXX="@CXX@" FC="@FC@" F77="@FC@" \
     CFLAGS="@CFLAGS@" CXXFLAGS="@CXXFLAGS@" \
