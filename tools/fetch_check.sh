@@ -21,7 +21,7 @@ plocal="${pooldir}/${local}"
 
 if [ ! -e "${plocal}" ]; then
     echo "Fetching ${local} to download pool..." >&2
-    curl -SL "${url}" -o "${plocal}"
+    curl --connect-timeout 30 --max-time 300 --retry 5 -SL "${url}" -o "${plocal}"
 else
     echo "Found existing ${local} in download pool." >&2
 fi
