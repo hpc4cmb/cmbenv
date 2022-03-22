@@ -69,12 +69,17 @@ FROM @DOCKER_BASE@
 
 # Copy our installed software binaries and libraries.
 
-COPY --from=builder /usr /usr/
 COPY --from=builder /lib /lib/
 COPY --from=builder /bin /bin/
 COPY --from=builder /sbin /sbin/
 COPY --from=builder /etc /etc/
-COPY --from=builder /usr/local /usr/local
+COPY --from=builder /usr/bin /usr/bin/
+COPY --from=builder /usr/sbin /usr/sbin/
+COPY --from=builder /usr/lib /usr/lib/
+COPY --from=builder /usr/include /usr/include/
+COPY --from=builder /usr/libexec /usr/libexec/
+COPY --from=builder /usr/share /usr/share/
+COPY --from=builder /usr/local /usr/local/
 
 # Home directory
 
