@@ -6,8 +6,8 @@ cleanup=""
 
 version=4.1.0
 pdir=mpfr-${version}
-pfile=${pdir}.tar.xz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh"  https://www.mpfr.org/mpfr-current/${pfile} ${pfile})
+pfile=${pdir}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftpmirror.gnu.org/mpfr/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -24,7 +24,7 @@ fi
 echo "Building ${pkg}..." >&2
 
 rm -rf ${pdir}
-tar xf ${src} \
+tar xzf ${src} \
     && cd ${pdir} \
     && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CFLAGS="@CFLAGS@" \
