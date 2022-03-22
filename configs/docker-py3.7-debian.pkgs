@@ -103,7 +103,7 @@ spt3g:boost=/usr/local flaclib=/usr/local/lib/libFLAC.so
 uncrustify
 #
 # Install TIDAS.  HDF5-based timestream data format.
-tidas
+#tidas
 #
 # Install PySM.  Python Sky Model.
 pysm
