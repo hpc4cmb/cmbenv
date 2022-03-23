@@ -57,6 +57,12 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Special case for docker builds.  Re-run ldconfig
+# to pick up new libraries.
+if [ "x@DOCKER@" = "xyes" ]; then
+    ldconfig
+fi
+
 echo "Finished building ${pkg}" >&2
 echo "${cleanup}"
 exit 0
