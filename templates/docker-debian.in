@@ -24,6 +24,11 @@ RUN apt-get -y update \
     xvfb \
     && rm -fr /var/lib/apt/lists/*
 
+# Ensure that the lib directory of our install prefix
+# is in the linker search path.
+
+RUN echo "@AUX_PREFIX@/lib" > /etc/ld.so.conf.d/local.conf && ldconfig
+
 # Set up locales
 
 ENV LANG C.UTF-8
