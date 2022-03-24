@@ -25,9 +25,6 @@ jobs:
             mpi: mpich
           - python: 3.9
             mpi: openmpi
-    env:
-      OMPI_ALLOW_RUN_AS_ROOT: 1
-      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: 1
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -47,7 +44,7 @@ jobs:
         run: docker build -t hpc4cmb/cmbenv-${{ matrix.mpi }}:${TAGNAME} -f Dockerfile_docker-py${{ matrix.python }}-debian-${{ matrix.mpi }} .
 
       - name: Test Docker Image
-        run: docker run hpc4cmb/cmbenv-${{ matrix.mpi }}:${TAGNAME} python -c 'import toast.tests; toast.tests.run()'
+        run: docker run -e "OMPI_ALLOW_RUN_AS_ROOT=1" -e "OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1" hpc4cmb/cmbenv-${{ matrix.mpi }}:${TAGNAME} python -c 'import toast.tests; toast.tests.run()'
 
       - name: Tag Latest
         run: docker tag hpc4cmb/cmbenv-${{ matrix.mpi }}:${TAGNAME} hpc4cmb/cmbenv-${{ matrix.mpi }}:latest
