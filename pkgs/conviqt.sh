@@ -4,7 +4,7 @@ pkg="conviqt"
 pkgopts=$@
 cleanup=""
 
-version=1.2.3
+version=1.2.5
 pfile=libconviqt-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/libconviqt/archive/v${version}.tar.gz ${pfile})
 
@@ -15,7 +15,7 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../log_${pkg}"
 fi

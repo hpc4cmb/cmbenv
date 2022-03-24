@@ -4,9 +4,9 @@ pkg="autoconf"
 pkgopts=$@
 cleanup=""
 
-version=2.69
+version=2.71
 pfile=autoconf-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftp.gnu.org/gnu/autoconf/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftpmirror.gnu.org/autoconf/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -15,7 +15,7 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../log_${pkg}"
 fi

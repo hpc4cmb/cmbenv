@@ -4,9 +4,9 @@ pkg="automake"
 pkgopts=$@
 cleanup=""
 
-version=1.16.1
+version=1.16.5
 pfile=automake-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftp.gnu.org/gnu/automake/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftpmirror.gnu.org/automake/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -15,7 +15,7 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../log_${pkg}"
 fi

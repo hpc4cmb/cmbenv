@@ -9,7 +9,7 @@ TEMPLATE = linux
 PYVERSION = auto
 
 # Packages to install with pip
-PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pyyaml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba cmake nbstripout black wurlitzer ipympl ipykernel jupyterlab pillow pshmem tomlkit traitlets
+PIP_PKGS = future nose Cython numpy scipy matplotlib pyyaml astropy six psutil ephem pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab pillow pshmem tomlkit traitlets
 
 # Packages to install with conda
 CONDA_PKGS =
@@ -30,9 +30,9 @@ BUILD_CXX = g++
 MPICC = mpicc
 MPICXX = mpicxx
 MPIFC = mpifort
-MPI_CPPFLAGS = /usr/include
-MPI_LDFLAGS = /usr/lib/x86_64-linux-gnu
-MPI_CXXLIB = mpi_cxx
+MPI_CPPFLAGS = @AUX_PREFIX@/include
+MPI_LDFLAGS = @AUX_PREFIX@/lib
+MPI_CXXLIB = mpicxx
 MPI_LIB = mpi
 MPI_EXTRA_COMP =
 MPI_EXTRA_LINK =
@@ -41,14 +41,13 @@ MPI_EXTRA_LINK =
 
 CFLAGS = -O3 -fPIC -pthread
 CXXFLAGS = -O3 -fPIC -pthread -std=c++11
-FCFLAGS = -O3 -fPIC -pthread -fallow-argument-mismatch
+FCFLAGS = -O3 -fPIC -pthread -std=legacy -fallow-argument-mismatch
 
 OPENMP_CFLAGS = -fopenmp
 OPENMP_CXXFLAGS = -fopenmp
 LDFLAGS = -lpthread -fopenmp
 
 # Are we doing a cross-compile?
-
 CROSS =
 
 # Parallel builds
@@ -59,8 +58,8 @@ MKL =
 
 # For BLAS/LAPACK, we use openblas
 
-BLAS = -lopenblas -fopenmp -lm
-LAPACK = -llapack
+BLAS = @AUX_PREFIX@/lib/libopenblas.a -fopenmp -lm
+LAPACK =
 
 # Boost toolchain name
 

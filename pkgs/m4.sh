@@ -6,7 +6,7 @@ cleanup=""
 
 version=1.4.19
 pfile=m4-${version}.tar.bz2
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://ftp.gnu.org/gnu/m4/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftpmirror.gnu.org/m4/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -15,7 +15,7 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../log_${pkg}"
 fi

@@ -4,8 +4,10 @@ pkg="cfitsio"
 pkgopts=$@
 cleanup=""
 
-pfile=cfitsio3450.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/${pfile} ${pfile})
+version=4.1.0
+pdir=cfitsio-${version}
+pfile=${pdir}.tar.gz
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -14,16 +16,16 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../log_${pkg}"
 fi
 
 echo "Building ${pkg}..." >&2
 
-rm -rf cfitsio
+rm -rf ${pdir}
 tar xzf ${src} \
-    && cd cfitsio \
+    && cd ${pdir} \
     && cleanup="${cleanup} $(pwd)" \
     && CC="@CC@" CFLAGS="@CFLAGS@" ./configure @CROSS@ \
     --prefix="@AUX_PREFIX@" --enable-reentrant > ${log} 2>&1 \

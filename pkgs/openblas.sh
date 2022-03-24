@@ -4,7 +4,7 @@ pkg="openblas"
 pkgopts=$@
 cleanup=""
 
-version=0.3.13
+version=0.3.20
 pfile=OpenBLAS-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/xianyi/OpenBLAS/archive/v${version}.tar.gz ${pfile})
 
@@ -15,7 +15,7 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../log_${pkg}"
 fi

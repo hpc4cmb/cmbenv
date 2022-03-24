@@ -41,7 +41,7 @@ MPI_EXTRA_LINK = -shared
 
 CFLAGS = -O3 -g -fPIC -pthread
 CXXFLAGS = -O3 -g -fPIC -pthread -std=c++11
-FCFLAGS = -O3 -g -fPIC -pthread
+FCFLAGS = -O3 -g -fPIC -pthread -fallow-argument-mismatch
 
 OPENMP_CFLAGS = -fopenmp
 OPENMP_CXXFLAGS = -fopenmp

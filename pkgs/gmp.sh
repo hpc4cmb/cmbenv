@@ -4,10 +4,10 @@ pkg="gmp"
 pkgopts=$@
 cleanup=""
 
-version=6.2.0
+version=6.2.1
 pdir=gmp-${version}
 pfile=${pdir}.tar.xz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://ftp.gnu.org/gnu/gmp/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://ftpmirror.gnu.org/gmp/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -16,7 +16,7 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../log_${pkg}"
 fi

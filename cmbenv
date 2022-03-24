@@ -25,7 +25,6 @@ prefix=""
 config=""
 version=""
 moduledir=""
-dockertag=""
 
 while getopts ":c:p:v:m:" opt; do
     case $opt in
@@ -40,9 +39,6 @@ while getopts ":c:p:v:m:" opt; do
             ;;
         m)
             moduledir=$OPTARG
-            ;;
-        t)
-            dockertag=$OPTARG
             ;;
         \?)
             show_help

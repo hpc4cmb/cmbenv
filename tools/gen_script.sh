@@ -243,6 +243,10 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
         fi
 
         if [ "x${docker}" = "xyes" ]; then
+            # Since we are usually doing a 2-stage docker build, we do not need to purge
+            # source / build artifacts that will not be copied.  This also helps
+            # debugging.
+            #pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi; echo \${cln}; rm -rf \${cln}"
             pcom="RUN cln=\$(./${outpkg}/${pkgname}.sh ${pkgopts}); if [ \$? -ne 0 ]; then echo \"FAILED\"; exit 1; fi"
             pkgcom+="${pcom}"$'\n'$'\n'
         else

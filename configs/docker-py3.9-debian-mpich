@@ -12,7 +12,7 @@ PYVERSION = 3.9
 DOCKER_BASE = python:3.9-slim-bullseye
 
 # Specify additional packages to install for docker builds
-DOCKER_SYS_PKGS = m4 libtool autoconf automake llvm libsuitesparse-dev libcfitsio-dev libflac-dev zlib1g-dev libbz2-dev libopenblas-dev liblapack-dev libhdf5-dev
+DOCKER_SYS_PKGS =
 
 # Packages to install with pip
 PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba tbb cmake sphinx sphinx-rtd-theme pshmem tomlkit traitlets
@@ -45,9 +45,9 @@ MPI_EXTRA_LINK =
 
 # Compile flags
 
-CFLAGS = -O2 -g -fPIC -pthread
-CXXFLAGS = -O2 -g -fPIC -pthread -std=c++11
-FCFLAGS = -O2 -g -fPIC -pthread -fallow-argument-mismatch
+CFLAGS = -O3 -fPIC -pthread
+CXXFLAGS = -O3 -fPIC -pthread -std=c++11
+FCFLAGS = -O3 -fPIC -pthread -fallow-argument-mismatch
 
 OPENMP_CFLAGS = -fopenmp
 OPENMP_CXXFLAGS = -fopenmp

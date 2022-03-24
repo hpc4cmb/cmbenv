@@ -4,7 +4,7 @@ pkg="spt3g"
 pkgopts=$@
 cleanup=""
 
-version=959caff19ccc37ee269f1aa37c7ee80740ac6ff5
+version=4da2f4b5b6cba198803a2efbffc8892d220b7e63
 pfile=spt3g_software-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/CMB-S4/spt3g_software/archive/${version}.tar.gz ${pfile})
 
@@ -19,7 +19,7 @@ echo "Building ${pkg}..." >&2
 export spt3g_start=$(pwd)
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="${spt3g_start}/log_${pkg}"
 fi
@@ -57,12 +57,13 @@ tar xzf ${src} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_COMPILER="@BUILD_CC@" \
     -DCMAKE_CXX_COMPILER="@BUILD_CXX@" \
-    -DCMAKE_C_FLAGS="-O3 -g -fPIC" \
-    -DCMAKE_CXX_FLAGS="-O3 -g -fPIC -std=c++11" \
+    -DCMAKE_C_FLAGS="-O3 -fPIC" \
+    -DCMAKE_CXX_FLAGS="-O3 -fPIC -std=c++11" \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     -DBOOST_ROOT="${boost}" \
     -DBoost_PYTHON_TYPE="python${pyshort}" \
     -DBoost_ARCHITECTURE=-x64 \
+    -DBoost_DEBUG=ON \
     -DFLAC_LIBRARIES="${flaclib}" \
     -DFLAC_INCLUDE_DIR="${flacinc}" \
     -DPython_USE_STATIC_LIBS=FALSE \

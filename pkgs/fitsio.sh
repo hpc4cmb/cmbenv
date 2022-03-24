@@ -4,9 +4,9 @@ pkg="fitsio"
 pkgopts=$@
 cleanup=""
 
-version=1.1.5
+version=1.1.7
 pfile=fitsio-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/17/b2/8bbf4ac91866449474ce847e2fbcfe6a95a6b917a38b94c0ce9c3860edc0/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://files.pythonhosted.org/packages/7a/bd/e29443e44bf67300daf87df40246d15290ea9f3a3cb4b07274b536e1c96a/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
@@ -15,7 +15,7 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../log_${pkg}"
 fi

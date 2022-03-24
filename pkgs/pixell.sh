@@ -1,7 +1,7 @@
 #!/bin/bash
 
 pkg="pixell"
-version=0.14.3
+version=0.15.3
 psrc=${pkg}-${version}
 pfile=${psrc}.tar.gz
 
@@ -13,7 +13,7 @@ if [ "x${fetched}" = "x" ]; then
 fi
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../log_${pkg}"
 fi

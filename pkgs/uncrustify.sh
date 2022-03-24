@@ -4,7 +4,7 @@ pkg="uncrustify"
 pkgopts=$@
 cleanup=""
 
-version=0.73.0
+version=0.74.0
 pfile=uncrustify-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/uncrustify/uncrustify/archive/refs/tags/${pfile} ${pfile})
 
@@ -18,7 +18,7 @@ fi
 cleanup="${src}"
 
 if [ "@DOCKER@" = "yes" ]; then
-    log=/dev/stdout
+    log=/dev/stderr
 else
     log="../../log_${pkg}"
 fi

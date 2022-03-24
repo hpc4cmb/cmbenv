@@ -3,13 +3,19 @@
 OSTYPE = linux
 
 # Specify the template to use
-TEMPLATE = linux
+TEMPLATE = docker-debian
 
-# Python version to use
-PYVERSION = auto
+# Python version
+PYVERSION = 3.7
+
+# Specify the docker base image
+DOCKER_BASE = python:3.7-slim-bullseye
+
+# Specify additional packages to install for docker builds
+DOCKER_SYS_PKGS =
 
 # Packages to install with pip
-PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pyyaml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba cmake nbstripout black wurlitzer ipympl ipykernel jupyterlab pillow pshmem tomlkit traitlets
+PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pkgconfig pytz psutil==5.7.0 numpy==1.18.4 scipy==1.4.1 matplotlib==3.2.1 pandas==1.0.3 memory_profiler==0.57.0 astropy==4.0.1.post1 ephem==3.7.7.1 ipython==7.14.0 numba==0.49.1 tbb cmake sphinx sphinx-rtd-theme pshmem tomlkit traitlets
 
 # Packages to install with conda
 CONDA_PKGS =
@@ -30,10 +36,10 @@ BUILD_CXX = g++
 MPICC = mpicc
 MPICXX = mpicxx
 MPIFC = mpifort
-MPI_CPPFLAGS = /usr/include
-MPI_LDFLAGS = /usr/lib/x86_64-linux-gnu
-MPI_CXXLIB = mpi_cxx
-MPI_LIB = mpi
+MPI_CPPFLAGS = @AUX_PREFIX@/include
+MPI_LDFLAGS = @AUX_PREFIX@/lib
+MPI_CXXLIB = mpichcxx
+MPI_LIB = mpich
 MPI_EXTRA_COMP =
 MPI_EXTRA_LINK =
 
@@ -48,11 +54,10 @@ OPENMP_CXXFLAGS = -fopenmp
 LDFLAGS = -lpthread -fopenmp
 
 # Are we doing a cross-compile?
-
 CROSS =
 
 # Parallel builds
-MAKEJ = 4
+MAKEJ = 1
 
 # Define MKL location
 MKL =
@@ -60,7 +65,7 @@ MKL =
 # For BLAS/LAPACK, we use openblas
 
 BLAS = -lopenblas -fopenmp -lm
-LAPACK = -llapack
+LAPACK =
 
 # Boost toolchain name
 
