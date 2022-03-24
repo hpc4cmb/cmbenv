@@ -82,7 +82,7 @@ This installs the software and modulefile, as well as a module version file
 named `.version_$CMBVERSION` in the module install directory.  You can manually
 move this into place if and when you want to make that the default version.  It
 also creates a simple shell snippet that you can source instead of using
-modules.  
+modules.
 
 ### Loading the Software
 
@@ -110,6 +110,7 @@ repository. In the following snippets, I assume that username is the same on
 local machine, Github, DockerHub and NERSC. Build it with:
 
     %> docker build . -t $USER/cmbenv:$(git rev-parse --short HEAD)
+
 
 ### Push the Docker container to Docker Hub
 
