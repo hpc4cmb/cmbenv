@@ -4,10 +4,14 @@
 
 name:  CMBenv Docker Deploy
 
+# on:
+#   push:
+#     tags:
+#       - '*'
+
 on:
   push:
-    tags:
-      - '*'
+    branches: master
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
