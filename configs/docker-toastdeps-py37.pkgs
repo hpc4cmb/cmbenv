@@ -41,7 +41,7 @@ mpich
 mpi4py
 #
 # Install CFITSIO.
-#cfitsio
+cfitsio
 #
 # Install FFTW3.
 fftw
@@ -54,7 +54,7 @@ pyfftw
 #bzip2
 #
 # Install Boost.
-#boost
+boost
 #
 # Install HDF5.
 hdf5
@@ -91,7 +91,7 @@ conviqt
 libsharp
 #
 # Install libmadam.  Destriping map-maker.
-madam:--with-cfitsio=/usr --with-fftw=/usr
+madam
 #
 # Install FLAC, needed by spt3g
 #libflac

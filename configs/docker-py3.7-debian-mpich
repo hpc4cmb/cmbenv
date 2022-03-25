@@ -12,10 +12,10 @@ PYVERSION = 3.7
 DOCKER_BASE = python:3.7-slim-bullseye
 
 # Specify additional packages to install for docker builds
-DOCKER_SYS_PKGS =
+DOCKER_SYS_PKGS = zip unzip
 
 # Packages to install with pip
-PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pkgconfig pytz psutil==5.7.0 numpy==1.18.4 scipy==1.4.1 matplotlib==3.2.1 pandas==1.0.3 memory_profiler==0.57.0 astropy==4.0.1.post1 ephem==3.7.7.1 ipython==7.14.0 numba==0.49.1 tbb cmake sphinx sphinx-rtd-theme pshmem tomlkit traitlets
+PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pkgconfig pytz psutil==5.7.0 numpy==1.18.4 scipy==1.4.1 matplotlib==3.2.1 pandas==1.0.3 memory_profiler==0.57.0 astropy==4.0.1.post1 ephem==3.7.7.1 ipython==7.14.0 numba==0.49.1 tbb sphinx sphinx-rtd-theme pshmem tomlkit traitlets
 
 # Packages to install with conda
 CONDA_PKGS =
