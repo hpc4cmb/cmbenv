@@ -4,7 +4,7 @@ pkg="conviqt"
 pkgopts=$@
 cleanup=""
 
-version=1.2.5
+version=1.2.6
 pfile=libconviqt-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/hpc4cmb/libconviqt/archive/v${version}.tar.gz ${pfile})
 
