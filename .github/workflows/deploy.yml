@@ -38,7 +38,7 @@ jobs:
         run: ./cmbenv -c docker-py${{ matrix.python }}-debian-${{ matrix.mpi }}
 
       - name: Set tag name
-        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/refs\/tags/\(.*\)/\1/') && echo "TAGNAME=${tag}" >> $GITHUB_ENV
+        run: tag=$(echo "${GITHUB_REF}" | sed -e 's/refs\/tags\/\(.*\)/\1/') && echo "TAGNAME=${tag}" >> $GITHUB_ENV
 
       - name: Build Docker Image
         run: docker build -t hpc4cmb/cmbenv-${{ matrix.mpi }}:${TAGNAME} -f Dockerfile_docker-py${{ matrix.python }}-debian-${{ matrix.mpi }} .
