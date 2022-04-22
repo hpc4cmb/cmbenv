@@ -34,7 +34,11 @@ _is_sourced() {
 # Loads various settings that are used elsewhere in the script
 # This should be called before any other functions
 docker_setup_env() {
-    source cmbenv
+    # Our docker builds install to /usr/local, so this is
+    # not needed.  In fact, it can cause problems since the
+    # setup script will manipulate LD_LIBRARY_PATH.
+    #source cmbenv
+    echo "" > /dev/null
 }
 
 _main() {

@@ -6,7 +6,7 @@ cleanup=""
 
 version=3.4
 pfile=mpich-${version}.tar.gz
-src=$(eval "@TOP_DIR@/tools/fetch_check.sh" http://www.mpich.org/static/downloads/${version}/${pfile} ${pfile})
+src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://www.mpich.org/static/downloads/${version}/${pfile} ${pfile})
 
 if [ "x${src}" = "x" ]; then
     echo "Failed to fetch ${pkg}" >&2
