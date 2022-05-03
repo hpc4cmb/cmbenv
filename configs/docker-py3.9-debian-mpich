@@ -15,7 +15,7 @@ DOCKER_BASE = python:3.9-slim-bullseye
 DOCKER_SYS_PKGS = zip unzip
 
 # Packages to install with pip
-PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba tbb sphinx sphinx-rtd-theme pshmem tomlkit traitlets
+PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba tbb sphinx sphinx-rtd-theme pshmem tomlkit traitlets ducc0
 
 # Packages to install with conda
 CONDA_PKGS =
