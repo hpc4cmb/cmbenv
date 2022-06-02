@@ -16,7 +16,7 @@ cmake
 #
 # Install zlib.  This is needed on some systems where the OS-provided zlib is
 # very ancient.
-zlib
+#zlib
 #
 # Install OpenBLAS.  Comment out if you are using MKL with the Intel compilers
 # or some other vendor BLAS / LAPACK solution.
