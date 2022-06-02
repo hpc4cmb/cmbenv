@@ -27,7 +27,7 @@ zlib
 # a virtualenv or a conda environment.  This will also install a set of
 # common base packages.
 #python:virtualenv
-python:conda
+python:conda mkl
 #python:default
 #
 # Install MPICH.  This step is optional and only needed in 2 cases:
