@@ -12,7 +12,7 @@ PYVERSION = 3.9
 PIP_PKGS =
 
 # Packages to install with conda
-CONDA_PKGS = future nose cython numpy scipy matplotlib pyyaml astropy six psutil ephem virtualenv pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab pillow pshmem tomlkit traitlets cmake healpy jaxlib jax ducc0
+CONDA_PKGS = future nose cython numpy scipy matplotlib pyyaml astropy six psutil ephem virtualenv pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab pillow pshmem tomlkit traitlets cmake healpy jaxlib jax pixell ducc0
 
 # Serial compilers
 
@@ -55,8 +55,8 @@ MAKEJ = 4
 
 # For BLAS/LAPACK, we use openblas
 
-BLAS = -lnvblas
-LAPACK = @AUX_PREFIX@/lib/libopenblas.so -fopenmp -lm
+BLAS = @AUX_PREFIX@/lib/libopenblas.so -fopenmp -lm
+LAPACK =
 
 # Boost toolchain name
 

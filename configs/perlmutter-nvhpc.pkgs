@@ -6,10 +6,13 @@
 #
 # Autotools.  If you already have recent versions installed with your OS
 # package manager, then comment these out.
-m4
-libtool
-autoconf
-automake
+#
+# NOTE: disabling autotools due to compilation issue with system gcc-7.5
+# Will use older OS package versions for now.
+#m4
+#libtool
+#autoconf
+#automake
 #
 # CMake.
 #cmake

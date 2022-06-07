@@ -29,6 +29,3 @@ setenv PYTHONUSERBASE $env(HOME)/.local/cmbenv-@VERSION@
 # Put the cmbenv shell init in our path
 prepend-path PATH "@PYTHON_PREFIX@/bin"
 
-# The NERSC "sqs" command is a python script with a hard-coded
-# interpreter that is incompatible.
-set-alias "sqs" "python /usr/common/software/bin/sqs"

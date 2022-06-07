@@ -49,9 +49,6 @@ OPENMP_CFLAGS = -fopenmp
 OPENMP_CXXFLAGS = -fopenmp
 LDFLAGS = -fopenmp -lpthread
 
-# Cuda
-CUDA = ${CUDA_DIR}
-
 # Parallel builds
 MAKEJ = 4
 

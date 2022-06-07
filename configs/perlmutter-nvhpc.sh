@@ -3,7 +3,6 @@ loadednvidia=$(module -t list 2>&1 | grep PrgEnv-nvidia)
 loadedcray=$(module -t list 2>&1 | grep PrgEnv-cray)
 loadeddarshan=$(module -t list 2>&1 | grep darshan)
 loadedaltd=$(module -t list 2>&1 | grep altd)
-loadedcuda=$(module -t list 2>&1 | grep cuda)
 if [ "x${loadednvidia}" = x ]; then
     if [ "x${loadedcray}" != x ]; then
       module swap PrgEnv-cray PrgEnv-nvidia

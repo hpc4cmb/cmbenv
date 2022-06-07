@@ -9,10 +9,6 @@ if [ module-info mode load ] {
       module swap PrgEnv-nvidia PrgEnv-gnu
     }
   }
-  if [ is-loaded cpe-cuda ] {
-  } else {
-    module load cpe-cuda
-  }   
   # altd may cause random job hangs
   if [ is-loaded altd ] {
     module unload altd
