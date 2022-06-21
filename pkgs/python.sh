@@ -46,7 +46,7 @@ if [ "${pytype}" = "conda" ]; then
     if [ "x${pextra}" = "xmkl" ]; then
         conda install --copy --yes "libblas=*=*mkl" numpy
     else
-        conda install --copy --yes "libopenblas=*=*openmp*" "libblas=*=*openblas" numpy
+        conda install --copy --yes "libblas=*=*openblas" "_openmp_mutex=*=*_gnu" numpy
     fi
     if [ $? -ne 0 ]; then
         echo "conda libblas / numpy install failed" >&2

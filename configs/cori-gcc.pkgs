@@ -20,7 +20,7 @@ zlib
 #
 # Install OpenBLAS.  Comment out if you are using MKL with the Intel compilers
 # or some other vendor BLAS / LAPACK solution.
-openblas:static=1
+openblas:static=yes
 #
 # Python 3.  Uncomment one of the following lines.  You should only use the
 # "default" option for Docker images.  All other configs should use either
