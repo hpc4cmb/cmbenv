@@ -63,7 +63,7 @@ hdf5
 h5py
 #
 # Install healpy
-healpy
+#healpy
 #
 # Install quaternionarray
 qarray
