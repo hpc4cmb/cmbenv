@@ -1,0 +1,72 @@
+
+# OS type (linux OR osx)
+OSTYPE = linux
+
+# Specify the template to use
+TEMPLATE = linux
+
+# Python version to use
+PYVERSION = auto
+
+# Packages to install with pip
+PIP_PKGS = setuptools future six Cython cycler kiwisolver pyparsing python-dateutil toml pyyaml pkgconfig pytz psutil numpy scipy matplotlib pandas memory_profiler astropy ephem ipython numba cmake nbstripout black wurlitzer ipympl ipykernel jupyterlab pillow pshmem tomlkit traitlets fitsio healpy ducc0
+
+# Packages to install with conda
+CONDA_PKGS =
+
+# Serial compilers
+
+CC = gcc
+CXX = g++
+FC = gfortran
+
+# Compiler to use for packages needed on the build machine
+
+BUILD_CC = gcc
+BUILD_CXX = g++
+
+# MPI compilers
+
+MPICC = mpicc
+MPICXX = mpicxx
+MPIFC = mpifort
+MPI_CPPFLAGS = /usr/include
+MPI_LDFLAGS = /usr/lib/x86_64-linux-gnu
+MPI_CXXLIB = mpi_cxx
+MPI_LIB = mpi
+MPI_EXTRA_COMP =
+MPI_EXTRA_LINK =
+
+# Compile flags
+
+CFLAGS = -O3 -fPIC -pthread
+CXXFLAGS = -O3 -fPIC -pthread -std=c++11
+FCFLAGS = -O3 -fPIC -pthread -fallow-argument-mismatch
+
+OPENMP_CFLAGS = -fopenmp
+OPENMP_CXXFLAGS = -fopenmp
+LDFLAGS = -lpthread -fopenmp
+
+# Are we doing a cross-compile?
+
+CROSS =
+
+# Parallel builds
+MAKEJ = 2
+
+# Define MKL location
+MKL =
+
+# For BLAS/LAPACK, we use openblas
+
+BLAS = -lopenblas -fopenmp -lm
+LAPACK = -llapack
+
+# Boost toolchain name
+
+BOOSTCHAIN = gcc
+
+# Group and permissions to set
+
+CHGRP =
+CHMOD =
