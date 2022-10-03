@@ -24,6 +24,7 @@ FC = nvfortran
 
 BUILD_CC = gcc
 BUILD_CXX = g++
+BUILD_FC = gfortran
 
 # MPI compilers
 

@@ -30,8 +30,11 @@ openblas
 # a virtualenv or a conda environment.  This will also install a set of
 # common base packages.
 #python:virtualenv
-python:conda
+python:conda custom
 #python:default
+python_numpy
+python_scipy
+python_pkgs
 #
 # Install MPICH.  This step is optional and only needed in 2 cases:
 #   1.  You don't have MPI available through system packages that is

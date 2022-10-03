@@ -42,23 +42,22 @@ if [ "${pytype}" = "conda" ]; then
         echo "conda python install failed" >&2
         exit 1
     fi
+    conda install --copy --yes Cython
     if [ "x${pextra}" = "xmkl" ]; then
         conda install --copy --yes "libblas=*=*mkl" numpy
     else
-        conda install --copy --yes "libblas=*=*openblas" "_openmp_mutex=*=*_gnu" numpy
+        if [ "x${pextra}" = "xcustom" ]; then
+            # We are building custom numpy / scipy using our configured BLAS/LAPACK.
+            # This will be handled by separate scripts.
+            conda install --copy --yes Cython meson-python wheel
+        else
+            conda install --copy --yes "libblas=*=*openblas" "_openmp_mutex=*=*_gnu" numpy
+        fi
     fi
     if [ $? -ne 0 ]; then
         echo "conda libblas / numpy install failed" >&2
         exit 1
     fi
-    if [ "x@CONDA_PKGS@" != "x" ]; then
-        conda install --copy --yes @CONDA_PKGS@
-    fi
-    if [ $? -ne 0 ]; then
-        echo "conda install packages failed" >&2
-        exit 1
-    fi
-    rm -rf "@PYTHON_PREFIX@/pkgs/*"
 else
     if [ "${pytype}" = "virtualenv" ]; then
         echo "Python using virtualenv" >&2
@@ -72,20 +71,11 @@ else
     fi
     # Upgrade pip and wheel
     pip3 install --upgrade pip setuptools wheel >&2
-    if [ "x@PIP_PKGS@" != "x" ]; then
-        for pip_pkg in @PIP_PKGS@; do
-            pip3 install ${pip_pkg} >&2
-            if [ $? -ne 0 ]; then
-                echo "pip install of ${pip_pkg} failed" >&2
-                exit 1
-            fi
-        done
+    pip3 install --upgrade Cython >&2
+    if [ "x${pextra}" = "xcustom" ]; then
+        # We are building custom numpy / scipy using our configured BLAS/LAPACK.
+        echo "" >/dev/null
     fi
-fi
-python3 -c "import matplotlib.font_manager"
-if [ $? -ne 0 ]; then
-    echo "Python package imports failed" >&2
-    exit 1
 fi
 
 # Ensure that python-config always points to this install
