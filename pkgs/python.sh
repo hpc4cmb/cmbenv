@@ -29,13 +29,12 @@ if [ "${pytype}" = "conda" ]; then
     fi
     cleanup="${inst}"
     bash "${inst}" -b -f -p "@PYTHON_PREFIX@" \
-    && echo "# condarc to force channel order" > "@PYTHON_PREFIX@/.condarc" \
-    && echo "channels:" >> "@PYTHON_PREFIX@/.condarc" \
-    && echo "  - conda-forge" >> "@PYTHON_PREFIX@/.condarc" \
+    && echo "# condarc for cmbenv" > "@PYTHON_PREFIX@/.condarc" \
     && echo "changeps1: false" >> "@PYTHON_PREFIX@/.condarc" \
     && eval "@TOP_DIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${pextra}" \
     && source "@PYTHON_PREFIX@/bin/cmbenv" \
     && conda install --copy --yes python=@PYVERSION@ \
+    && conda update --yes -n base conda \
     && ln -s "@PYTHON_PREFIX@"/include/python* "@AUX_PREFIX@/include/" \
     && ln -s "@PYTHON_PREFIX@"/lib/libpython* "@AUX_PREFIX@/lib/" \
     && rm -f "@PYTHON_PREFIX@/compiler_compat/ld"
