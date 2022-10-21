@@ -26,7 +26,8 @@ rm -rf pyFFTW-${version}
 tar xzf ${src} \
     && cd pyFFTW-${version} \
     && cleanup="${cleanup} $(pwd)" \
-    && PYFFTW_INCLUDE="@AUX_PREFIX@/include" \
+    && CFLAGS="@CFLAGS@" LDFLAGS="@LDFLAGS@" \
+    PYFFTW_INCLUDE="@AUX_PREFIX@/include" \
     PYFFTW_LIB_DIR="@AUX_PREFIX@/lib" \
     python3 -m pip install --prefix="@AUX_PREFIX@" . > ${log} 2>&1
 

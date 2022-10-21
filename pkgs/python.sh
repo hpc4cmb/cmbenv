@@ -30,6 +30,9 @@ if [ "${pytype}" = "conda" ]; then
     cleanup="${inst}"
     bash "${inst}" -b -f -p "@PYTHON_PREFIX@" \
     && echo "# condarc for cmbenv" > "@PYTHON_PREFIX@/.condarc" \
+    && echo "channels:" >> "@PYTHON_PREFIX@/.condarc" \
+    && echo "  - conda-forge" >> "@PYTHON_PREFIX@/.condarc" \
+    && echo "channel_priority: strict" >> "@PYTHON_PREFIX@/.condarc" \
     && echo "changeps1: false" >> "@PYTHON_PREFIX@/.condarc" \
     && eval "@TOP_DIR@/tools/gen_activate.sh" "@VERSION@" "@PREFIX@" "@PYTHON_PREFIX@" "@AUX_PREFIX@" "@PYVERSION@" "${pytype}" "${pextra}" \
     && source "@PYTHON_PREFIX@/bin/cmbenv" \
