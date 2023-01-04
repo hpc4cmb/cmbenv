@@ -26,8 +26,8 @@ openblas
 # "default" option for Docker images.  All other configs should use either
 # a virtualenv or a conda environment.  This will also install a set of
 # common base packages.
-python:virtualenv custom
-#python:conda
+#python:virtualenv custom
+python:conda custom
 #python:default
 python_numpy
 python_scipy
@@ -38,10 +38,10 @@ python_pkgs
 #       compatible with the serial compilers you are using.
 #   2.  You are building a docker container for use at NERSC with shifter
 #       and need an MPICH compatible with the Cray one.
-mpich
+#mpich
 #
 # Install mpi4py.  This will use the MPI compilers specified in your config.
-mpi4py
+#mpi4py
 #
 # Install CFITSIO.
 cfitsio
@@ -60,10 +60,10 @@ bzip2
 #boost
 #
 # Install HDF5.
-hdf5
+#hdf5
 #
 # Install h5py (using our HDF5).
-h5py
+#h5py
 #
 # Install healpy
 #healpy
@@ -88,13 +88,13 @@ mpfr
 suitesparse
 #
 # Install libconviqt.  4-PI a_lm space beam convolution.
-conviqt
+#conviqt
 #
 # Install libsharp.  Distributed harmonic transforms.
-libsharp
+#libsharp
 #
 # Install libmadam.  Destriping map-maker.
-madam
+#madam
 #
 # Install FLAC, needed by spt3g
 #libflac
@@ -106,14 +106,14 @@ madam
 uncrustify
 #
 # Install TIDAS.  HDF5-based timestream data format.
-tidas
+#tidas
 #
 # Install PySM.  Python Sky Model.
-pysm
+#pysm
 #
 # Install PyMPIT for environment testing.  Useful for testing working
 # mpi4py stack.
-pympit
+#pympit
 #
 # Install TOAST.
-toast
+#toast

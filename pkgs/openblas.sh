@@ -4,7 +4,7 @@ pkg="openblas"
 pkgopts=$@
 cleanup=""
 
-version=0.3.20
+version=0.3.21
 pfile=OpenBLAS-${version}.tar.gz
 src=$(eval "@TOP_DIR@/tools/fetch_check.sh" https://github.com/xianyi/OpenBLAS/archive/v${version}.tar.gz ${pfile})
 
@@ -34,6 +34,7 @@ rm -rf OpenBLAS-${version}
 tar xzf ${src} \
     && cd OpenBLAS-${version} \
     && cleanup="${cleanup} $(pwd)" \
+    && patch -p1 < "@TOP_DIR@/pkgs/patch_openblas" > ${log} 2>&1 \
     && if [ "$static" = "yes" ]; then
     make NO_SHARED=1 USE_OPENMP=1 \
     FC="@FC@" \
@@ -42,7 +43,7 @@ tar xzf ${src} \
     CROSS=$(if [ "x@CROSS@" = x ]; then echo "0"; else echo "1"; fi) \
     COMMON_OPT="@CFLAGS@" \
     FCOMMON_OPT="@FCFLAGS@" \
-    LDFLAGS="@OPENMP_CFLAGS@ -lm" > ${log} 2>&1 \
+    LDFLAGS="@OPENMP_CFLAGS@ -lm" >> ${log} 2>&1 \
     && make NO_SHARED=1 PREFIX="@AUX_PREFIX@" install >> ${log} 2>&1; \
     else make USE_OPENMP=1 \
     FC="@FC@" \

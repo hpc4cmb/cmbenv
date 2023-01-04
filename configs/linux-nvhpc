@@ -9,7 +9,7 @@ TEMPLATE = linux
 PYVERSION = auto
 
 # Packages to install with pip
-PIP_PKGS = future nose Cython numpy scipy matplotlib pyyaml astropy six psutil ephem pandas memory_profiler ipython cycler kiwisolver python-dateutil toml numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab pillow pshmem tomlkit traitlets healpy ducc0
+PIP_PKGS = future nose Cython scipy matplotlib pyyaml astropy six psutil ephem pandas memory_profiler ipython cycler kiwisolver python-dateutil toml cmake numba tbb nbstripout black wurlitzer ipympl ipykernel jupyterlab pillow pshmem tomlkit traitlets healpy ducc0
 
 # Packages to install with conda
 CONDA_PKGS =
@@ -24,6 +24,7 @@ FC = nvfortran
 
 BUILD_CC = gcc
 BUILD_CXX = g++
+BUILD_FC = gfortran
 
 # MPI compilers
 
@@ -57,17 +58,17 @@ MAKEJ = 4
 MKL =
 
 # CUDA
-CUDA = /opt/nvidia/hpc_sdk/Linux_x86_64/21.9/cuda
-CUDA_INC = /opt/nvidia/hpc_sdk/Linux_x86_64/21.9/cuda/include
-CUDA_LIB = /opt/nvidia/hpc_sdk/Linux_x86_64/21.9/cuda/lib64
-CUDA_MATH = /opt/nvidia/hpc_sdk/Linux_x86_64/21.9/math_libs
-CUDA_MATH_INC = /opt/nvidia/hpc_sdk/Linux_x86_64/21.9/math_libs/include
-CUDA_MATH_LIB = /opt/nvidia/hpc_sdk/Linux_x86_64/21.9/math_libs/lib64
+CUDA = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/cuda
+CUDA_INC = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/cuda/include
+CUDA_LIB = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/cuda/lib64
+CUDA_MATH = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/math_libs
+CUDA_MATH_INC = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/math_libs/include
+CUDA_MATH_LIB = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/math_libs/lib64
 
 # For BLAS/LAPACK, we use openblas
 
-BLAS = -lnvblas
-LAPACK = -lopenblas -fopenmp -lm
+BLAS = @AUX_PREFIX@/lib/libopenblas.so -fopenmp -lm
+LAPACK =
 
 # Boost toolchain name
 
