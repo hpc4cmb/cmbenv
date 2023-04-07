@@ -57,18 +57,10 @@ MAKEJ = 4
 # Define MKL location
 MKL =
 
-# CUDA
-CUDA = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/cuda
-CUDA_INC = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/cuda/include
-CUDA_LIB = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/cuda/lib64
-CUDA_MATH = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/math_libs
-CUDA_MATH_INC = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/math_libs/include
-CUDA_MATH_LIB = /opt/nvidia/hpc_sdk/Linux_x86_64/22.7/math_libs/lib64
+# For BLAS/LAPACK, we use lapack with nvhpc sdk
 
-# For BLAS/LAPACK, we use openblas
-
-BLAS = @AUX_PREFIX@/lib/libopenblas.so -fopenmp -lm
-LAPACK =
+BLAS = -L${NVHPC_ROOT}/compilers/lib -lblas -lnvf -mp
+LAPACK = -L${NVHPC_ROOT}/compilers/lib -llapack -lnvf -mp
 
 # Boost toolchain name
 

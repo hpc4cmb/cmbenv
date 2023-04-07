@@ -22,7 +22,7 @@ fi
 
 if [ "x@PIP_PKGS@" != "x" ]; then
     for pip_pkg in @PIP_PKGS@; do
-        pip3 install ${pip_pkg} >&2
+        CC=@BUILD_CC@ pip3 install ${pip_pkg} >&2
         if [ $? -ne 0 ]; then
             echo "pip install of ${pip_pkg} failed" >&2
             exit 1
